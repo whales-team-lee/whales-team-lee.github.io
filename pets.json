@@ -1,0 +1,64 @@
+{
+ "dog": [
+  "dog_a",
+  "dog_b"
+ ],
+ "cat": [
+  "cat_grey",
+  "cat_cheese"
+ ],
+ "sheets": {
+  "dog_a": {
+   "img": "dog_a.png",
+   "fw": 200,
+   "fh": 170,
+   "ground_y": 160,
+   "rows": [
+    "down",
+    "left",
+    "right",
+    "up"
+   ],
+   "frames": 4
+  },
+  "cat_grey": {
+   "img": "cat_grey.png",
+   "fw": 200,
+   "fh": 170,
+   "ground_y": 160,
+   "rows": [
+    "down",
+    "left",
+    "right",
+    "up"
+   ],
+   "frames": 4
+  },
+  "dog_b": {
+   "img": "dog_b.png",
+   "fw": 200,
+   "fh": 170,
+   "ground_y": 160,
+   "rows": [
+    "down",
+    "left",
+    "right",
+    "up"
+   ],
+   "frames": 4
+  },
+  "cat_cheese": {
+   "img": "cat_cheese.png",
+   "fw": 200,
+   "fh": 170,
+   "ground_y": 160,
+   "rows": [
+    "down",
+    "left",
+    "right",
+    "up"
+   ],
+   "frames": 4
+  }
+ }
+}
