@@ -1,0 +1,34 @@
+{
+ "dog": {
+  "img": "dog.png",
+  "frames": 5,
+  "rows": 5,
+  "fw": 128,
+  "fh": 100,
+  "ground_y": 92
+ },
+ "cat": {
+  "img": "cat.png",
+  "frames": 5,
+  "rows": 5,
+  "fw": 116,
+  "fh": 96,
+  "ground_y": 90
+ },
+ "gull": {
+  "img": "gull.png",
+  "frames": 4,
+  "rows": 1,
+  "fw": 110,
+  "fh": 90,
+  "ground_y": 56
+ },
+ "turtle": {
+  "img": "turtle.png",
+  "frames": 4,
+  "rows": 1,
+  "fw": 120,
+  "fh": 86,
+  "ground_y": 80
+ }
+}

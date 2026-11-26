@@ -1,0 +1,73 @@
+{
+ "npcs": [
+  {
+   "id": "lobby",
+   "role": "리셉션",
+   "img": "npc_lobby.png",
+   "x": 58.9,
+   "y": 139.2
+  },
+  {
+   "id": "classroom",
+   "role": "강사",
+   "img": "npc_classroom.png",
+   "x": 19.34,
+   "y": 52.7
+  },
+  {
+   "id": "rental",
+   "role": "렌탈 담당",
+   "img": "npc_rental.png",
+   "x": 19.700000000000003,
+   "y": 65.9
+  },
+  {
+   "id": "restaurant",
+   "role": "웨이터",
+   "img": "npc_restaurant.png",
+   "x": 19.990000000000002,
+   "y": 84.1
+  },
+  {
+   "id": "shop",
+   "role": "샵 직원",
+   "img": "npc_shop.png",
+   "x": 20.05,
+   "y": 99.6
+  },
+  {
+   "id": "shop2",
+   "role": "파트너 직원",
+   "img": "npc_shop2.png",
+   "x": 21.770000000000003,
+   "y": 120.6
+  },
+  {
+   "id": "pool_50",
+   "role": "안전요원",
+   "img": "npc_pool_50.png",
+   "x": 26.6,
+   "y": 77.4
+  },
+  {
+   "id": "pool_sta",
+   "role": "안전요원",
+   "img": "npc_pool_sta.png",
+   "x": 26.7,
+   "y": 103.6
+  },
+  {
+   "id": "sea",
+   "role": "보트 가이드",
+   "img": "npc_sea.png",
+   "x": 58.5,
+   "y": 19.6
+  }
+ ],
+ "cell": [
+  74.235,
+  108.46499999999999
+ ],
+ "feet": 104.16,
+ "draw_scale": 0.5
+}
