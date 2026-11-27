@@ -216,7 +216,7 @@ body{background:var(--sea);color:var(--ink);font-family:var(--font);overflow:hid
 .ap .afoot{padding:8px 12px calc(env(safe-area-inset-bottom,0px) + 8px)!important}.ap .save{padding:10px!important;font-size:14px!important;border-radius:11px!important}.av{height:100dvh}.ap{height:min(68dvh,560px)!important;max-height:calc(100dvh - env(safe-area-inset-top,0px) - 40px)}.ap .stage{flex:1 1 auto!important;min-height:64px!important}.ap .stage canvas{height:100%;max-height:150px;width:auto}.ap .body{flex:0 1 170px!important;height:auto!important;min-height:92px}.ap .sws,.afoot,.ap .tabs,.ah,.arow{flex-shrink:0}
 @media (prefers-reduced-motion:reduce){#toast{transition:none}}
 </style>
-<canvas id="cv" tabindex="0" aria-label="리조트 맵. 화면을 누르면 걸어가고, 누른 채 끌면 조이스틱으로 움직여요"></canvas>
+<canvas id="cv" tabindex="0" aria-label="리조트 맵. 화면을 누르면 걸어가고, 끌면 지도가 움직여요. 아래쪽에서 끌면 조이스틱이에요"></canvas>
 <div id="load"><div class="ld"><b>리조트에 입장 중…</b></div></div>
 <div class="top"><button class="hbtn" id="menuBtn" type="button" aria-label="메뉴" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="#555" stroke-width="2.4" stroke-linecap="round"/></svg></button><span class="chip lvchip" id="stats"><b>Lv 1</b> · XP 0 · 진주 0</span><button class="chip mapbtn" id="mapBtn" type="button" aria-label="리조트 지도 보기">지도</button><button class="chip mapbtn" id="chBtn" type="button" aria-label="캐릭터 바꾸기" hidden>여자 ⇄ 남자</button></div>
 <button class="shoutbtn" id="shoutBtn" type="button" aria-label="외치기" hidden><img src="icon_shout.png?v=1127b" alt="" width="40" height="40" draggable="false"></button><button class="facebtn" id="faceBtn" type="button" aria-label="프리다이버 꾸미기" hidden><canvas id="faceCv" width="96" height="96"></canvas></button>
@@ -502,7 +502,7 @@ roomEl.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b||
   else if(a==='saveId'){const v=(document.getElementById('newId').value||'').trim();if(!nickOK(v)){toast('닉네임은 한글 6자·영문 12자 이내로 정해 주세요');return}if(RB&&PROF().nick&&v!==G.id){if(G.gem<NICK_FEE){toast(`진주 ${NICK_FEE}개가 필요해요`);return}G.gem-=NICK_FEE;const pr=PROF();pr.nick=v;pr.nickAt=Date.now();PROFSET(pr);drawStats()}G.id=v;save();toast('닉네임을 바꿨어요');openRoom('lobby')}
   else if(a==='quiz')showQuiz();
   else if(a==='deep'){waveSet(false);sub(`<iframe class="plw" src="deep.html?v=1128c" title="바다 트레이닝 · 수심 이미지 트레이닝" allow="autoplay"></iframe>`);fitPlw()}
-  else if(a==='controls')sub('<ul><li>화면을 누르면 그곳으로 걸어가요. 두 번 누르면 빠르게 걸어요.</li><li>화면을 누른 채 끌면 조이스틱이 나와요.</li><li>두 손가락으로 벌리면 확대, 오므리면 축소. 오른쪽 아래 +/− 버튼도 돼요.</li><li>왼쪽 위 메뉴(☰)에서 리조트 지도를 열고, 가고 싶은 곳을 누르면 이동해요.</li><li>오른쪽 위 내 얼굴 버튼을 누르면 아바타를 꾸밀 수 있어요.</li><li>건물 앞 노란 세모를 밟거나 누르면 들어갈지 물어봐요.</li><li>아래 버튼: 앉기 · 인사 · OK · 점프 · 브이 · 하트</li><li>해변 쓰레기를 주우면 진주를 받아요 (하루 10개).</li></ul>');
+  else if(a==='controls')sub('<ul><li>화면을 누르면 그곳으로 걸어가요. 두 번 누르면 빠르게 걸어요.</li><li>화면을 누른 채 끌면 지도가 움직여요. 화면 아래쪽에서 끌면 조이스틱이 나와요.</li><li>두 손가락으로 벌리면 확대, 오므리면 축소. 오른쪽 아래 +/− 버튼도 돼요.</li><li>왼쪽 위 메뉴(☰)에서 리조트 지도를 열고, 가고 싶은 곳을 누르면 이동해요.</li><li>오른쪽 위 내 얼굴 버튼을 누르면 아바타를 꾸밀 수 있어요.</li><li>건물 앞 노란 세모를 밟거나 누르면 들어갈지 물어봐요.</li><li>아래 버튼: 앉기 · 인사 · OK · 점프 · 브이 · 하트</li><li>해변 쓰레기를 주우면 진주를 받아요 (하루 10개).</li></ul>');
   else if(a==='ad')sub('<div class="q">광고 문의</div><p>리조트 안 광고판과 전광판에 광고를 실을 수 있어요.</p><ul><li>이메일: <a href="mailto:attack6035@naver.com">attack6035@naver.com</a></li><li>카카오톡 채널: 웨일스다이빙 채널로 문의해 주세요.</li></ul>');
   else if(a==='partner')sub('<div class="q">함께할 파트너를 구합니다</div><p>다이빙 숍, 장비 브랜드, 여행사 등 리조트에 입점할 파트너를 찾고 있어요.</p><p>이메일: <b>attack6035@naver.com</b></p>');
   else if(a==='chatrule')sub('<div class="q">단체 채팅방 이용 규칙</div><ul><li>대화 내용은 저장되지 않아요.</li><li>욕설·비방은 금지예요.</li><li>같은 말 반복(도배)은 금지예요.</li></ul><p>단체 채팅방은 서버 준비 후 열려요.</p>');
@@ -1092,8 +1092,8 @@ function onMap(){const o=id=>{const e=document.getElementById(id);return e&&!e.h
 function sayBubble(text,sx,sy){const fs=Math.round(12*Math.min(1.2,Math.max(.9,cam.s)));cx.font=`700 ${fs}px 'Noto Sans KR',sans-serif`;const maxW=Math.min(220,vw-40),lines=[];let cur='';
   for(const ch of text){const nx=cur+ch;if(cx.measureText(nx).width>maxW&&cur){lines.push(cur);cur=ch.trim()?ch:''}else cur=nx}if(cur)lines.push(cur);
   const tw=Math.max(...lines.map(l=>cx.measureText(l).width)),p=8,lh=fs+4,h=lines.length*lh+8,x=Math.max(6,Math.min(vw-tw-2*p-6,sx-tw/2-p)),y=sy-h-7;
-  cx.globalAlpha=toastT<.3?Math.max(0,toastT/.3):1;cx.fillStyle='#FFFFFF';cx.strokeStyle='#1B2A33';cx.lineWidth=1.5;cx.beginPath();cx.roundRect(x,y,tw+2*p,h,10);cx.fill();cx.stroke();
-  cx.beginPath();cx.moveTo(sx-5,y+h);cx.lineTo(sx,y+h+6);cx.lineTo(sx+5,y+h);cx.fill();cx.fillStyle='#1B2A33';cx.textBaseline='middle';cx.textAlign='center';
+  cx.globalAlpha=toastT<.3?Math.max(0,toastT/.3):1;cx.fillStyle='rgba(30,40,50,.6)';cx.beginPath();cx.roundRect(x,y,tw+2*p,h,10);cx.fill();/* 예전 안내와 같은 검정 반투명 */
+  cx.beginPath();cx.moveTo(sx-5,y+h);cx.lineTo(sx,y+h+6);cx.lineTo(sx+5,y+h);cx.fill();cx.fillStyle='#FFFFFF';cx.textBaseline='middle';cx.textAlign='center';
   lines.forEach((l,i)=>cx.fillText(l,x+p+tw/2,y+4+lh*i+lh/2));cx.textAlign='start';cx.globalAlpha=1}
 function nameTag(t,sx,sy,col){cx.font=`700 ${Math.round(8.8*Math.max(.9,Math.min(1.25,cam.s)))}px 'Noto Sans KR',sans-serif`;cx.textAlign='center';cx.textBaseline='bottom';
   cx.lineWidth=3;cx.strokeStyle='rgba(20,30,36,.85)';cx.lineJoin='round';cx.strokeText(t,sx,sy);cx.fillStyle=col||'#FFFFFF';cx.fillText(t,sx,sy);cx.textAlign='start'}
@@ -1319,7 +1319,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(!P.sit&&!
   if(RB){const sitWave=!!(P.clean||(P.sit&&(P.sit.kind==='mat'||(P.sit.kind==='bean'&&!P.sit.stool))));const mb=document.getElementById('muteBtn');if(mb.hidden===sitWave){mb.hidden=!sitWave;if(sitWave&&WAVE.muted)toast('오른쪽 스피커 버튼을 누르면 파도 소리가 나요')}waveSet(sitWave)}
   requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
-setTimeout(()=>toast('화면을 누르면 걸어가요 · 두 번 누르면 빠르게 · 누른 채 끌면 조이스틱'),400);
+setTimeout(()=>toast('화면을 누르면 걸어가요 · 두 번 누르면 빠르게 · 끌면 지도 이동, 아래쪽에서 끌면 조이스틱'),400);
 })();
 </script>
 
