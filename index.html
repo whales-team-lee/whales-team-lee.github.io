@@ -94,6 +94,11 @@ body{background:var(--sea);color:var(--ink);font-family:var(--font);overflow:hid
 .rrow{display:flex;gap:8px;width:100%}.rstyle{display:flex;gap:6px;width:100%}.rstyle button{flex:1;border:2px solid var(--ink);border-radius:12px;background:#fff;color:#1F2A33!important;-webkit-text-fill-color:#1F2A33;font:800 14px var(--font);padding:9px;cursor:pointer}.rstyle button[aria-pressed=true]{background:#BFE6FF}.rs2 .rs-act{gap:6px!important}.rs2 .rgear{gap:0;background:rgba(255,255,255,.92);border:1.5px solid var(--ink);border-radius:20px;padding:2px;box-sizing:border-box}.rs2 .rgear button{border:0!important;border-radius:16px!important;padding:5px 0!important;font:800 12px var(--font)!important;background:transparent}.rs2 .rgear button[aria-pressed=true]{background:#FFD84D}.rs2 .rstyle{gap:6px}.rs2 .rstyle button{padding:5px 0!important;font:800 12px var(--font)!important;border-width:1.5px!important;border-radius:16px!important}.rs2 .rsc{gap:6px!important;padding:0!important}.rs2 .rsc button{width:22px!important;height:22px!important;border-width:1.5px!important}.rs2 .rsc button[aria-pressed=true]{border:2.5px solid #1F2A33!important;box-shadow:0 0 0 1.5px #fff inset}.rs2 .rleft{font-size:12px!important}.rs2 .rs-rot{top:57%!important;width:32px;height:32px}.rs2 .rgear button,.rs2 .rstyle button{min-height:30px!important;height:30px}.rs2 .rsc button{flex:none!important;min-height:0!important;padding:0!important}.rsc{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;width:100%;padding:2px 0}.rsc button{width:28px;height:28px;border-radius:50%;border:2px solid rgba(0,0,0,.25);padding:0;cursor:pointer}.rsc button[aria-pressed=true]{border:3px solid #1F2A33;box-shadow:0 0 0 2px #fff inset}.rrow .rexit{flex:1;border:2px solid var(--ink);border-radius:12px;background:#fff;font:800 15px var(--font);cursor:pointer}.rrow .rmid{flex:1.3;border:2px solid var(--ink);border-radius:12px;background:#fff;color:#1F2A33!important;-webkit-text-fill-color:#1F2A33;font:800 15px var(--font);min-height:52px;cursor:pointer}.rleft{margin:0;width:100%;text-align:center;font:800 13px var(--font);color:#1F2A33}.rrow .rgo{flex:2.2;border:2px solid var(--ink);border-radius:12px;background:#FFD84D;min-height:52px;font:900 15px var(--font);cursor:pointer}
 .rs-act button,.rs-foot button{flex:1;min-height:40px;border:2px solid var(--ink);border-radius:999px;font:900 13px var(--font);cursor:pointer;padding:0 10px}
 .rs-foot{display:flex;gap:6px}
+.rs2 .rrow{gap:6px}.rs2 .rrow button{min-height:38px!important;height:38px;font-size:13px!important;border-width:1.5px!important;border-radius:16px!important;white-space:nowrap;padding:0 6px}
+.rs2 .rrow .rexit,.rs2 .rrow .rshop{flex:1}.rs2 .rrow .rico{flex:0 0 38px!important;width:38px;padding:0!important;font-size:19px!important;font-weight:900}
+.rrow .rshop{border:2px solid var(--ink);border-radius:12px;background:#BFE6FF;font:800 14px var(--font);cursor:pointer}
+.rs2 .rrow .rgo{flex:1.6}.rs2 .rrow .rgo.done{background:#7ED69B}
+.rs-wall{position:absolute;transform:translateX(-50%);z-index:1;background:rgba(255,255,255,.88);border:1px solid #1F2A3355;border-radius:6px;padding:2px 7px;font:800 10px/1.4 var(--font);color:#1F2A33;white-space:nowrap;font-variant-numeric:tabular-nums;pointer-events:none}
 .rs-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#E5484D;margin-left:4px;vertical-align:top}
 .rs-note{font:700 12px/1.5 var(--font);color:#5A4636;background:#fff8;border-radius:10px;padding:6px 9px}
 #load{position:fixed;inset:0;display:grid;place-items:center;background:#fff;z-index:30}#load .ld{display:grid;justify-items:center;gap:10px;color:#2B7FA8;font-weight:800;font-size:14px}#load img{width:min(220px,56vw);animation:ldp 1.6s ease-in-out infinite}@keyframes ldp{50%{transform:translateY(-6px)}}
@@ -250,7 +255,7 @@ body{background:var(--sea);color:var(--ink);font-family:var(--font);overflow:hid
  <div class="rs-col">
   <div class="rs-scene" id="rsScene">
    <div class="rs-bar"><button class="bk" id="rsBack" type="button" aria-label="나가기">←</button><span class="tt" id="rsTt">장비 렌탈</span><span class="pill" id="rsPearl">진주 0</span><span class="pill" id="rsXp">XP 0</span></div>
-   <canvas id="rsNpc"></canvas><div class="rs-say" id="rsSay">어서 오세요! 기본 장비는 무료예요.</div>
+   <canvas id="rsNpc"></canvas><div class="rs-wall" id="rsWall" hidden></div><div class="rs-say" id="rsSay">어서 오세요! 기본 장비는 무료예요.</div>
    <canvas id="rsMe"></canvas>
    <button class="rs-rot" id="rsL" type="button" aria-label="왼쪽으로 돌리기" style="left:30%">‹</button><button class="rs-rot" id="rsR" type="button" aria-label="오른쪽으로 돌리기" style="right:24%">›</button>
   </div>
@@ -518,7 +523,7 @@ roomEl.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b||
   else if(a==='_buy_unused'){const list=ITEMS.filter(it=>!it.base&&fitsMe(it));sub(`<p>가진 진주: <b>${G.gem}</b>개 · 내 캐릭터(${G.wear.g==='m'?'남':'여'})에게 맞는 장비만 보여요.</p><div class="ra">`+list.map(it=>{const st=status(it);
       return `<button type="button" data-act="pay" data-id="${it.id}" ${st==='owned'||st==='soon'?'disabled':''}>${it.name}<em>${st==='soon'?'준비중':st==='owned'?'보유 중':'진주 '+it.buy}</em></button>`}).join('')+'</div>')}
   else if(a==='pay'){const it=itemById(b.dataset.id);if(G.gem<it.buy){toast(`진주가 ${it.buy-G.gem}개 모자라요. 출석·퀴즈·요가로 모아 보세요`);return}G.gem-=it.buy;G.own.push(it.id);delete G.rent[it.id];save();drawStats();toast(`${it.name}을(를) 샀어요. 렌탈샵 꾸미기에서 입을 수 있어요`);showBuy()}
-  else if(a==='gorental'){closeRoom();const d=W.portals.find(q=>q.id==='rental');const p=astar(P.x,P.y,d.x,d.y);if(p){P.path=p;P.onArrive=null}}
+  else if(a==='gorental'){closeRoom();const d=W.portals.find(q=>q.id==='rental');const p=astar(P.x,P.y,d.x,d.y);if(p){P.path=p;P.sit=null;P.emo=null;P.run=true;P.onArrive=null}}
   else if(a==='mat'){closeRoom();const fm=freeMats(),m=fm[Math.floor(Math.random()*fm.length)];const p=astar(P.x,P.y,m[0],m[1]);if(p){P.path=p;P.onArrive=()=>{P.dir='down';P.x=m[0];P.y=m[1];P.sit={z:DECKZ,kind:'mat'};toast(`요가 매트에 앉았어요 · ${G.yoga} 수업을 기다려요`)}}}
   else if(a==='level')sub('<p>오늘 따라 할 난이도를 골라요.</p><div class="seg">'+['초급','중급','고급'].map(t=>`<button type="button" class="opt" data-act="setLv" data-v="${t}" aria-pressed="${G.yoga===t}">${t}</button>`).join('')+'</div>');
   else if(a==='setLv'){G.yoga=b.dataset.v;save();roomEl.querySelectorAll('[data-act=setLv]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v===G.yoga));toast(`요가 난이도: ${G.yoga}`)}
@@ -539,7 +544,8 @@ function drawCell(canvas,sheet,col,row,cw,ch,scale){const g=canvas.getContext('2
 function rsPaint2(){const sc=document.getElementById('rsScene'),k=sc.clientWidth/941,w=hkFix(RS.try),key=w.nh+'|'+w.nhc+'|'+w.sk+'|'+w.ot+'|'+wk(w),[nw,nh]=NC.cell,s2=k*1.5,row=[0,1,3,2][RS.dir],fx=470*k,fy=1238*k;RS.pk=key;
   hkBuild(w).then(o=>{if(RS.pk!==key)return;drawCell(RS.me,hkCell(o,'walk',row,0),0,0,nw,nh,s2);RS.me.style.width=nw*s2+'px';RS.me.style.height=nh*s2+'px';RS.me.style.left=(fx-nw*s2/2)+'px';RS.me.style.top=(fy-NC.feet*s2)+'px'}).catch(()=>{});
   document.getElementById('rsL').style.cssText=`left:${fx-330*k-18}px;top:${fy-60*k}px`;document.getElementById('rsR').style.cssText=`left:${fx+330*k-18}px;top:${fy-60*k}px`;
-  const say=document.getElementById('rsSay');say.style.left=(250*k)+'px';say.style.top=(440*k)+'px';say.style.right='auto'}
+  const say=document.getElementById('rsSay');say.style.left=(250*k)+'px';say.style.top=(440*k)+'px';say.style.right='auto';
+  const wl=document.getElementById('rsWall');wl.style.left=(462*k)+'px';wl.style.top=(598*k)+'px'}
 function rsPaint(){if(RB&&RS.el.classList.contains('rs2')){rsPaint2();return}const {k}=rsSize(),cw=CH.cell[0],ch=CH.cell[1];
   // character on the round platform (platform top centre ≈ 445,850 in the background)
   const sc=Math.max(1.4,k*3.1);
@@ -576,11 +582,12 @@ function rsItems(){const box=document.getElementById('rsItems');let html='';cons
     if(RS.tab!=='tee'&&RS.tab!=='acc')html+=`<button class="rs-it" type="button" data-id="none" aria-pressed="${!cur}"><span class="sw" style="background:repeating-linear-gradient(45deg,#fff 0 4px,#ddd 4px 8px)"></span><b>${RS.tab==='suit'?'벗기 (티셔츠)':'안 쓰기'}</b><em>무료</em></button>`;
     html+=list.map(it=>`<button class="rs-it" type="button" data-id="${it.id}" ${it.soon?'disabled':''} aria-pressed="${!!it.v&&cur===it.v}"><span class="sw" style="background:${SWC[it.v]||(COL[it.v]?'rgb('+COL[it.v]+')':'#eee')}"></span><b>${it.name}</b><em>${it.g==='f'?'여성용 · ':it.g==='m'?'남성용 · ':''}${tagOf(it)}</em></button>`).join('');}
   box.innerHTML=html;rsActs()}
-function rsActs(){const a=document.getElementById('rsAct');
+function rsActs(){const a=document.getElementById('rsAct');document.getElementById('rsWall').hidden=true;
   if(RB){if(RS.mode!=='closet'){const ok=suitOk(),first=!G.suit.n,left=G.suit.exp-Date.now();
       const gear=`<div class="rgear">`+[['suit','슈트'],['mask','마스크'],['fin','핀']].map(([k,n])=>`<button type="button" data-gear="${k}" aria-pressed="${k==='suit'}">${n}</button>`).join('')+`</div>`;
       const tw=RS.try,pick=`<div class="rstyle">`+[['suitg','기본 슈트'],['suit','무늬 슈트']].map(([o,n])=>`<button type="button" data-rso="${o}" aria-pressed="${tw.ot===o}">${n}</button>`).join('')+`</div>`+(tw.ot==='suitg'?`<div class="rsc">`+Object.keys(SCC).map(c=>`<button type="button" data-rsc="${c}" aria-pressed="${tw.sc===c}" aria-label="${SCN[c]}" style="background:rgb(${SCC[c]})"></button>`).join('')+`</div>`:'');
-      a.innerHTML=gear+pick+(ok?`<p class="rleft">렌탈 중 · 반납까지 ${Math.floor(left/3600000)}시간 ${Math.floor(left%3600000/60000)}분</p>`:'')+`<div class="rrow"><button type="button" class="rexit" data-rexit="1">나가기</button>`+(ok?`<button type="button" class="rmid" data-rreset="1">원래대로</button><button type="button" class="rgo" data-rsave="1">저장</button>`:`<button type="button" class="rgo" data-rentsuit="1">${first?'무료로 빌리기':'진주 '+SUIT_FEE+'개로 빌리기'} (24시간)</button>`)+`</div>`}else a.innerHTML='';return}const it=RS.sel&&itemById(RS.sel);
+      const wl=document.getElementById('rsWall');wl.hidden=!ok;if(ok)wl.textContent=`렌탈 중 · 반납까지 ${Math.floor(left/3600000)}시간 ${Math.floor(left%3600000/60000)}분`;
+      a.innerHTML=gear+pick+`<div class="rrow"><button type="button" class="rexit" data-rexit="1">나가기</button>`+(ok?`<button type="button" class="rmid rico" data-rreset="1" aria-label="원래대로 되돌리기" title="원래대로">↺</button>`:'')+`<button type="button" class="rshop" data-rshop="1">상점</button>`+(ok?`<button type="button" class="rgo" data-rsave="1">저장</button>`:`<button type="button" class="rgo" data-rentsuit="1">${first?'무료로 빌리기':'진주 '+SUIT_FEE+'개로 빌리기'} (24시간)</button>`)+`</div>`}else a.innerHTML='';return}const it=RS.sel&&itemById(RS.sel);
   if(!it||canWear(it)){a.innerHTML=it&&!canWear(it)?'':'';return}
   a.innerHTML=`<button type="button" data-rent="${it.id}" style="background:#FFD84D">진주 ${it.rent}개로 빌리기 (오늘 자정까지)</button><button type="button" data-goshop="1" style="background:#fff">갖고 싶다면 상점으로 →</button>`}
 function rsTabs(){return !RB?TABS:RS.mode==='closet'?[['cloth','옷','#FFD6E5'],['hair','헤어','#C9F2E3']]:[['suit','웻수트','#E3D6FF'],['mask','마스크','#C9ECFF'],['fin','롱핀','#FFE8A3'],['acc','액세서리','#E8DDFF']]}
@@ -693,10 +700,10 @@ document.getElementById('rsItems').onclick=e=>{const b=e.target.closest('button'
     document.getElementById('rsSay').textContent=canWear(it)?`${it.name}, 잘 어울려요!`:`${it.name}은(는) 진주 ${it.rent}개로 오늘 하루 빌릴 수 있어요.`}}
   rsItems();rsPaint()};
 function sanitizeTry(){const w=RS.try;for(const k of ['suit','mask','fin']){if(w[k]){const it=itemById(k+'_'+w[k]);if(!fitsMe(it,w.g))w[k]=null}}}
-document.getElementById('rsAct').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.rso||b.dataset.rsc){const w=RS.try;if(b.dataset.rso)w.ot=b.dataset.rso;else w.sc=b.dataset.rsc;rsActs();rsPaint();return}if(b.dataset.rreset){RS.try.ot=isSuit(G.wear.ot)?G.wear.ot:'suitg';RS.try.sc=G.wear.sc||'black';rsActs();rsPaint();rsSay('지금 입은 슈트로 되돌렸어요.',2500);return}if(b.dataset.rsave){G.wear.ot=RS.try.ot;G.wear.sc=RS.try.sc;save();applyWear();toast('슈트를 저장했어요');rsSay('잘 어울려요!',2500);return}if(b.dataset.rexit){closeRental();return}if(b.dataset.gear){if(b.dataset.gear!=='suit')rsSay((b.dataset.gear==='mask'?'마스크':'핀')+'는 곧 들어와요! 조금만 기다려 주세요.',3000);return}if(b.dataset.rentsuit){rentSuit();return}
+document.getElementById('rsAct').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.rso||b.dataset.rsc){const w=RS.try;if(b.dataset.rso)w.ot=b.dataset.rso;else w.sc=b.dataset.rsc;rsActs();rsPaint();return}if(b.dataset.rreset){RS.try.ot=isSuit(G.wear.ot)?G.wear.ot:'suitg';RS.try.sc=G.wear.sc||'black';rsActs();rsPaint();rsSay('지금 입은 슈트로 되돌렸어요.',2500);return}if(b.dataset.rsave){G.wear.ot=RS.try.ot;G.wear.sc=RS.try.sc;save();applyWear();toast('슈트를 저장했어요');rsSay('잘 어울려요!',2500);b.textContent='✓ 저장됨';b.classList.add('done');clearTimeout(b._t);b._t=setTimeout(()=>{b.textContent='저장';b.classList.remove('done')},1600);return}if(b.dataset.rexit){closeRental();return}if(b.dataset.rshop){closeRental();openShop();return}if(b.dataset.gear){if(b.dataset.gear!=='suit')rsSay((b.dataset.gear==='mask'?'마스크':'핀')+'는 곧 들어와요! 조금만 기다려 주세요.',3000);return}if(b.dataset.rentsuit){rentSuit();return}
   if(b.dataset.rent){const it=itemById(b.dataset.rent);if(G.gem<it.rent){toast(`진주가 ${it.rent-G.gem}개 모자라요. 출석·퀴즈·요가로 모아 보세요`);return}
     G.gem-=it.rent;G.rent[it.id]=today();save();drawStats();toast(`${it.name}을(를) 오늘 자정까지 빌렸어요`);rsItems()}
-  else if(b.dataset.goshop){closeRental();const d=W.portals.find(q=>q.id==='shop');const p=astar(P.x,P.y,d.x,d.y);if(p){P.path=p;P.onArrive=null}toast('상점으로 걸어가요. 상점에서 사면 영구로 가질 수 있어요')}};
+  else if(b.dataset.goshop){closeRental();const d=W.portals.find(q=>q.id==='shop');const p=astar(P.x,P.y,d.x,d.y);if(p){P.path=p;P.sit=null;P.emo=null;P.run=true;P.onArrive=null}toast('상점으로 걸어가요. 상점에서 사면 영구로 가질 수 있어요')}};
 document.getElementById('rsApply').onclick=()=>{const w=RS.try,bad=[];
   for(const k of ['suit','mask','fin','tee']){if(!w[k])continue;const it=itemById(k+'_'+w[k]);if(it&&!canWear(it)){bad.push(it.name);w[k]=k==='tee'?'white':null}}
   G.wear=JSON.parse(JSON.stringify(w));G.wear.g=w.g;if(RB){G.ch=w.g;store('wr_char',G.ch);if(window.__chLabel)__chLabel()}applyWear();RS.try=JSON.parse(JSON.stringify(G.wear));rsItems();rsPaint();
@@ -725,12 +732,15 @@ function drawTri(t,sx,sy,now){const s=cam.s,bob=Math.sin(now/380+t.x)*2.2*s,c=t.
   cx.fillStyle=c[2];cx.beginPath();cx.moveTo(sx,top+d);cx.lineTo(sx+w,top);cx.lineTo(sx,tip);cx.closePath();cx.fill();cx.stroke();
   cx.fillStyle=c[0];cx.beginPath();cx.moveTo(sx-w,top);cx.lineTo(sx,top-d);cx.lineTo(sx+w,top);cx.lineTo(sx,top+d);cx.closePath();cx.fill();cx.stroke()}
 const askEl=document.getElementById('ask');let askTri=null,onTri=null;
-function showAsk(t){askTri=t;const q=document.getElementById('askT');q.textContent=t.name||'';q.hidden=!t.name;askEl.hidden=false}
+function showAsk(t){askTri=t;const q=document.getElementById('askT'),y=document.getElementById('askYes'),noSuit=RB&&t.id==='sea'&&!isSuit(G.wear.ot);t.toRental=noSuit;
+  q.textContent=noSuit?'바다는 슈트가 필요해요':(t.name||'');q.hidden=!q.textContent;y.textContent=noSuit?'렌탈샵 가기':'입장';askEl.hidden=false}
 // 팝업 기준점에서 멀어지면(지나치면) 자동으로 닫기
 function askAnchor(t){return t.npc?[t.npc.x,t.npc.y,2.4]:t.id==='photo'?[PHOTO.x,PHOTO.y,PHOTO.r+.3]:[t.x,t.y,1.8]}
 function hideAsk(){askEl.hidden=true;askTri=null}
 document.getElementById('askNo').onclick=()=>{hideAsk()};
-document.getElementById('askYes').onclick=()=>{const t=askTri;hideAsk();if(!t)return;const door=t.keep?[t.x,t.y]:[t.x+(t.id==='lobby'?0:1.6),t.y+(t.id==='lobby'?1.8:0)];
+document.getElementById('askYes').onclick=()=>{const t=askTri;hideAsk();if(!t)return;
+  if(t.toRental){const d=W.portals.find(q=>q.id==='rental'),p=d&&astar(P.x,P.y,d.x,d.y);if(p){P.path=p;P.sit=null;P.emo=null;P.run=true;P.onArrive=null}toast('렌탈샵으로 걸어가요. 슈트를 빌리면 바다에 들어갈 수 있어요');return}
+  const door=t.keep?[t.x,t.y]:[t.x+(t.id==='lobby'?0:1.6),t.y+(t.id==='lobby'?1.8:0)];
   if(t.id==='rental')openRental(door);else if(t.id==='shop'&&RB)openShop();else openRoom(t.id,door)};
 const PHOTO={x:55.04,y:27.2,r:1.3};let inPhoto=false;
 function checkTri(){if(askTri&&!askEl.hidden){const [ax,ay,ar]=askAnchor(askTri);if(Math.hypot(ax-P.x,ay-P.y)>ar)hideAsk()}
@@ -1197,9 +1207,9 @@ function btTick(dt,moving){P.clean=null;const now=Date.now();
   for(const t of BT)if(t.done&&now>=t.next){const [x,y]=btSpot(t.side);Object.assign(t,{x,y,p:0,done:false,k:Math.random()<.5?'a':'b',helpers:[],meT:0});btSave()}
   let near=null,bd=2.4;for(const t of BT){if(t.done)continue;const d=Math.hypot(t.x-P.x,t.y-P.y);if(d<bd){bd=d;near=t}}
   if(near&&near.tip<=0)near.tip=12;for(const t of BT)if(t.tip>0)t.tip-=dt;
-  if(near&&!moving&&!P.path.length&&!P.sit&&!P.emo&&!poolNow){P.clean=near;P.dir='up'}
+  if(near&&!moving&&!P.path.length&&!P.sit&&!P.emo&&!poolNow){P.clean=near;P.dir='up';/* 메인 다이버는 쓰레기 앞쪽(화면 아래)에서 등을 돌리고 줍기 */const fx=near.x+.9,fy=near.y+.9;if(canWalk(fx,fy)){P.x=fx;P.y=fy}}
   for(const t of BT){if(t.done)continue;const me=P.clean===t;
-    if(BT_HELPER_DEMO&&me&&!t.helpers.length&&(t.meT+=dt)>4){t.helpers.push({x:t.x+1.3,y:t.y+.9,ph:0,w:{g:'m',nh:'m05',nhc:'black',sk:2,ot:'suitg',sc:'teal',cc:'white',pv:1}});toast('다른 다이버가 함께 치우러 왔어요!')}
+    if(BT_HELPER_DEMO&&me&&!t.helpers.length&&(t.meT+=dt)>4){t.helpers.push({x:t.x+1.6,y:t.y+.3,ph:0,w:{g:'m',nh:'m05',nhc:'black',sk:2,ot:'suitg',sc:'teal',cc:'white',pv:1}});toast('다른 다이버가 함께 치우러 왔어요!')}
     const n=(me?1:0)+t.helpers.length;for(const hh of t.helpers)hh.ph+=dt;if(!n)continue;t.p+=dt*btRate(n);
     if(t.p>=BT_TIME){t.done=true;t.p=BT_TIME;t.next=now+BT_RESPAWN;const team=t.helpers.length>0;P.clean=null;reward(100,30+(team?10:0),team?'큰 쓰레기를 함께 치웠어요 · 함께 보너스':'큰 쓰레기를 치웠어요');t.helpers=[];btSave()}}
   const bar=document.getElementById('btBar');if(bar){const on=!!P.clean;if(bar.hidden===on)bar.hidden=!on}
@@ -1253,7 +1263,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(!P.sit&&!
   for(const it of items){
     if(it.t===undefined){const o=it.o,[a,b]=TS(o.x,o.y),r=O.atlas[o.i];if(o.k==='roof'&&inYoga)cx.globalAlpha=.35;if(o.src){cx.drawImage(img[o.src],a,b,o.w*cam.s,o.h*cam.s);const wo=img['win_'+o.src.slice(4)];if(wo)cx.drawImage(wo,a,b,o.w*cam.s,o.h*cam.s)}else cx.drawImage(atlas,r[0],r[1],r[2],r[3],a,b,o.w*cam.s,o.h*cam.s);cx.globalAlpha=1;drawAdFace(o.i,a,b,now);continue}
     const onDeck=it.x>44.2&&it.x<65.8&&it.y>50.4&&it.y<63.0&&!(it.o&&it.o.sit);const [mx,my]=W2S(it.x,it.y,onDeck?DECKZ:0),[sx,sy]=TS(mx,my);if(sx<-80||sy<-80||sx>vw+80||sy>vh+140)continue;
-    if(it.t==='p'){if(RB){let top=null;if(P.sit)top=drawMeSit(sx,sy);else if(P.clean){P.cph=(P.cph||0)+.016;const f=[0,1,2,1][Math.floor(P.cph*4)%4];cx.fillStyle='rgba(0,0,0,.18)';cx.beginPath();cx.ellipse(sx,sy,9*cam.s,3.2*cam.s,0,0,6.28);cx.fill();top=drawNC('nc_sit',1,f,sx,sy,false)}else{if(P.emo&&!moving)top=drawEmo(sx,sy);if(top===null)top=drawMeWalk(sx,sy,moving)}
+    if(it.t==='p'){if(RB){let top=null;if(P.sit)top=drawMeSit(sx,sy);else if(P.clean){P.cph=(P.cph||0)+.016;const f=[0,1,2][Math.floor(P.cph*4)%3];cx.fillStyle='rgba(0,0,0,.18)';cx.beginPath();cx.ellipse(sx,sy,9*cam.s,3.2*cam.s,0,0,6.28);cx.fill();top=drawNC('nc_sit',1,f,sx,sy,false)}else{if(P.emo&&!moving)top=drawEmo(sx,sy);if(top===null)top=drawMeWalk(sx,sy,moving)}
         const ty=Math.min(top,sy-36*cam.s)+2*cam.s;over.push(['id',G.id,sx,ty]);if(P.sayT>0)over.push(['say',P.say,sx,ty-14*cam.s])}
       else{const z=P.sit?P.sit.z:0,lift=P.sit?CH.feet*.14*CH.draw_scale*cam.s-z*16*cam.s:0;
       if(P.sit)drawSit('look_me',P,sx,sy,P.sit.z);else drawChar('look_me',P,sx,sy,moving);over.push(['id',G.id,sx,headY(sy)+lift-z*0]);if(P.sayT>0)over.push(['say',P.say,sx,headY(sy)+lift-14*cam.s])}}
