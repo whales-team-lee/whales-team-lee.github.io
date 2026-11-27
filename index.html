@@ -410,7 +410,7 @@ const P={x:SPAWN.x,y:SPAWN.y,dir:'down',path:[],ph:0,v:6.8,anim:14,sit:null,last
 {const sp=jget('wr_pos',null);if(sp&&isFinite(sp.x)&&isFinite(sp.y)&&canWalk(sp.x,sp.y)){P.x=sp.x;P.y=sp.y;P.dir=sp.dir||'down'}}
 let posT=0;const savePos=()=>store('wr_pos',JSON.stringify({x:+P.x.toFixed(2),y:+P.y.toFixed(2),dir:P.dir}));
 addEventListener('pagehide',savePos);document.addEventListener('visibilitychange',()=>{if(document.hidden)savePos()});
-const NPCS=CH.npcs.filter(n=>['sea'].includes(n.id)).map(n=>({...n,hx:n.x,hy:n.y,dir:'down',path:[],ph:0,v:.8,t:rnd(1,4)}));NPCS.push({id:'classroom',x:20.42,y:59.98,hx:20.42,hy:59.98,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0,sheet:'npc_coach',fw:60,seq:[1,2,3]});NPCS.push({id:'pool_50',x:26.6,y:77.4,hx:26.6,hy:77.4,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0,sheet:'npc_judge',fw:60,seq:[1,2,3]});NPCS.push({id:'mfg',x:85,y:38.9,hx:85,hy:38.9,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0});NPCS.push({id:'pools',x:40.6,y:101.2,hx:40.6,hy:101.2,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0,hkw:1,w:{g:'f',nh:'f01',nhc:'red',sk:1,ot:'suitg',sc:'red',cc:'white',pv:1}});
+const NPCS=CH.npcs.filter(n=>['sea'].includes(n.id)).map(n=>({...n,hx:n.x,hy:n.y,dir:'down',path:[],ph:0,v:.8,t:rnd(1,4)}));NPCS.push({id:'classroom',x:20.42,y:59.98,hx:20.42,hy:59.98,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0,sheet:'npc_coach',fw:60,seq:[1,2,3]});NPCS.push({id:'pool_50',x:44.2,y:86.9,hx:44.2,hy:86.9,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0,sheet:'npc_judge',fw:60,seq:[1,2,3]});NPCS.push({id:'mfg',x:85,y:38.9,hx:85,hy:38.9,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0});NPCS.push({id:'pools',x:40.6,y:101.2,hx:40.6,hy:101.2,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0,hkw:1,w:{g:'f',nh:'f01',nhc:'red',sk:1,ot:'suitg',sc:'red',cc:'white',pv:1}});
 const LINES={lobby:'어서 오세요! 출석 체크는 로비에서 해요.',classroom:'오늘의 퀴즈 풀고 경험치 받아 가세요!',rental:'기본 장비는 무료! 장비를 갖고 싶으면 옆 상점으로 가세요.',
   restaurant:'식당 앞 테이블에서 이야기 나눠요.',shop:'진주로 장비를 사면 영구로 가질 수 있어요.',shop2:'파트너 샵은 곧 문을 열어요.',
   pool_50:'레인풀장은 레인 방향대로 수영해 주세요.',pool_sta:'STA는 꼭 버디와 함께해요.',sea:'다음 보트는 09:00 출발이에요.'};
@@ -426,8 +426,7 @@ const ROOMS={
  shop:{en:'STORE',name:'상점',bg:'#EAF6DF',d:'',a:[['장비 구매','buy'],['내 보유 장비','owned'],['렌탈하기(렌탈샵으로 이동)','gorental']]},
  shop2:{en:'PARTNER SHOP',name:'파트너 샵',bg:'#EFE8FF',d:'함께할 파트너를 구합니다. (입점 전)',a:[['입점 문의','partner']]},
  yoga:{en:'OPEN YOGA PAVILION',name:'요가장',bg:'#FFF4DC',d:'바다를 보며 하는 요가. 스테이지 1~4로 단계별로 연습해요.',a:[],yoga:1},
- sta:{en:'STA POOL',name:'STA 풀',bg:'#DDF4FB',d:'숨 참기(스태틱) 연습 도구예요. 최고 기록을 넣으면 추천값을 계산해요.',note:'<div class="lc"><h4>세미나<span class="adtag">광고</span></h4><div class="pgrid"><button type="button" class="poster pimg" data-act="sem" data-url="" data-n="스태틱 세미나" aria-label="스태틱 세미나 포스터"><img src="sem3.webp?v=1126" alt="스태틱 세미나 포스터" loading="lazy"></button><button type="button" class="poster pimg" data-act="sem" data-url="" data-n="프렌젤 세미나" aria-label="프렌젤 세미나 포스터"><img src="sem4.webp?v=1126" alt="프렌젤 세미나 포스터" loading="lazy"></button></div></div>',a:[['STATIC 스톱워치','sw'],['CO2 테이블','co2'],['O2 테이블','o2']],tri:1,top:1},
- pool50:{en:'LANE POOL',name:'레인풀장',bg:'#DDF4FB',d:'레인풀장 미니게임을 준비하고 있어요.',a:[['미니게임',null]]},
+ pool50:{en:'LANE POOL',name:'레인풀장',bg:'#DDF4FB',d:'숨 참기(스태틱) 연습 도구예요. 최고 기록을 넣으면 추천값을 계산해요.',note:'<div class="lc"><h4>세미나<span class="adtag">광고</span></h4><div class="pgrid"><button type="button" class="poster pimg" data-act="sem" data-url="" data-n="스태틱 세미나" aria-label="스태틱 세미나 포스터"><img src="sem3.webp?v=1126" alt="스태틱 세미나 포스터" loading="lazy"></button><button type="button" class="poster pimg" data-act="sem" data-url="" data-n="프렌젤 세미나" aria-label="프렌젤 세미나 포스터"><img src="sem4.webp?v=1126" alt="프렌젤 세미나 포스터" loading="lazy"></button></div></div>',a:[['STATIC 스톱워치','sw'],['CO2 테이블','co2'],['O2 테이블','o2'],['미니게임',null]],tri:1,top:1},/* STA 풀 기능을 옮겨 옴 (2026-11-28) */
  sea:{en:'OCEAN',name:'바다',bg:'#D6EEFA',d:'해양생물과 함께하는 바다 미니게임을 준비하고 있어요.',a:[['바다 미니게임',null],['바다 트레이닝','deep']]},
  npc_pools:{en:'DIVE POOL ATLAS',name:'전국 다이빙풀 안내',bg:'#E6F4FB',d:'',a:[]},
  notice:{en:'NOTICE',name:'공지사항',bg:'#EEF3FF',d:'',a:[]},
@@ -496,7 +495,7 @@ roomEl.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b||
   if(a==='exit'){closeRoom();if(roomDoor){P.x=roomDoor[0];P.y=roomDoor[1];P.dir='down';P.path=[];P.last=cell(W.grid,P.x,P.y);P.cool=1.5}return}
   if(a==='home'){openRoom(roomOpen);return}
   if(a==='checkin'){if(store('wr_checkin')!==today()){store('wr_checkin',today());reward(5,10,'오늘 출석 완료')}openRoom('lobby')}
-  else if(a==='guide')sub('<ul><li><b>안내</b> 이용 설명, 조작법, 출석 체크, 광고 문의</li><li><b>강의실</b> O·X 퀴즈와 이론 강좌</li><li><b>장비 렌탈</b> 장비 빌리기</li><li><b>레스토랑</b> 단체 채팅방 (준비중)</li><li><b>상점</b> 장비 사기, 보유 아이템, 캐릭터 꾸미기</li><li><b>파트너 샵</b> 입점 파트너 모집</li><li><b>요가장</b> 스테이지 1~4</li><li><b>STA 풀</b> 스톱워치, CO2·O2 테이블</li><li><b>레인풀장 · 바다</b> 미니게임 (준비중)</li><li><b>단체사진 스팟</b> 화면 캡처</li><li><b>개인 홈피</b> 아쿠아리움 (준비중)</li></ul><p>건물 앞 노란 세모를 밟으면 들어갈지 물어봐요.</p>');
+  else if(a==='guide')sub('<ul><li><b>안내</b> 이용 설명, 조작법, 출석 체크, 광고 문의</li><li><b>강의실</b> O·X 퀴즈와 이론 강좌</li><li><b>장비 렌탈</b> 장비 빌리기</li><li><b>레스토랑</b> 단체 채팅방 (준비중)</li><li><b>상점</b> 장비 사기, 보유 아이템, 캐릭터 꾸미기</li><li><b>파트너 샵</b> 입점 파트너 모집</li><li><b>요가장</b> 스테이지 1~4</li><li><b>레인풀장</b> STA 스톱워치, CO2·O2 테이블</li><li><b>레인풀장 · 바다</b> 미니게임 (준비중)</li><li><b>단체사진 스팟</b> 화면 캡처</li><li><b>개인 홈피</b> 아쿠아리움 (준비중)</li></ul><p>건물 앞 노란 세모를 밟으면 들어갈지 물어봐요.</p>');
   else if(a==='rename'&&RB&&profLock('nick')){sub(profLockMsg('nick'))}
   else if(a==='rename'&&RB&&PROF().nick){sub(`<p>머리 위에 보이는 닉네임이에요. 바꾸면 진주 ${NICK_FEE}개를 써요. 한글 6자 · 영문 12자까지.</p><div class="row"><input id="newId" maxlength="12" value="${G.id}"><button type="button" class="opt go" data-act="saveId">진주 ${NICK_FEE}개로 바꾸기</button></div>`)}
   else if(a==='rename')sub(`<p>머리 위에 보이는 닉네임이에요. 한글 6자 · 영문 12자까지.</p><div class="row"><input id="newId" maxlength="12" value="${G.id}"><button type="button" class="opt" data-act="saveId">저장</button></div>`);
@@ -742,7 +741,7 @@ const TRASH=(()=>{let h=0;for(const ch of today())h=(h*31+ch.charCodeAt(0))>>>0;
 function checkTrash(){for(const t of TRASH){if(t.got)continue;if(Math.hypot(t.x-P.x,t.y-P.y)<1.1){t.got=true;const got=TRASH.filter(q=>q.got).map(q=>q.i);store('wr_trash_'+today(),JSON.stringify(got));G.gem+=1;save();drawStats();toast(`해변 쓰레기를 주웠어요 · 진주 +1 (오늘 ${got.length}/10)`)}}}
 // ---- 입장 세모: 밟거나 누르면 세모 위에 서서 입장할지 묻기
 const TRI=[['lobby',56,139.7,'안내'],['classroom',20.35,54.89,'강의실'],['rental',20.6,68.3,'장비 렌탈'],['restaurant',20.9,86.5,'레스토랑'],['shop',21.04,101.76,'상점'],['shop2',22.74,122.77,'파트너 샵'],
- ['yoga',55.8,65.25,'요가장'],['sta',42.3,106,'STA 풀'],['pool50',82.9,79.5,'레인풀장'],['sea',55,19,'바다'],['home',132.42,93.13,'숙소(개인 홈피)']].map(([id,x,y,name])=>({id,x,y,name,blue:['sta','pool50','sea'].includes(id),grey:['home'].includes(id)}));
+ ['yoga',55.8,65.25,'요가장'],['pool50',82.9,79.5,'레인풀장'],['sea',55,19,'바다'],['home',132.42,93.13,'숙소(개인 홈피)']].map(([id,x,y,name])=>({id,x,y,name,blue:['sta','pool50','sea'].includes(id),grey:['home'].includes(id)}));
 function drawTri(t,sx,sy,now){const s=cam.s,bob=Math.sin(now/380+t.x)*2.2*s,c=t.blue?['#7FD3F5','#39A9D9','#1E7FB0']:t.grey?['#E3E8EC','#C2CAD1','#9AA4AC']:['#FFE27A','#F5C33B','#D9A21E'];
   cx.fillStyle='#55595E';cx.beginPath();cx.ellipse(sx,sy,6.5*s,2.8*s,0,0,6.28);cx.fill();cx.strokeStyle='#3A3D41';cx.lineWidth=1*s;cx.stroke();
   const tip=sy-24*s+bob,top=sy-42*s+bob,w=11*s,d=4*s;cx.lineJoin='round';cx.lineWidth=1.6*s;cx.strokeStyle='#26262E';
@@ -934,14 +933,17 @@ addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(KEYMAP[e.
 addEventListener('keyup',e=>{if(KEYMAP[e.code])keys.delete(KEYMAP[e.code])});
 function joyAt(x,y){const w=joyEl.offsetWidth;joyEl.style.left=(x-w/2)+'px';joyEl.style.top=(y-w/2)+'px';joyEl.style.bottom='auto';joyEl.classList.add('float')}
 function joyHome(){joyEl.style.left='';joyEl.style.top='';joyEl.style.bottom='';joyEl.classList.remove('float');knob.style.transform=''}
-const ptrs=new Map();let drag=null,pinch=null;
+const ptrs=new Map();let drag=null,pinch=null,camFree=false;
+/* 화면 아래쪽(조이스틱 높이)에서 끌면 조이스틱, 그 위에서 끌면 지도 이동 (2026-11-28) */
+const joyZone=y=>y>=innerHeight-190;
 cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch={d:Math.hypot(a.x-b.x,a.y-b.y),k:zoomK};drag=null;joy=null;joyHome();return}
-  if(ptrs.size===1)drag={id:e.pointerId,x:e.clientX,y:e.clientY,t:performance.now(),on:false}});
+  if(ptrs.size===1)drag={id:e.pointerId,x:e.clientX,y:e.clientY,t:performance.now(),on:false,pan:!joyZone(e.clientY),cx:cam.x,cy:cam.y}});
 cv.addEventListener('pointermove',e=>{if(!ptrs.has(e.pointerId))return;ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(pinch&&ptrs.size>=2){const [a,b]=[...ptrs.values()];setZoom(pinch.k*Math.hypot(a.x-b.x,a.y-b.y)/Math.max(10,pinch.d));return}
   if(!drag||drag.id!==e.pointerId)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
-  if(!drag.on&&Math.hypot(dx,dy)>(e.pointerType==='touch'?16:10)){/* 손가락 탭은 조금 흔들려도 탭으로 인정 */drag.on=true;P.path=[];joyAt(drag.x,drag.y)}
+  if(!drag.on&&Math.hypot(dx,dy)>(e.pointerType==='touch'?16:10)){/* 손가락 탭은 조금 흔들려도 탭으로 인정 */drag.on=true;if(drag.pan){camFree=true}else{P.path=[];joyAt(drag.x,drag.y)}}
+  if(drag.on&&drag.pan){cam.x=drag.cx-dx/cam.s;cam.y=drag.cy-dy/cam.s;return}
   if(drag.on){const Rj=joyEl.offsetWidth/2-10,d=Math.hypot(dx,dy),k=d>Rj?Rj/d:1;knob.style.transform=`translate(${dx*k}px,${dy*k}px)`;joy=d<12?{x:0,y:0}:{x:dx*k/Rj,y:dy*k/Rj}}});
 function ptrEnd(e){if(!ptrs.has(e.pointerId))return;ptrs.delete(e.pointerId);
   if(pinch){if(ptrs.size<2)pinch=null;drag=null;return}
@@ -976,7 +978,7 @@ function stepTurtle(o,dt){const px=o.x,py=o.y;o.ph+=dt*4/1.5;o.t-=dt;const sp=.4
   else{o.y-=sp*dt;if(o.y<8){o.fade+=dt;if(o.fade>1.2)o.dead=true}}
   const d=(o.x-px)-(o.y-py);if(Math.abs(d)>1e-5)o.flip=d<0}
 // ---------- depth sorting against the baked object order
-O.objects=O.objects.filter(o=>![102,107].includes(o.i));/* STA 풀 안의 사람·떠 있는 물건 제거 */
+O.objects=O.objects.filter(o=>![102,107,19].includes(o.i));/* STA 풀 안의 사람·떠 있는 물건, 강의실 앞 가로등(19) 제거 */
 const objs=O.objects.map((o,i)=>({...o,idx:i,w:o.src?img[o.src].width:O.atlas[o.i][2],h:o.src?img[o.src].height:O.atlas[o.i][3]}));
 function objBehind(o,x,y){const [x0,x1,y0,y1]=o.box,inside=x>x0&&x<x1&&y>y0&&y<y1;
   if(o.k==='floor')return inside||x>=x1||y>=y1||!(x<=x0||y<=y0);
@@ -1085,6 +1087,14 @@ function bubble(text,sx,sy){cx.font=`700 ${Math.round(12*Math.min(1.3,Math.max(.
   const x=Math.max(6,Math.min(vw-tw-2*p-6,sx-tw/2-p)),y=sy-h-8;cx.fillStyle='#FFFFFF';cx.strokeStyle='#1B2A33';cx.lineWidth=1.5;
   cx.beginPath();cx.roundRect(x,y,tw+2*p,h,10);cx.fill();cx.stroke();cx.beginPath();cx.moveTo(sx-5,y+h);cx.lineTo(sx,y+h+7);cx.lineTo(sx+5,y+h);cx.fill();
   cx.fillStyle='#1B2A33';cx.textBaseline='middle';cx.textAlign='start';cx.fillText(text,x+p,y+h/2,220)}
+/* 지도 화면에서는 안내(토스트)를 내 닉네임 바로 위 말풍선으로. 방·렌탈샵·꾸미기·메뉴가 열려 있으면 화면 위 안내 그대로 */
+function onMap(){const o=id=>{const e=document.getElementById(id);return e&&!e.hidden};return roomEl.hidden&&!(RS.el&&!RS.el.hidden)&&!o('av')&&!o('drawer')&&!o('mapv')}
+function sayBubble(text,sx,sy){const fs=Math.round(12*Math.min(1.2,Math.max(.9,cam.s)));cx.font=`700 ${fs}px 'Noto Sans KR',sans-serif`;const maxW=Math.min(220,vw-40),lines=[];let cur='';
+  for(const ch of text){const nx=cur+ch;if(cx.measureText(nx).width>maxW&&cur){lines.push(cur);cur=ch.trim()?ch:''}else cur=nx}if(cur)lines.push(cur);
+  const tw=Math.max(...lines.map(l=>cx.measureText(l).width)),p=8,lh=fs+4,h=lines.length*lh+8,x=Math.max(6,Math.min(vw-tw-2*p-6,sx-tw/2-p)),y=sy-h-7;
+  cx.globalAlpha=toastT<.3?Math.max(0,toastT/.3):1;cx.fillStyle='#FFFFFF';cx.strokeStyle='#1B2A33';cx.lineWidth=1.5;cx.beginPath();cx.roundRect(x,y,tw+2*p,h,10);cx.fill();cx.stroke();
+  cx.beginPath();cx.moveTo(sx-5,y+h);cx.lineTo(sx,y+h+6);cx.lineTo(sx+5,y+h);cx.fill();cx.fillStyle='#1B2A33';cx.textBaseline='middle';cx.textAlign='center';
+  lines.forEach((l,i)=>cx.fillText(l,x+p+tw/2,y+4+lh*i+lh/2));cx.textAlign='start';cx.globalAlpha=1}
 function nameTag(t,sx,sy,col){cx.font=`700 ${Math.round(8.8*Math.max(.9,Math.min(1.25,cam.s)))}px 'Noto Sans KR',sans-serif`;cx.textAlign='center';cx.textBaseline='bottom';
   cx.lineWidth=3;cx.strokeStyle='rgba(20,30,36,.85)';cx.lineJoin='round';cx.strokeText(t,sx,sy);cx.fillStyle=col||'#FFFFFF';cx.fillText(t,sx,sy);cx.textAlign='start'}
 // ---------- loop
@@ -1184,7 +1194,7 @@ function wishView(){const L=boardList('wr_wish');return `<div class="q">바라�
  <ul class="gbl">${[...L.map(x=>`<li><b>익명</b><span>${ESC(x.t)}</span><em>${ESC(x.d)}</em></li>`),...WISH_EX.map(x=>`<li><b>익명</b><span>${ESC(x[0])}</span><em>${x[1]} · 예시</em></li>`)].join('')}</ul>`}
 
 /* ---- 외치기: 확성기 버튼 → 글쓰기. 새 외침은 진하게, 평소엔 지난 외침이 흐릿하게 흘러감, 30분간 없으면 숨김 (예시: 이 기기에서만) ---- */
-const SHOUT_FEE=5,SHOUT_MS=20000,SHOUT_IDLE=30*60*1000,SHOUT_EX=[['바다거북','오늘 STA 풀에서 같이 연습해요!'],['고래상어','12월 팡라오 투어 가실 분~'],['돌고래소년','CO2 테이블 8라운드 성공!']];
+const SHOUT_FEE=5,SHOUT_MS=20000,SHOUT_IDLE=30*60*1000,SHOUT_EX=[['바다거북','오늘 레인풀장에서 STA 같이 연습해요!'],['고래상어','12월 팡라오 투어 가실 분~'],['돌고래소년','CO2 테이블 8라운드 성공!']];
 let shoutCur=null,shoutT=0,shoutEx=0,shoutMode='';
 function shoutHist(){return jget('wr_shouts',[])}
 function shoutAdd(n,t){const L=shoutHist();L.unshift({n,t,at:Date.now()});store('wr_shouts',JSON.stringify(L.slice(0,8)))}
@@ -1211,7 +1221,7 @@ function tlogView(){const S=swSessions(),T=jget('wr_tlog',[]),best=S.reduce((m,x
   const dt=t=>new Date(t).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
   const all=[...S.map(x=>({at:x.started,h:`<details class="ent"><summary><span class="tg">STATIC</span>${dt(x.started)} · <b>${mm2(x.duration)}</b> · 호흡충동 ${x.marks.length}회</summary><ul class="laps">${x.marks.map((v,i)=>`<li>${i+1}번째 <b>${mm2(v)}</b></li>`).join('')||'<li>기록 없음</li>'}</ul></details>`})),
     ...T.map(x=>({at:x.at,h:`<div class="ent tl"><span class="tg ${/O2/.test(x.t)&&!/CO2/.test(x.t)?'o2':'co2'}">${ESC(x.t.replace(/\s*테이블.*/,''))}</span>${dt(x.at)} · ${x.rounds}라운드 · ${x.done?'완료':'중단 '+mm2(x.el)} · 호흡충동 ${x.urges}회</div>`}))].sort((a,b)=>b.at-a.at);
-  return `<div class="q">훈련기록</div><div class="aqs"><span><b>${best?mm2(best):'-'}</b>STA 최고</span><span><b>${S.length}</b>스톱워치</span><span><b>${T.length}</b>CO2·O2</span></div>${all.length?all.map(x=>x.h).join(''):'<p class="shint">아직 기록이 없어요. STA 풀에서 스톱워치나 CO2·O2 테이블을 해 보세요.</p>'}`}
+  return `<div class="q">훈련기록</div><div class="aqs"><span><b>${best?mm2(best):'-'}</b>STA 최고</span><span><b>${S.length}</b>스톱워치</span><span><b>${T.length}</b>CO2·O2</span></div>${all.length?all.map(x=>x.h).join(''):'<p class="shint">아직 기록이 없어요. 레인풀장에서 스톱워치나 CO2·O2 테이블을 해 보세요.</p>'}`}
 
 /* ---- 큰 쓰레기: 해변 양 끝에 하나씩(최대 2개). 옆에 멈춰 서면 뒷모습으로 줍기. 혼자 1시간, 여럿이면 협동 가속.
    줍는 동안 다른 화면·CO2/O2 테이블을 해도 계속 진행, 진행도는 날짜가 바뀌어도 유지 ---- */
@@ -1234,7 +1244,7 @@ function btTick(dt,moving){P.clean=null;const now=Date.now();
   const bar=document.getElementById('btBar');if(bar){const on=!!P.clean;if(bar.hidden===on)bar.hidden=!on}
   btSaveT-=dt;if(btSaveT<=0){btSaveT=3;btSave()}}
 function btLeft(t){const n=(P.clean===t?1:0)+t.helpers.length,sec=Math.ceil((BT_TIME-t.p)/Math.max(1,btRate(Math.max(1,n))));const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s2=sec%60;return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(s2).padStart(2,'0')}
-function btTable(type){roomDoor=null;openRoom('sta');setTimeout(()=>{const b=document.querySelector(`#room [data-act="${type}"]`);if(b)b.click()},30)}
+function btTable(type){roomDoor=null;openRoom('pool50');setTimeout(()=>{const b=document.querySelector(`#room [data-act="${type}"]`);if(b)b.click()},30)}
 function drawBigTrash(t,sx,sy,over){const im=BTI[t.k];if(!im)return;const s=cam.s,w=125*s,h=91*s;cx.drawImage(im,sx-w*.5,sy-h*.84,w,h);
   if(t.p>0||P.clean===t){const bw=70*s,bx=sx-bw/2,by=sy-h*.84-12*s,r=t.p/BT_TIME;cx.fillStyle='rgba(20,30,40,.75)';cx.beginPath();cx.roundRect(bx-2*s,by-2*s,bw+4*s,10*s,5*s);cx.fill();cx.fillStyle='#5FD38D';cx.beginPath();cx.roundRect(bx,by,Math.max(2*s,bw*r),6*s,3*s);cx.fill();
     over.push(['say',`큰 쓰레기 줍는 중 · 남은 시간 ${btLeft(t)}${t.helpers.length?` · ${t.helpers.length+(P.clean===t?1:0)}명`:''}`,sx,by-6*s])}
@@ -1266,7 +1276,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(!P.sit&&!
   for(const o of A){if(o.kind==='dog'||o.kind==='cat')stepPet(o,dt);else if(o.kind==='turtle')stepTurtle(o,dt);else{o.sx+=o.vx*dt;o.ph+=dt*8;o.bob+=dt*2;if(o.sx<-140||o.sx>ground.width+140)o.dead=true}}
   for(let i=A.length-1;i>=0;i--)if(A[i].dead)A.splice(i,1);
   // camera
-  cam.s+=(zoomK-cam.s)*Math.min(1,dt*10);const [px,py]=W2S(P.x,P.y);const tx=px-vw/2/cam.s,ty=py-vh*.55/cam.s;cam.x+=(tx-cam.x)*Math.min(1,dt*6);cam.y+=(ty-cam.y)*Math.min(1,dt*6);
+  cam.s+=(zoomK-cam.s)*Math.min(1,dt*10);const [px,py]=W2S(P.x,P.y);const tx=px-vw/2/cam.s,ty=py-vh*.55/cam.s;if(camFree&&(P.path.length||(joy&&(joy.x||joy.y))||!roomEl.hidden))camFree=false;/* 걷기 시작하면 다시 캐릭터를 따라감 */if(!camFree){cam.x+=(tx-cam.x)*Math.min(1,dt*6);cam.y+=(ty-cam.y)*Math.min(1,dt*6)}
   cam.x=Math.max(0,Math.min(ground.width-vw/cam.s,cam.x));cam.y=Math.max(0,Math.min(ground.height-vh/cam.s,cam.y));
   // draw
   cx.setTransform(dpr,0,0,dpr,0,0);cx.imageSmoothingQuality='high';cx.fillStyle='#18B6C8';cx.fillRect(0,0,vw,vh);
@@ -1275,7 +1285,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(!P.sit&&!
   if(tapMark){tapMark.t-=dt;const [a,b]=TS(...W2S(tapMark.x,tapMark.y));cx.strokeStyle=`rgba(255,255,255,${Math.max(0,tapMark.t)})`;cx.lineWidth=2;cx.beginPath();cx.ellipse(a,b,(14-tapMark.t*6)*cam.s,(5-tapMark.t*2)*cam.s,0,0,6.28);cx.stroke();if(tapMark.t<=0)tapMark=null}
   const x0=cam.x-40,y0=cam.y-40,x1=cam.x+vw/cam.s+40,y1=cam.y+vh/cam.s+40;
   const vis=objs.filter(o=>o.x<x1&&o.x+o.w>x0&&o.y<y1&&o.y+o.h>y0);
-  const dyn=[{t:'p',o:P,x:P.x+(P.sit?(P.sit.ox??.12):0),y:P.y+(P.sit?(P.sit.oy??.12):0)},...YOGI.map(o=>({t:'y',o,x:o.x,y:o.y})),...SW.map(o=>({t:'s',o,x:o.x,y:o.y})),...NPCS.map(n=>({t:'n',o:n,x:n.x,y:n.y})),...A.filter(o=>o.kind!=='gull').map(o=>({t:'a',o,x:o.x,y:o.y})),...DECO.map(o=>({t:'d',o,x:o.x,y:o.y})),...TRASH.filter(o=>!o.got).map(o=>({t:'d',o,x:o.x,y:o.y})),...TRI.map(o=>({t:'tri',o,x:o.x,y:o.y-.01})),...SW2.map(o=>({t:'s2',o,x:o.x,y:o.y})),...BT.filter(t=>!t.done).map(o=>({t:'bt',o,x:o.x,y:o.y})),...BT.flatMap(t=>t.helpers).map(o=>({t:'bh',o,x:o.x,y:o.y})),{t:'bud',o:SBUD,x:SBUD.x,y:SBUD.y}];
+  const dyn=[{t:'p',o:P,x:P.x+(P.sit?(P.sit.ox??.12):0),y:P.y+(P.sit?(P.sit.oy??.12):0)},...YOGI.map(o=>({t:'y',o,x:o.x,y:o.y})),...SW.map(o=>({t:'s',o,x:o.x,y:o.y})),...NPCS.map(n=>({t:'n',o:n,x:n.x,y:n.y})),...A.filter(o=>o.kind!=='gull').map(o=>({t:'a',o,x:o.x,y:o.y})),...DECO.map(o=>({t:'d',o,x:o.x,y:o.y})),...TRASH.filter(o=>!o.got).map(o=>({t:'d',o,x:o.x,y:o.y})),...TRI.map(o=>({t:'tri',o,x:o.x,y:o.y-.01})),...SW2.map(o=>({t:'s2',o,x:o.x,y:o.y})),...BT.filter(t=>!t.done).map(o=>({t:'bt',o,x:o.x,y:o.y})),...BT.flatMap(t=>t.helpers).map(o=>({t:'bh',o,x:o.x,y:o.y}))];/* STA 풀은 비워 둠 (2026-11-28) */
   for(const d of dyn){let k=-1;for(const o of vis)if(o.idx>k&&objBehind(o,d.x,d.y))k=o.idx;d.k=k+.5}
   const items=[...vis.map(o=>({k:o.idx,o})),...dyn].sort((a,b)=>a.k-b.k||((a.x+a.y)||0)-((b.x+b.y)||0));
   const over=[];const headY=(sy)=>sy-(CH.feet-14)*CH.draw_scale*cam.s;
@@ -1303,8 +1313,8 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(!P.sit&&!
     cx.fillStyle='rgba(0,0,0,.12)';cx.beginPath();cx.ellipse(hx,hy,9*cam.s,2.8*cam.s,0,0,6.28);cx.fill();
     cx.save();cx.translate(sx,sy);if(o.vx<0)cx.scale(-1,1);cx.drawImage(img.gull,(Math.floor(o.ph)%4)*m.fw,0,m.fw,m.fh,-m.fw*s/2,-m.ground_y*s,m.fw*s,m.fh*s);cx.restore()}
   // name + speech always on top, so the ID stays visible when the body is behind a building
-  for(const [k,t,sx,sy] of over){if(k==='id'||k==='npc')nameTag(t,sx,sy-4*cam.s,k==='npc'?'#FFD84D':0);else bubble(t,sx,sy)}
-  if(toastT>0){toastT-=dt;if(toastT<=0)toastEl.hidden=true;else if(toastT<.3)toastEl.style.opacity=toastT/.3}
+  for(const [k,t,sx,sy] of over){if(k==='id'||k==='npc')nameTag(t,sx,sy-4*cam.s,k==='npc'?'#FFD84D':0);else bubble(t,sx,sy);if(k==='id'&&toastT>0&&onMap())sayBubble(toastEl.textContent,sx,sy-4*cam.s-14*Math.max(.9,Math.min(1.25,cam.s)))}
+  if(toastT>0){toastT-=dt;if(toastT<=0)toastEl.hidden=true;else if(toastT<.3)toastEl.style.opacity=toastT/.3;toastEl.style.visibility=onMap()?'hidden':''}
   if(RB&&HK.cur&&HK.cur!==faceSrc)drawFace();
   if(RB){const sitWave=!!(P.clean||(P.sit&&(P.sit.kind==='mat'||(P.sit.kind==='bean'&&!P.sit.stool))));const mb=document.getElementById('muteBtn');if(mb.hidden===sitWave){mb.hidden=!sitWave;if(sitWave&&WAVE.muted)toast('오른쪽 스피커 버튼을 누르면 파도 소리가 나요')}waveSet(sitWave)}
   requestAnimationFrame(frame)}
