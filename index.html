@@ -314,7 +314,7 @@ function hkTint(src,sx,sy,w,h,rgb){const c=document.createElement('canvas');c.wi
 // 파도 소리 (빈백·요가 매트에 앉으면) — 파일 없이 코드로 생성
 const WAVE={ctx:null,g:null,on:false,muted:store('wr_wave2')!=='0'};
 function waveInit(){if(WAVE.ctx)return;const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),g=c.createGain();g.gain.value=0;g.connect(c.destination);WAVE.ctx=c;WAVE.g=g;
-  fetch('wave.mp3?v=1126').then(r=>r.arrayBuffer()).then(a=>new Promise((ok,no)=>c.decodeAudioData(a,ok,no))).then(buf=>{const src=c.createBufferSource();src.buffer=buf;src.loop=true;src.connect(g);src.start()}).catch(()=>{})}
+  fetch('wave.m4a?v=1127').then(r=>r.arrayBuffer()).then(a=>new Promise((ok,no)=>c.decodeAudioData(a,ok,no))).then(buf=>{const src=c.createBufferSource();src.buffer=buf;src.loop=true;/* 직접 만든 파도 소리(끝·처음 2초 겹침). 압축 때 붙은 앞뒤 빈 소리는 반복 구간에서 뺀다 */{const d=buf.getChannelData(0);let i=0,j=d.length-1;while(i<j&&Math.abs(d[i])<1e-4)i++;while(j>i&&Math.abs(d[j])<1e-4)j--;src.loopStart=i/buf.sampleRate;src.loopEnd=(j+1)/buf.sampleRate}src.connect(g);src.start()}).catch(()=>{})}
 document.addEventListener('pointerdown',()=>{waveInit();if(WAVE.ctx&&WAVE.ctx.state!=='running')WAVE.ctx.resume()},{passive:true});
 function waveSet(on){on=on&&!WAVE.muted;if(on===WAVE.on)return;WAVE.on=on;if(on){waveInit();if(!WAVE.ctx)return;WAVE.ctx.resume()}if(WAVE.ctx)WAVE.g.gain.setTargetAtTime(on?.35:0,WAVE.ctx.currentTime,.8)}
 function hkLoad(u){if(!HK.src[u])HK.src[u]=IMG(u);return HK.src[u]}

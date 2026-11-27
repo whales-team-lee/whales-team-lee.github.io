@@ -41,7 +41,7 @@
   - `hair3/` — 공유 몸 + 헤어(남녀) + 광택, 썸네일
   - `walk.json`, `chars.json` — 걷기 동작·캐릭터 데이터
   - `quiz.json` — OX 문제은행 (Lv1~4 각 50문항, 총 200)
-  - `sw/` — STA 스톱워치 음성, `wave.mp3` — 파도 소리
+  - `sw/` — STA 스톱워치 음성, `wave.m4a` — 파도 소리 (사용자 직접 제작, 158초 무한반복. 원본에서 `tools/build_wave.py`로 끝·처음 2초를 겹쳐 만듦. 예전 `wave.mp3`는 쓰지 않음)
   - `mf.html` — 마우스필 계산기, `local.html` — 로컬다이버(바다 날씨), `pools.html` — 다이빙풀 안내
   - `marine-data.json`, `animals.json`, `pets.json`, `nc.json` — 해양생물·동물·기타 데이터
 - 기획서 원본: 기획서 v2 (Claude 문서) → 필요하면 `docs/`에 마크다운으로 보관
