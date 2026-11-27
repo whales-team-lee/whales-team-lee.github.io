@@ -225,8 +225,8 @@ rep("  if(plan.desc) for(let m=20;m<=depth;m+=10) list.push(cue(down*m/depth,'do
 js = js.replace(".viewport{border:0;border-radius:14px;", ".fields .fixed{display:flex;align-items:center;min-height:42px;margin-top:5px;padding:0 10px;border-radius:10px;background:#F1F4F6;color:var(--text);font-weight:800}\n.viewport{border:0;border-radius:14px;", 1)
 
 # 2-6) 전체 소리 크기 절반 (휴대폰 최대 볼륨에서 너무 커서). 음성·알람·틱·미리듣기 모두
-rep("  gain.gain.value=level;", "  gain.gain.value=level*0.5;  /* 게임 탑재: 전체 소리 절반 */")
-rep('<audio id="countdemo" controls preload="none" src="', '<audio id="countdemo" controls preload="none" onplay="this.volume=0.5" src="')
+rep("  gain.gain.value=level;", "  gain.gain.value=level*0.3;  /* 게임 탑재: 원본 대비 약 -10dB (귀로 듣기에 절반) */")
+rep('<audio id="countdemo" controls preload="none" src="', '<audio id="countdemo" controls preload="none" onplay="this.volume=0.3" src="')
 
 # 3) 미리듣기 WAV → AAC
 pre = 'src="data:audio/wav;base64,'

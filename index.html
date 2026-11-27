@@ -316,7 +316,7 @@ const WAVE={ctx:null,g:null,on:false,muted:store('wr_wave2')!=='0'};
 function waveInit(){if(WAVE.ctx)return;const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),g=c.createGain();g.gain.value=0;g.connect(c.destination);WAVE.ctx=c;WAVE.g=g;
   fetch('wave.m4a?v=1127').then(r=>r.arrayBuffer()).then(a=>new Promise((ok,no)=>c.decodeAudioData(a,ok,no))).then(buf=>{const src=c.createBufferSource();src.buffer=buf;src.loop=true;/* 직접 만든 파도 소리(끝·처음 2초 겹침). 압축 때 붙은 앞뒤 빈 소리는 반복 구간에서 뺀다 */{const d=buf.getChannelData(0);let i=0,j=d.length-1;while(i<j&&Math.abs(d[i])<1e-4)i++;while(j>i&&Math.abs(d[j])<1e-4)j--;src.loopStart=i/buf.sampleRate;src.loopEnd=(j+1)/buf.sampleRate}src.connect(g);src.start()}).catch(()=>{})}
 document.addEventListener('pointerdown',()=>{waveInit();if(WAVE.ctx&&WAVE.ctx.state!=='running')WAVE.ctx.resume()},{passive:true});
-function waveSet(on){on=on&&!WAVE.muted;if(on===WAVE.on)return;WAVE.on=on;if(on){waveInit();if(!WAVE.ctx)return;WAVE.ctx.resume()}if(WAVE.ctx)WAVE.g.gain.setTargetAtTime(on?.175:0,WAVE.ctx.currentTime,.8)}
+function waveSet(on){on=on&&!WAVE.muted;if(on===WAVE.on)return;WAVE.on=on;if(on){waveInit();if(!WAVE.ctx)return;WAVE.ctx.resume()}if(WAVE.ctx)WAVE.g.gain.setTargetAtTime(on?.11:0,WAVE.ctx.currentTime,.8)}
 function hkLoad(u){if(!HK.src[u])HK.src[u]=IMG(u);return HK.src[u]}
 // 옷: 기본 반팔·반바지(색 변경) · 렌탈 슈트
 const CC={white:[245,245,240],grey:[160,160,160],black:[60,60,66],navy:[45,62,105],sky:[120,182,228],green:[112,172,122],yellow:[246,206,92],orange:[240,146,70],pink:[240,162,182],purple:[160,120,210],red:[205,72,72]};
@@ -499,7 +499,7 @@ roomEl.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b||
   else if(a==='rename')sub(`<p>머리 위에 보이는 닉네임이에요. 한글 6자 · 영문 12자까지.</p><div class="row"><input id="newId" maxlength="12" value="${G.id}"><button type="button" class="opt" data-act="saveId">저장</button></div>`);
   else if(a==='saveId'){const v=(document.getElementById('newId').value||'').trim();if(!nickOK(v)){toast('닉네임은 한글 6자·영문 12자 이내로 정해 주세요');return}if(RB&&PROF().nick&&v!==G.id){if(G.gem<NICK_FEE){toast(`진주 ${NICK_FEE}개가 필요해요`);return}G.gem-=NICK_FEE;const pr=PROF();pr.nick=v;pr.nickAt=Date.now();PROFSET(pr);drawStats()}G.id=v;save();toast('닉네임을 바꿨어요');openRoom('lobby')}
   else if(a==='quiz')showQuiz();
-  else if(a==='deep'){waveSet(false);sub(`<iframe class="plw" src="deep.html?v=1127b" title="바다 트레이닝 · 딥 리허설" allow="autoplay"></iframe>`)}
+  else if(a==='deep'){waveSet(false);sub(`<iframe class="plw" src="deep.html?v=1127c" title="바다 트레이닝 · 딥 리허설" allow="autoplay"></iframe>`)}
   else if(a==='controls')sub('<ul><li>화면을 누르면 그곳으로 걸어가요. 두 번 누르면 빠르게 걸어요.</li><li>화면을 누른 채 끌면 조이스틱이 나와요.</li><li>두 손가락으로 벌리면 확대, 오므리면 축소. 오른쪽 아래 +/− 버튼도 돼요.</li><li>왼쪽 위 메뉴(☰)에서 리조트 지도를 열고, 가고 싶은 곳을 누르면 이동해요.</li><li>오른쪽 위 내 얼굴 버튼을 누르면 아바타를 꾸밀 수 있어요.</li><li>건물 앞 노란 세모를 밟거나 누르면 들어갈지 물어봐요.</li><li>아래 버튼: 앉기 · 인사 · OK · 점프 · 브이 · 하트</li><li>해변 쓰레기를 주우면 진주를 받아요 (하루 10개).</li></ul>');
   else if(a==='ad')sub('<div class="q">광고 문의</div><p>리조트 안 광고판과 전광판에 광고를 실을 수 있어요.</p><ul><li>이메일: <a href="mailto:attack6035@naver.com">attack6035@naver.com</a></li><li>카카오톡 채널: 웨일스다이빙 채널로 문의해 주세요.</li></ul>');
   else if(a==='partner')sub('<div class="q">함께할 파트너를 구합니다</div><p>다이빙 숍, 장비 브랜드, 여행사 등 리조트에 입점할 파트너를 찾고 있어요.</p><p>이메일: <b>attack6035@naver.com</b></p>');
