@@ -54,7 +54,7 @@ l = lines[vi]
 a, b = l.index('>') + 1, l.rindex('</script>')
 voices = json.loads(l[a:b])
 voices.pop('entry', None)  # 사용자 요청: '대회장 입장(Entry, competition area)' 음성 삭제
-# 프리폴·마우스필·리필 음성은 코치(Breathe)와 같은 목소리로 교체 (macOS Daniel, say -r 225로 Breathe보다 약 20% 빠르게, tools/voices/*.wav)
+# 프리폴·마우스필·리필 음성은 코치(Breathe)와 같은 목소리로 교체 (macOS Daniel, say -r 205로 Breathe보다 약 10% 빠르게, tools/voices/*.wav)
 import wave as _wave
 for _k in ('free', 'fill', 'refill'):
     _w = _wave.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'voices', _k + '.wav'))
@@ -345,6 +345,21 @@ js = js.replace(".viewport{border:0;border-radius:14px;", """.player{text-align:
 #events li.past{text-decoration:line-through;opacity:.5}#events li.past::after{content:" ✓";color:var(--mint)}
 @media (prefers-reduced-motion:reduce){#action.blink{animation:none}}
 .viewport{border:0;border-radius:14px;""", 1)
+
+# 2-9) SP 완료를 누르면 남은 소리(SP 틱·Breathe·Finish)를 멈추고 마무리 소리 하나만 (대회: White card, 트레이닝: Finish training)
+rep("""      completed=true;
+      if(plan.competition){
+        const white=cue(surfaceTime()+15+buffer('finish').duration+.15,'white','심판 · White card');
+        items.push(white);
+        playCue(white,.85);
+        get('events').append(evLi(white));
+      }""", """      completed=true;
+      silence();
+      const now=elapsed(), end=cue(now+.15, plan.competition?'white':'finish', plan.competition?'심판 · White card':'코치 · Finish training');
+      items=items.filter(e=>e.at<=now); items.push(end); playCue(end,.85);
+      for(const li of [...get('events').children]) if(Number(li.dataset.at)>now) li.remove();
+      get('events').append(evLi(end));
+      setTimeout(()=>{if(phase==='dive'){phase='done';paint()}}, (end.at-now+buffer(end.key).duration)*1000+300);""")
 
 # 3) 미리듣기 WAV → AAC
 pre = 'src="data:audio/wav;base64,'
