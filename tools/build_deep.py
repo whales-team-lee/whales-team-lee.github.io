@@ -253,7 +253,7 @@ js = js[:_m.start()] + (
  '<label class="check"><input name="desc" type="checkbox"> 하강 수심 안내 음성</label>'
  '<label class="check"><input name="asc" type="checkbox"> 상승 수심 안내 음성</label>'
  '<div id="countnote" hidden></div><audio id="countdemo" hidden></audio>'
- '<p class="warnbox">육상 이미지 트레이닝용입니다. 혼자 연습할 때는 평소처럼 호흡하세요.<br>실제 숨참기는 훈련받은 버디가 곁에서 직접 지켜보는 환경에서 진행하세요.</p>'
+ '<p class="warnbox">🚨 반드시 버디와 함께 하세요.<br>육상 이미지 트레이닝용입니다. 실제 숨참기는 훈련받은 버디가 곁에서 직접 지켜보는 환경에서 진행하세요.</p>'
  '<button class="primary full">준비 완료</button></form>') + js[_m.end():]
 
 rep("""  row.innerHTML = '<header><strong></strong><button type="button" class="secondary">제거</button></header><div class="fields"><label><span></span><input type="number" min="1"></label><label>알람 소리<select><option value="voice">실제 음성</option><option value="beep">기계음 (삐빅)</option></select></label></div>';
@@ -360,6 +360,18 @@ rep("""      completed=true;
       for(const li of [...get('events').children]) if(Number(li.dataset.at)>now) li.remove();
       get('events').append(evLi(end));
       setTimeout(()=>{if(phase==='dive'){phase='done';paint()}}, (end.at-now+buffer(end.key).duration)*1000+300);""")
+
+# 2-10) 간격 다듬기 (2026-11-28): 목표 수심 한 줄, 턴 준비 체크박스 숨김, 행간 줄이기, 대회·트레이닝 버튼 낮게
+rep("  if(kind==='preturn') { const on=row.querySelector('.on'); on.disabled=true; on.title='턴 준비는 항상 울려요'; }",
+    "  if(kind==='preturn') { const on=row.querySelector('.on'); on.disabled=true; on.style.visibility='hidden'; }")
+js = js.replace(".viewport{border:0;border-radius:14px;", """.fields.one label{display:flex;align-items:center;justify-content:space-between;gap:10px}.fields.one .unit{flex:0 0 150px}.fields.one .unit input{margin-top:0}
+.modeseg button{padding:4px 6px;gap:0;line-height:1.25}.modeseg button b{font-size:14px}
+.mobile .fields,.mobile details,.mobile button,.player{margin-top:10px}.fields{gap:8px}
+select,input[type=number]{min-height:38px;padding-top:6px;padding-bottom:6px}
+.check{margin:6px 0}.cap{margin-top:5px}.sec{margin:12px 0 2px}
+#alarms .alarm-entry{padding:4px 0}.addrow{margin-top:4px}.warnbox{margin-top:10px}
+.intro,.mobile .intro{padding:8px 0 8px}
+.viewport{border:0;border-radius:14px;""", 1)
 
 # 3) 미리듣기 WAV → AAC
 pre = 'src="data:audio/wav;base64,'

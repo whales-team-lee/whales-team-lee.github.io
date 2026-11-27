@@ -126,13 +126,20 @@ button:active{transform:translateY(1px)}
 #events li{padding:2px 0}#events .tm{color:var(--muted);font-variant-numeric:tabular-nums}#events .lb{color:var(--mint);font-weight:800}
 #events li.past{text-decoration:line-through;opacity:.5}#events li.past::after{content:" ✓";color:var(--mint)}
 @media (prefers-reduced-motion:reduce){#action.blink{animation:none}}
+.fields.one label{display:flex;align-items:center;justify-content:space-between;gap:10px}.fields.one .unit{flex:0 0 150px}.fields.one .unit input{margin-top:0}
+.modeseg button{padding:4px 6px;gap:0;line-height:1.25}.modeseg button b{font-size:14px}
+.mobile .fields,.mobile details,.mobile button,.player{margin-top:10px}.fields{gap:8px}
+select,input[type=number]{min-height:38px;padding-top:6px;padding-bottom:6px}
+.check{margin:6px 0}.cap{margin-top:5px}.sec{margin:12px 0 2px}
+#alarms .alarm-entry{padding:4px 0}.addrow{margin-top:4px}.warnbox{margin-top:10px}
+.intro,.mobile .intro{padding:8px 0 8px}
 .viewport{border:0;border-radius:14px;color:#EFF8F7}
 .viewport h2,.scene-top span{color:#EFF8F7}.scene-copy span{color:#A0F3D9}
 .wrap,.mobile{padding-right:4px}
 </style></head>
 <body><main class="wrap mobile" id="audioScreen">
 <section class="intro"><h1>수심 이미지 트레이닝</h1><p>입장부터 수면 복귀까지, 소리를 따라 장면을 떠올리세요.</p></section>
-<form id="plan" class="panel"><div class="modeseg" role="group" aria-label="연습 모드"><button type="button" data-mode="competition" aria-pressed="true"><b>대회</b><small>심판 콜 · 실격 규칙</small></button><button type="button" data-mode="training" aria-pressed="false"><b>트레이닝</b><small>다이빙 콜만</small></button></div><select name="mode" hidden aria-hidden="true" tabindex="-1"><option value="competition">대회</option><option value="training">트레이닝</option></select><p class="cap">입장 후 준비 120초 (고정)</p><input name="wait" type="hidden" value="120"><div class="fields one"><label>목표 수심<span class="unit"><input name="depth" type="number" inputmode="decimal" min="1" max="200" step="0.5" value="30" required><i>m</i></span></label></div><div class="fields"><label>하강 속도<span class="unit"><input name="vdown" type="number" inputmode="decimal" min="0.3" max="3" step="0.05" value="1" required><i>m/초</i></span></label><label>상승 속도<span class="unit"><input name="vup" type="number" inputmode="decimal" min="0.3" max="3" step="0.05" value="1" required><i>m/초</i></span></label></div><p class="cap" id="timecalc"></p><h3 class="sec">다이브 컴퓨터 알람</h3><div id="alarms"></div><div class="addrow"><select id="kind" aria-label="추가할 알람"><option value="refill">리필</option><option value="extra">일반 수심</option></select><button type="button" class="secondary" id="add">추가</button></div><label class="check"><input name="desc" type="checkbox"> 하강 수심 안내 음성</label><label class="check"><input name="asc" type="checkbox"> 상승 수심 안내 음성</label><div id="countnote" hidden></div><audio id="countdemo" hidden></audio><p class="warnbox">육상 이미지 트레이닝용입니다. 혼자 연습할 때는 평소처럼 호흡하세요.<br>실제 숨참기는 훈련받은 버디가 곁에서 직접 지켜보는 환경에서 진행하세요.</p><button class="primary full">준비 완료</button></form>
+<form id="plan" class="panel"><div class="modeseg" role="group" aria-label="연습 모드"><button type="button" data-mode="competition" aria-pressed="true"><b>대회</b><small>심판 콜 · 실격 규칙</small></button><button type="button" data-mode="training" aria-pressed="false"><b>트레이닝</b><small>다이빙 콜만</small></button></div><select name="mode" hidden aria-hidden="true" tabindex="-1"><option value="competition">대회</option><option value="training">트레이닝</option></select><p class="cap">입장 후 준비 120초 (고정)</p><input name="wait" type="hidden" value="120"><div class="fields one"><label>목표 수심<span class="unit"><input name="depth" type="number" inputmode="decimal" min="1" max="200" step="0.5" value="30" required><i>m</i></span></label></div><div class="fields"><label>하강 속도<span class="unit"><input name="vdown" type="number" inputmode="decimal" min="0.3" max="3" step="0.05" value="1" required><i>m/초</i></span></label><label>상승 속도<span class="unit"><input name="vup" type="number" inputmode="decimal" min="0.3" max="3" step="0.05" value="1" required><i>m/초</i></span></label></div><p class="cap" id="timecalc"></p><h3 class="sec">다이브 컴퓨터 알람</h3><div id="alarms"></div><div class="addrow"><select id="kind" aria-label="추가할 알람"><option value="refill">리필</option><option value="extra">일반 수심</option></select><button type="button" class="secondary" id="add">추가</button></div><label class="check"><input name="desc" type="checkbox"> 하강 수심 안내 음성</label><label class="check"><input name="asc" type="checkbox"> 상승 수심 안내 음성</label><div id="countnote" hidden></div><audio id="countdemo" hidden></audio><p class="warnbox">🚨 반드시 버디와 함께 하세요.<br>육상 이미지 트레이닝용입니다. 실제 숨참기는 훈련받은 버디가 곁에서 직접 지켜보는 환경에서 진행하세요.</p><button class="primary full">준비 완료</button></form>
 <section class="panel player" id="player" hidden>
 <h2 id="phase" tabindex="-1">리허설 준비</h2><p id="now" role="status"></p>
 <div class="readouts"><div class="dt"><span>DIVE TIME</span><strong id="watch">0:00</strong></div><div id="meter">수면 · 0 m</div></div>
@@ -243,7 +250,7 @@ function addAlarm(kind) {
   field.placeholder = kind==='preturn' ? '2' : '수심';
   const select = row.querySelector('select');
   if(kind==='extra'||kind==='preturn') { select.value='beep'; select.disabled=true; }
-  if(kind==='preturn') { const on=row.querySelector('.on'); on.disabled=true; on.title='턴 준비는 항상 울려요'; }
+  if(kind==='preturn') { const on=row.querySelector('.on'); on.disabled=true; on.style.visibility='hidden'; }
   const turn=editor.querySelector('[data-kind=preturn]');
   if(turn) editor.insertBefore(row,turn); else editor.append(row);
   syncSettings();
