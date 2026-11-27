@@ -428,7 +428,7 @@ const ROOMS={
  yoga:{en:'OPEN YOGA PAVILION',name:'요가장',bg:'#FFF4DC',d:'바다를 보며 하는 요가. 스테이지 1~4로 단계별로 연습해요.',a:[],yoga:1},
  sta:{en:'STA POOL',name:'STA 풀',bg:'#DDF4FB',d:'숨 참기(스태틱) 연습 도구예요. 최고 기록을 넣으면 추천값을 계산해요.',note:'<div class="lc"><h4>세미나<span class="adtag">광고</span></h4><div class="pgrid"><button type="button" class="poster pimg" data-act="sem" data-url="" data-n="스태틱 세미나" aria-label="스태틱 세미나 포스터"><img src="sem3.webp?v=1126" alt="스태틱 세미나 포스터" loading="lazy"></button><button type="button" class="poster pimg" data-act="sem" data-url="" data-n="프렌젤 세미나" aria-label="프렌젤 세미나 포스터"><img src="sem4.webp?v=1126" alt="프렌젤 세미나 포스터" loading="lazy"></button></div></div>',a:[['STATIC 스톱워치','sw'],['CO2 테이블','co2'],['O2 테이블','o2']],tri:1,top:1},
  pool50:{en:'LANE POOL',name:'레인풀장',bg:'#DDF4FB',d:'레인풀장 미니게임을 준비하고 있어요.',a:[['미니게임',null]]},
- sea:{en:'OCEAN',name:'바다',bg:'#D6EEFA',d:'해양생물과 함께하는 바다 미니게임을 준비하고 있어요.',a:[['바다 미니게임',null],['바다 트레이닝',null]]},
+ sea:{en:'OCEAN',name:'바다',bg:'#D6EEFA',d:'해양생물과 함께하는 바다 미니게임을 준비하고 있어요.',a:[['바다 미니게임',null],['바다 트레이닝','deep']]},
  npc_pools:{en:'DIVE POOL ATLAS',name:'전국 다이빙풀 안내',bg:'#E6F4FB',d:'',a:[]},
  notice:{en:'NOTICE',name:'공지사항',bg:'#EEF3FF',d:'',a:[]},
  bug:{en:'BUG REPORT',name:'버그 신고',bg:'#FFF1EE',d:'',a:[]},
@@ -468,7 +468,7 @@ function openRoom(k,door){if(RB&&k==='sea'&&!isSuit(G.wear.ot)){toast('바다는
     const yi=act==='ystage'?` data-i="${YSTAGE.findIndex(y=>y.n===t)}"`:'';return act?`<button type="button" data-act="${act}"${yi} ${done?'disabled':''}>${t}${done?'<em>완료</em>':''}${done&&act==='checkin'?'<small class="rdone">보상 받음 · XP +5 · 진주 +10</small>':''}</button>`:`<button type="button" disabled>${t}<em>준비중</em></button>`}).join('')+
     `</div>`+(r.top?NOTE:'')+(r.foot?`<button type="button" class="rfoot" ${r.foot[1]?`data-act="${r.foot[1]}"`:'data-act="soon"'}>${r.foot[0]}</button>`:'')+`<button type="button" class="rx" data-act="exit">나가기</button>`;roomEl.hidden=false;roomEl.scrollTop=0;roomEl.classList.remove('in');void roomEl.offsetWidth;roomEl.classList.add('in')}
 function sub(html){roomEl.style.opacity='.999';requestAnimationFrame(()=>{roomEl.style.opacity=''});roomEl.innerHTML=head(roomOpen)+html+`<button type="button" class="rx back" data-act="home">← 뒤로</button><button type="button" class="rx" data-act="exit">나가기</button>`;roomEl.scrollTop=0}
-function closeRoom(){stopRun();roomEl.hidden=true;document.getElementById('chatbar').hidden=roomOpen!=='restaurant-chat'?true:false;roomOpen=null}
+function closeRoom(){stopRun();roomEl.hidden=true;roomEl.querySelectorAll('iframe').forEach(f=>f.remove());/* 숨긴 방의 iframe 소리(바다 트레이닝 등)가 계속 나지 않게 */document.getElementById('chatbar').hidden=roomOpen!=='restaurant-chat'?true:false;roomOpen=null}
 function lookCanvas(id){return `<canvas data-look="${id}" width="74" height="108"></canvas>`}
 function paintLooks(){roomEl.querySelectorAll('canvas[data-look]').forEach(c=>{const g=c.getContext('2d');g.clearRect(0,0,74,108);g.drawImage(img['look_'+c.dataset.look],0,0,CH.cell[0],CH.cell[1],0,0,74,108)})}
 function showBuy(){const list=ITEMS.filter(it=>!it.base&&fitsMe(it));sub(`<p>가진 진주: <b>${G.gem}</b>개 · 내 캐릭터(${G.wear.g==='m'?'남':'여'})에게 맞는 장비만 보여요.</p><div class="ra">`+list.map(it=>{const st=status(it);
@@ -499,6 +499,7 @@ roomEl.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b||
   else if(a==='rename')sub(`<p>머리 위에 보이는 닉네임이에요. 한글·영문·숫자 2~12자.</p><div class="row"><input id="newId" maxlength="12" value="${G.id}"><button type="button" class="opt" data-act="saveId">저장</button></div>`);
   else if(a==='saveId'){const v=(document.getElementById('newId').value||'').trim();if(!/^[\uAC00-\uD7A3A-Za-z0-9_]{2,12}$/.test(v)){toast('닉네임은 한글·영문·숫자 2~12자로 정해 주세요');return}if(RB&&PROF().nick&&v!==G.id){if(G.gem<NICK_FEE){toast(`진주 ${NICK_FEE}개가 필요해요`);return}G.gem-=NICK_FEE;const pr=PROF();pr.nick=v;pr.nickAt=Date.now();PROFSET(pr);drawStats()}G.id=v;save();toast('닉네임을 바꿨어요');openRoom('lobby')}
   else if(a==='quiz')showQuiz();
+  else if(a==='deep'){waveSet(false);sub(`<iframe class="plw" src="deep.html?v=1127" title="바다 트레이닝 · 딥 리허설" allow="autoplay"></iframe>`)}
   else if(a==='controls')sub('<ul><li>화면을 누르면 그곳으로 걸어가요. 두 번 누르면 빠르게 걸어요.</li><li>화면을 누른 채 끌면 조이스틱이 나와요.</li><li>두 손가락으로 벌리면 확대, 오므리면 축소. 오른쪽 아래 +/− 버튼도 돼요.</li><li>왼쪽 위 메뉴(☰)에서 리조트 지도를 열고, 가고 싶은 곳을 누르면 이동해요.</li><li>오른쪽 위 내 얼굴 버튼을 누르면 아바타를 꾸밀 수 있어요.</li><li>건물 앞 노란 세모를 밟거나 누르면 들어갈지 물어봐요.</li><li>아래 버튼: 앉기 · 인사 · OK · 점프 · 브이 · 하트</li><li>해변 쓰레기를 주우면 진주를 받아요 (하루 10개).</li></ul>');
   else if(a==='ad')sub('<div class="q">광고 문의</div><p>리조트 안 광고판과 전광판에 광고를 실을 수 있어요.</p><ul><li>이메일: <a href="mailto:attack6035@naver.com">attack6035@naver.com</a></li><li>카카오톡 채널: 웨일스다이빙 채널로 문의해 주세요.</li></ul>');
   else if(a==='partner')sub('<div class="q">함께할 파트너를 구합니다</div><p>다이빙 숍, 장비 브랜드, 여행사 등 리조트에 입점할 파트너를 찾고 있어요.</p><p>이메일: <b>attack6035@naver.com</b></p>');
