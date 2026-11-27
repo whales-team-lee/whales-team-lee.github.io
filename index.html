@@ -910,7 +910,7 @@ function trigger(code){
   else if(code===8){const p=nearestPortal(P.x,P.y,p=>p.type==='map_exit');if(p&&p.id==='exit')toast('리조트 밖으로 나갑니다')}
   else if(code===10)toast('NEW 맵은 준비중입니다');
   else if(code===11){}
-  else if(code===12)toast('버디 매칭 대기 중 · 함께 다이빙할 버디를 찾고 있어요')}
+  else if(code===12&&BUDDY_ON)toast('버디 매칭 대기 중 · 함께 다이빙할 버디를 찾고 있어요')}
 let inYoga=false;
 // 원형 테이블 의자: 빈백처럼 눌러서 앉기
 const SOFF=.3;const RTABLES=[[67.5,116.2],[73.5,117],[79.5,116.2]];for(const [tx,ty] of RTABLES)for(const [dx,dy] of [[-.8,.8],[.8,-.8]])W.beanbags.push({id:'stool',x:tx+dx,y:ty+dy,sx:tx+dx+SOFF,sy:ty+dy+SOFF,stool:true,face:faceOf(-dx,-dy)});/* 원형 테이블: 양쪽 의자 2개 */
@@ -987,9 +987,10 @@ function drawMfg(o,sx,sy){const im=img[o.sheet||'npc_mfg'];if(!im)return;const f
   cx.fillStyle='rgba(0,0,0,.18)';cx.beginPath();cx.ellipse(sx,sy,9*cam.s,3.2*cam.s,0,0,6.28);cx.fill();cx.drawImage(im,f*fw,0,fw,fh,sx-w/2,sy-h+1*cam.s,w,h)}
 // 부이 아래로 내려간 다이빙 로프 (물속으로 흐려지며 살짝 흔들림)
 const BUOYS=[[2915,457.5],[3171,523],[3427,628],[3587,733]];
-// 버디 매칭 자리: 입장 세모 아래 점과 같은 색
+// 버디 매칭 자리: 입장 세모 아래 점과 같은 색. 지금은 숨김 — 서버 작업(썬베드 버디 모집) 때 BUDDY_ON=true로 다시 씀
+const BUDDY_ON=false;
 const BUDDY=[[1261.7,1085],[1365.6,1127],[1470,1169.8],[1566.4,1209],[1670.3,1251.7]];
-function drawBuddy(){const s=cam.s;for(const [bx,by] of BUDDY){const x=(bx-cam.x)*s,y=(by-cam.y)*s;if(x<-20||x>vw+20||y<-20||y>vh+20)continue;cx.fillStyle='#55595E';cx.strokeStyle='#3A3D41';cx.lineWidth=1*s;cx.beginPath();cx.ellipse(x,y,8.5*s,3.6*s,0,0,6.28);cx.fill();cx.stroke()}}
+function drawBuddy(){if(!BUDDY_ON)return;const s=cam.s;for(const [bx,by] of BUDDY){const x=(bx-cam.x)*s,y=(by-cam.y)*s;if(x<-20||x>vw+20||y<-20||y>vh+20)continue;cx.fillStyle='#55595E';cx.strokeStyle='#3A3D41';cx.lineWidth=1*s;cx.beginPath();cx.ellipse(x,y,8.5*s,3.6*s,0,0,6.28);cx.fill();cx.stroke()}}
 // 수영장 사다리: 데크에서 올라와 난간 너머 물속으로. 수면 아래는 물빛에 흐려지고, 수면에 잔물결
 const LADDERS=[[32.68,84.9,83.4],[76.34,84.9,83.4],[32.01,110.5,109],[36.98,110.4,108.9]];
 function drawLadders(now){const s=cam.s,P3=(x,y,z)=>[((x-y)*16+W.proj.OX-cam.x)*s,((x+y)*16*.41+W.proj.OY-z*16-cam.y)*s];
