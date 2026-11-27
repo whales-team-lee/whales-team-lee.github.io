@@ -24,6 +24,8 @@ button{font-family:inherit;color:inherit}button:focus-visible,a:focus-visible{ou
 .nm{font-size:15px;font-weight:800;display:block}.lvsub{font-size:10px;opacity:.75}
 .report{margin-top:28px;padding:4px 8px;font-size:10.5px;line-height:1.6;color:#9a9a9a;text-align:center}
 .report b{color:#8a8a8a;font-weight:600}.report a{color:#9a9a9a;text-decoration:underline}
+.who{display:flex;align-items:center;justify-content:center;gap:10px;margin:2px 0 10px}.who b{font:900 16px/1.2 'Noto Sans KR',sans-serif}.who small{display:block;font-size:11px;color:#6A7B86;font-weight:700}
+.pf{width:88px;height:88px;border-radius:50%;border:3px solid #fff;background:#8E7BE6 url(npc_coach.png?v=1127) no-repeat;background-size:312px auto;background-position:5px 6px;box-shadow:0 2px 8px rgba(10,30,40,.25);flex:none}
 </style></head><body><main id="view"></main>
 <script>
 /* 단체별 이수과정 데이터 — 자료가 바뀌면 이 객체만 고치면 된다.
@@ -91,6 +93,7 @@ function report(subject){
 /* 게임 안 iframe 높이를 내용에 맞추고, 화면 전환 때 맨 위로 */
 function show(html){view.innerHTML=html;try{const f=frameElement;if(f){f.style.height=(view.offsetHeight+8)+"px";const r=parent.document.getElementById("room");if(r)r.scrollTop=0}}catch(e){}window.scrollTo(0,0)}
 function home(){show(`
+ <div class="who"><div class="pf" role="img" aria-label="최우수 강사"></div><div><b>최우수 강사</b><small>단체별 레벨 이수과정 안내</small></div></div>
  <div class="say">어서 와요! 어느 단체 과정이 궁금한가요?<br>단계별로 무엇을 배우고 어떤 기준을 통과해야 하는지 알려줄게요.</div>
  <div class="grid">${AGENCIES.map(a=>`<button type="button" class="btn" data-ag="${a.id}">${a.status==="준비중"?'<span class="tag">준비중</span>':''}${esc(a.name)}<small>${esc(a.desc)}</small></button>`).join("")}</div>
  ${report("단체 추가 요청")}`)}

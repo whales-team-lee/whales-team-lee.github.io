@@ -758,7 +758,7 @@ function triAt(wx,wy){let b=null,bd=1.6;for(const t of TRI){const d=Math.hypot(t
 let poolNow=false;const inPool=(x,y)=>cell(W.grid,x,y)===2;
 // ---- NPC 4명 (기존 캐릭터로 임시)
 const NPCROLE={pools:['다이빙풀 안내','npc_pools'],mfg:['마필고수','npc_mf'],classroom:['최우수강사','npc_coach'],pool_50:['프다져지','npc_judge'],sea:['로컬다이버','npc_local']};
-Object.assign(LINES,{pools:'전국 다이빙풀, 어디로 가 볼까요?',mfg:'수심이 잘 늘지 않으세요?',classroom:'궁금한 건 무엇이든 물어보세요! (준비중)',pool_50:'대회 정보 알려줄까?',sea:'오늘 바다는 좋을까??'});
+Object.assign(LINES,{pools:'전국 다이빙풀, 어디로 가 볼까요?',mfg:'수심이 잘 늘지 않으세요?',classroom:'단체별 자격증 과정, 알려줄까요?',pool_50:'대회 정보 알려줄까?',sea:'오늘 바다는 좋을까??'});
 function npcAt(clientX,clientY){for(const n of NPCS){if(!NPCROLE[n.id])continue;const [mx,my]=W2S(n.x,n.y),sx=(mx-cam.x)*cam.s,sy=(my-cam.y)*cam.s;if(Math.abs(clientX-sx)<16*cam.s&&clientY<sy+4*cam.s&&clientY>sy-48*cam.s)return n}return null}
 // ---- 화면 전환형 건물 화면: 타이머·테이블 실행기
 let RUN=null;function stopRun(){if(RUN){clearInterval(RUN.iv);RUN=null}if(typeof swSilence==='function')swSilence()}
