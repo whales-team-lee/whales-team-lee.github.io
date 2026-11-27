@@ -1231,7 +1231,7 @@ function drawBigTrash(t,sx,sy,over){const im=BTI[t.k];if(!im)return;const s=cam.
   if(t.p>0||P.clean===t){const bw=70*s,bx=sx-bw/2,by=sy-h*.84-12*s,r=t.p/BT_TIME;cx.fillStyle='rgba(20,30,40,.75)';cx.beginPath();cx.roundRect(bx-2*s,by-2*s,bw+4*s,10*s,5*s);cx.fill();cx.fillStyle='#5FD38D';cx.beginPath();cx.roundRect(bx,by,Math.max(2*s,bw*r),6*s,3*s);cx.fill();
     over.push(['say',`큰 쓰레기 줍는 중 · 남은 시간 ${btLeft(t)}${t.helpers.length?` · ${t.helpers.length+(P.clean===t?1:0)}명`:''}`,sx,by-6*s])}
   else if(t.tip>0)over.push(['say','함께 치우면 시간이 줄고, 경험치도 모두 함께 받아요!',sx,sy-h*.84-6*s])}
-function drawCleaner(o,sx,sy){const f=[0,1,2,1][Math.floor(o.ph*4)%4];cx.fillStyle='rgba(0,0,0,.2)';cx.beginPath();cx.ellipse(sx,sy,10*cam.s,3*cam.s,0,0,6.28);cx.fill();return drawHKN(o,'sit',1,f,sx,sy)}
+function drawCleaner(o,sx,sy){const f=[0,1][Math.floor(o.ph)%2];/* 쓰레기 줍기: 서기↔쪼그려 앉기만 (양반다리 프레임 제외) */cx.fillStyle='rgba(0,0,0,.2)';cx.beginPath();cx.ellipse(sx,sy,10*cam.s,3*cam.s,0,0,6.28);cx.fill();return drawHKN(o,'sit',1,f,sx,sy)}
 let lastSit=false;
 function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(!P.sit&&!WALK.has(cell(W.grid,P.x,P.y)))unstick();if(RB&&!!P.sit!==lastSit){lastSit=!!P.sit;syncSitBtn()}posT+=dt;if(posT>1){posT=0;savePos()}if(MAPV.open)drawMap(now);
   let mvx=0,mvy=0;if(keys.has('right'))mvx++;if(keys.has('left'))mvx--;if(keys.has('down'))mvy++;if(keys.has('up'))mvy--;
@@ -1274,7 +1274,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(!P.sit&&!
   for(const it of items){
     if(it.t===undefined){const o=it.o,[a,b]=TS(o.x,o.y),r=O.atlas[o.i];if(o.k==='roof'&&inYoga)cx.globalAlpha=.35;if(o.src){cx.drawImage(img[o.src],a,b,o.w*cam.s,o.h*cam.s);const wo=img['win_'+o.src.slice(4)];if(wo)cx.drawImage(wo,a,b,o.w*cam.s,o.h*cam.s)}else cx.drawImage(atlas,r[0],r[1],r[2],r[3],a,b,o.w*cam.s,o.h*cam.s);cx.globalAlpha=1;drawAdFace(o.i,a,b,now);continue}
     const onDeck=it.x>44.2&&it.x<65.8&&it.y>50.4&&it.y<63.0&&!(it.o&&it.o.sit);const [mx,my]=W2S(it.x,it.y,onDeck?DECKZ:0),[sx,sy]=TS(mx,my);if(sx<-80||sy<-80||sx>vw+80||sy>vh+140)continue;
-    if(it.t==='p'){if(RB){let top=null;if(P.sit)top=drawMeSit(sx,sy);else if(P.clean){P.cph=(P.cph||0)+.016;const f=[0,1,2][Math.floor(P.cph*4)%3];cx.fillStyle='rgba(0,0,0,.18)';cx.beginPath();cx.ellipse(sx,sy,9*cam.s,3.2*cam.s,0,0,6.28);cx.fill();top=drawNC('nc_sit',1,f,sx,sy,false)}else{if(P.emo&&!moving)top=drawEmo(sx,sy);if(top===null)top=drawMeWalk(sx,sy,moving)}
+    if(it.t==='p'){if(RB){let top=null;if(P.sit)top=drawMeSit(sx,sy);else if(P.clean){P.cph=(P.cph||0)+.016;const f=[0,1][Math.floor(P.cph)%2];cx.fillStyle='rgba(0,0,0,.18)';cx.beginPath();cx.ellipse(sx,sy,9*cam.s,3.2*cam.s,0,0,6.28);cx.fill();top=drawNC('nc_sit',1,f,sx,sy,false)}else{if(P.emo&&!moving)top=drawEmo(sx,sy);if(top===null)top=drawMeWalk(sx,sy,moving)}
         const ty=Math.min(top,sy-36*cam.s)+2*cam.s;over.push(['id',G.id,sx,ty]);if(P.sayT>0)over.push(['say',P.say,sx,ty-14*cam.s])}
       else{const z=P.sit?P.sit.z:0,lift=P.sit?CH.feet*.14*CH.draw_scale*cam.s-z*16*cam.s:0;
       if(P.sit)drawSit('look_me',P,sx,sy,P.sit.z);else drawChar('look_me',P,sx,sy,moving);over.push(['id',G.id,sx,headY(sy)+lift-z*0]);if(P.sayT>0)over.push(['say',P.say,sx,headY(sy)+lift-14*cam.s])}}
