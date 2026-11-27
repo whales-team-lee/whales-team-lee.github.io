@@ -1,0 +1,116 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>최우수 강사 · 이수과정 안내</title><style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}html{background:transparent;color:#1F2A33;font:15px/1.5 'Noto Sans KR',-apple-system,'Apple SD Gothic Neo',sans-serif;color-scheme:light}body{background:transparent}
+main{max-width:540px;margin:auto;padding:4px 2px 18px}
+button{font-family:inherit;color:inherit}button:focus-visible,a:focus-visible{outline:3px solid #1B8FC4;outline-offset:2px}
+.say{text-align:center;font-size:13px;line-height:1.6;color:#6A7B86;padding:2px 8px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn{background:#fff;border:2px solid #1b1b1b;border-radius:12px;padding:12px 8px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 3px 0 #1b1b1b;text-align:center;position:relative}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #1b1b1b}
+.btn small{display:block;font-weight:500;font-size:11px;color:#666;margin-top:3px}
+.tag{position:absolute;top:-8px;right:-6px;background:#ff7a59;color:#fff;font-size:10px;padding:2px 6px;border-radius:8px;border:2px solid #1b1b1b}
+.btn.off{opacity:.45;box-shadow:none;cursor:default}
+.list .btn{display:flex;justify-content:space-between;align-items:center;text-align:left;margin-bottom:8px;width:100%}
+.back{background:none;border:none;color:#1B8FC4;font-weight:800;font-size:14px;cursor:pointer;margin-bottom:10px;padding:4px 0}
+.card{border:2px solid #1b1b1b;border-radius:14px;overflow:hidden;background:#fff}
+.card h3{background:#2b7bd6;color:#fff;padding:10px 12px;font-size:19px;line-height:1.3}
+.card h3 .ag{display:block;font-size:11px;font-weight:700;opacity:.8;letter-spacing:1px}
+.card h3 .lv{display:block;font-size:13px;font-weight:600;opacity:.9;margin-top:2px}
+.sec{padding:10px 12px;border-top:2px dashed #ccc}.sec:first-of-type{border-top:none}
+.sec h4{font-size:12px;color:#2b7bd6;margin-bottom:6px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px;padding:3px 0}.row b{text-align:right;font-weight:800}
+.txt{font-size:13px;line-height:1.5;color:#333}
+.pend{background:#fff3e0;color:#a35200;font-size:13px;padding:10px 12px;border-radius:10px;border:2px dashed #ff9d4d;line-height:1.5}
+.meta{font-size:11px;color:#888;padding:8px 12px;background:#f6f6f6;border-top:2px solid #1b1b1b}
+.nm{font-size:15px;font-weight:800;display:block}.lvsub{font-size:10px;opacity:.75}
+.report{margin-top:28px;padding:4px 8px;font-size:10.5px;line-height:1.6;color:#9a9a9a;text-align:center}
+.report b{color:#8a8a8a;font-weight:600}.report a{color:#9a9a9a;text-decoration:underline}
+</style></head><body><main id="view"></main>
+<script>
+/* 단체별 이수과정 데이터 — 자료가 바뀌면 이 객체만 고치면 된다.
+   status: "확인" = 공식 자료로 확인 / "준비중" = 미확인(수치 숨김)
+   levels: 공통 4단계에 매칭, 해당 단계가 없으면 null */
+const STAGES=[{n:1,name:"레벨1",sub:"입문"},{n:2,name:"레벨2",sub:"초급"},{n:3,name:"레벨3",sub:"중급"},{n:4,name:"레벨4",sub:"고급"}];
+const AGENCIES=[
+ {id:"ssi",name:"SSI",desc:"베이직 ~ 퍼포먼스",status:"확인",checked:"2026-11-27",levels:{
+  1:{name:"베이직 프리다이버",status:"확인",theory:1,age:"10세 이상",cw:[],ow:[]},
+  2:{name:"프리다이버",status:"확인",theory:1,exam:1,age:"12세 이상",
+   cw:[["STA","시도"],["DYN","30m"],["암스온리 DYN","15m"]],
+   ow:[["CWT","최소 10m"],["블랙아웃 레스큐","10m"],["노 마스크 상승","10m"],["암스온리 상승","10m"]]},
+  3:{name:"어드밴스드 프리다이버",status:"확인",theory:1,exam:1,age:"15세 이상",
+   cw:[["STA","2:30"],["DYN","50m"],["DYN 레스큐","2~4m"]],
+   ow:[["CWT","최소 20m"],["블랙아웃 레스큐","15m"],["암스온리 상승","15m"],["토잉","25m"]]},
+  4:{name:"퍼포먼스 프리다이버",status:"확인",theory:1,exam:1,age:"18세 이상",
+   cw:[["STA","3:30"],["DYN","75m"]],
+   ow:[["CWT","최소 30m"],["블랙아웃 레스큐","20m"],["라인 풀링 레스큐","20m"],["레스큐 후 토잉","25m"]]}}},
+ {id:"aida",name:"AIDA",desc:"AIDA 1~4",status:"확인",checked:"2026-11-27",levels:{
+  1:{name:"AIDA1",status:"확인",age:"16세 이상",cw:[],ow:[]},
+  2:{name:"AIDA2",status:"확인",exam:1,age:"16세 이상",
+   cw:[["STA","2:00"],["DYNB","40m"]],
+   ow:[["CWTB","최소 12m"],["블랙아웃 레스큐","5~10m"]]},
+  3:{name:"AIDA3",status:"확인",exam:1,age:"16세 이상",
+   cw:[["STA","2:45"],["DYNB","55m"]],
+   ow:[["CWTB","최소 24m"],["블랙아웃 레스큐","10m"],["암스온리 상승","15m"],["마스크 오프","10m"],["토잉","50m"]]},
+  4:{name:"AIDA4",status:"확인",exam:1,age:"18세 이상",prereq:"2년 이내 응급처치·CPR",
+   cw:[["STA","3:30"],["DYNB","70m"]],
+   ow:[["CWTB","최소 32m"],["블랙아웃 레스큐","20m"],["원핀 레스큐","15m"],["원핀 상승","20m"],["마스크 오프","20m"],["토잉","50m"]]}}},
+ {id:"padi",name:"PADI",desc:"베이직 ~ 마스터",status:"확인",checked:"2026-11-27",levels:{
+  1:{name:"베이직 프리다이버",status:"확인",age:"12세 이상",cw:[["STA","1:30"],["DYN","25m"]],ow:[]},
+  2:{name:"프리다이버",status:"확인",age:"12세 이상",cw:[["STA","1:30"],["DYN","25m"]],ow:[["CWT","최소 10m"]]},
+  3:{name:"어드밴스드 프리다이버",status:"확인",age:"15세 이상",cw:[["STA","2:30"],["DYN","50m"]],ow:[["CWT","최소 20m"]]},
+  4:{name:"마스터 프리다이버",status:"확인",age:"18세 이상",cw:[["STA","3:30"],["DYN","70m"]],ow:[["CWT","최소 32m"]]}}},
+ {id:"molchanovs",name:"Molchanovs",desc:"Wave 1~3",status:"확인",checked:"2026-11-27",levels:{
+  1:null,
+  2:{name:"Wave 1",status:"확인",age:"16세 이상",
+   cw:[["STA","1:30"],["DYNB","30m"]],
+   ow:[["CWTB","12~20m"],["FIM","12~20m"],["레스큐","6~10m"]]},
+  3:{name:"Wave 2",status:"확인",age:"16세 이상",
+   cw:[["STA","2:30"],["DYNB","50m"],["DNF","35m"]],
+   ow:[["CWTB","24~30m"],["FIM","24~30m"],["CNF","최소 15m"],["레스큐","10~15m"]]},
+  4:{name:"Wave 3",status:"확인",age:"16세 이상",prereq:"2년 이내 응급처치",
+   cw:[["STA","3:30"],["DYNB","75m"],["DNF","50m"]],
+   ow:[["CWTB","34~40m"],["FIM","34~40m"],["CNF","25~30m"],["레스큐","20m"],["토잉","20m"]]}}},
+ {id:"psa",name:"PSA",desc:"디스커버 ~ 마스터",status:"준비중",checked:"2026-11-27",levels:{
+  1:{name:"디스커버 프리다이버",status:"준비중",age:"확인중"},
+  2:{name:"프리다이버 / 오픈워터 프리다이버",status:"준비중",age:"확인중"},
+  3:{name:"어드밴스드 프리다이버",status:"준비중",age:"확인중"},
+  4:{name:"마스터 프리다이버",status:"준비중",age:"확인중"}}},
+ {id:"cmas",name:"CMAS",desc:"Discovery ~ 3스타",status:"준비중",checked:"2026-11-27",levels:{
+  1:{name:"Discovery 압네아 다이버",status:"준비중",age:"확인중"},
+  2:{name:"1스타 압네아 다이버",status:"준비중",age:"확인중"},
+  3:{name:"2스타 압네아 다이버",status:"준비중",age:"확인중"},
+  4:{name:"3스타 압네아 다이버",status:"준비중",age:"확인중"}}}
+];
+const REPORT_MAIL="attack6035@naver.com";
+const view=document.getElementById("view");
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const lv=st=>`${st.name} <span class="lvsub">(${st.sub})</span>`;
+const rows=arr=>(arr||[]).map(([k,v])=>`<div class="row"><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join("");
+function report(subject){
+ const href=`mailto:${REPORT_MAIL}?subject=${encodeURIComponent("[최우수 강사 제보] "+subject)}`;
+ return `<div class="report">📮 <b>안내 추가를 원하는 단체가 있거나 잘못된 내용을 발견하셨나요?</b><br>제보해 주시면 확인 후 업데이트할게요!<br><a href="${href}" target="_top">✉️ ${REPORT_MAIL}</a></div>`}
+/* 게임 안 iframe 높이를 내용에 맞추고, 화면 전환 때 맨 위로 */
+function show(html){view.innerHTML=html;try{const f=frameElement;if(f){f.style.height=(view.offsetHeight+8)+"px";const r=parent.document.getElementById("room");if(r)r.scrollTop=0}}catch(e){}window.scrollTo(0,0)}
+function home(){show(`
+ <div class="say">어서 와요! 어느 단체 과정이 궁금한가요?<br>단계별로 무엇을 배우고 어떤 기준을 통과해야 하는지 알려줄게요.</div>
+ <div class="grid">${AGENCIES.map(a=>`<button type="button" class="btn" data-ag="${a.id}">${a.status==="준비중"?'<span class="tag">준비중</span>':''}${esc(a.name)}<small>${esc(a.desc)}</small></button>`).join("")}</div>
+ ${report("단체 추가 요청")}`)}
+function agency(id){const a=AGENCIES.find(x=>x.id===id);show(`
+ <button type="button" class="back" data-home="1">← 단체 목록</button>
+ <div class="say">${esc(a.name)} 과정이에요. 단계를 골라 보세요.</div>
+ <div class="list">${STAGES.map(st=>{const l=a.levels[st.n];
+  if(!l)return `<button type="button" class="btn off" disabled><span><span class="nm">해당 단계 없음</span><small>${lv(st)}</small></span><span></span></button>`;
+  return `<button type="button" class="btn" data-ag="${a.id}" data-n="${st.n}"><span><span class="nm">${esc(l.name)}</span><small>${lv(st)}</small></span><span>${l.status==="준비중"?"🕒":"›"}</span></button>`}).join("")}</div>`)}
+function card(id,n){const a=AGENCIES.find(x=>x.id===id),l=a.levels[n],st=STAGES.find(x=>x.n===n),pending=l.status==="준비중";show(`
+ <button type="button" class="back" data-ag="${a.id}">← ${esc(a.name)} 단계 목록</button>
+ <div class="card">
+  <h3><span class="ag">${esc(a.name)}</span>${esc(l.name)}<span class="lv">${lv(st)}</span></h3>
+  <div class="sec"><h4>참가 조건</h4><div class="row"><span>나이</span><b>${esc(l.age)}</b></div>${l.prereq?`<div class="txt">${esc(l.prereq)}</div>`:""}</div>
+  ${pending?`<div class="sec"><div class="pend">합격 기준은 단체 공식 자료를 확인하는 중이에요.<br>확인되면 바로 업데이트할게요!</div></div>`
+   :`${l.cw&&l.cw.length?`<div class="sec"><h4>제한수역</h4>${rows(l.cw)}</div>`:""}${l.ow&&l.ow.length?`<div class="sec"><h4>개방수역</h4>${rows(l.ow)}</div>`:""}`}
+  ${!pending&&(l.theory||l.exam)?`<div class="sec"><h4>이론</h4>${l.theory?`<div class="row"><span>이론교육</span><b>있음</b></div>`:""}${l.exam?`<div class="row"><span>이론시험</span><b>있음</b></div>`:""}</div>`:""}
+  <div class="meta">기준 확인일 ${esc(a.checked)}</div>
+ </div>${report(a.name+" · "+l.name)}`)}
+view.addEventListener("click",e=>{const b=e.target.closest("button");if(!b||b.disabled)return;
+ if(b.dataset.home)home();else if(b.dataset.n)card(b.dataset.ag,+b.dataset.n);else if(b.dataset.ag)agency(b.dataset.ag)});
+home();
+</script></body></html>
