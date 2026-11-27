@@ -228,15 +228,134 @@ js = js.replace(".viewport{border:0;border-radius:14px;", ".fields .fixed{displa
 rep("  gain.gain.value=level;", "  gain.gain.value=level*0.3;  /* 게임 탑재: 원본 대비 약 -10dB (귀로 듣기에 절반) */")
 rep('<audio id="countdemo" controls preload="none" src="', '<audio id="countdemo" controls preload="none" onplay="this.volume=0.3" src="')
 
+# 2-7) 설정 화면 재구성 (2026-11-27 사용자 요청)
+#  이름: 딥 리허설 → 수심 이미지 트레이닝 / 장면별 연습 링크·제목줄 삭제 / 대회·트레이닝 버튼 작게
+#  입장 후 준비는 작은 한 줄 / 단위는 입력칸 안 / 수심 0.5m 단위 / 소요시간은 가운데 작은 글씨
+#  알람: [이름][수심 m][소리 음성·기계][체크] 한 줄, 추가: [리필·일반][추가] 한 줄
+#  하프타임 삭제, 미리듣기 삭제, 경고문 가운데 빨간 상자(게임 CO2 테이블 경고와 같은 모양), 버튼 '준비 완료'
+import re as _re
+js = js.replace('<title>딥 리허설 · 음성 리허설</title>', '<title>수심 이미지 트레이닝</title>', 1)
+rep('<body><main class="wrap mobile" id="audioScreen"><header class="mast"><span class="symbol">◎</span><strong>딥 리허설</strong><a class="mast-label" href="#scenes">장면별 연습</a></header>\n<section class="intro"><h1>음성 리허설</h1>',
+    '<body><main class="wrap mobile" id="audioScreen">\n<section class="intro"><h1>수심 이미지 트레이닝</h1>')
+_m = _re.search(r'<form id="plan" class="panel">.*?음성 트랙 준비</button></form>', js, _re.S)
+assert _m
+js = js[:_m.start()] + (
+ '<form id="plan" class="panel">'
+ '<div class="modeseg" role="group" aria-label="연습 모드"><button type="button" data-mode="competition" aria-pressed="true"><b>대회</b><small>심판 콜 · 실격 규칙</small></button><button type="button" data-mode="training" aria-pressed="false"><b>트레이닝</b><small>다이빙 콜만</small></button></div>'
+ '<select name="mode" hidden aria-hidden="true" tabindex="-1"><option value="competition">대회</option><option value="training">트레이닝</option></select>'
+ '<p class="cap">입장 후 준비 120초 (고정)</p><input name="wait" type="hidden" value="120">'
+ '<div class="fields one"><label>목표 수심<span class="unit"><input name="depth" type="number" inputmode="decimal" min="1" max="200" step="0.5" value="30" required><i>m</i></span></label></div>'
+ '<div class="fields"><label>하강 속도<span class="unit"><input name="vdown" type="number" inputmode="decimal" min="0.3" max="3" step="0.05" value="1" required><i>m/초</i></span></label>'
+ '<label>상승 속도<span class="unit"><input name="vup" type="number" inputmode="decimal" min="0.3" max="3" step="0.05" value="1" required><i>m/초</i></span></label></div>'
+ '<p class="cap" id="timecalc"></p>'
+ '<h3 class="sec">다이브 컴퓨터 알람</h3><div id="alarms"></div>'
+ '<div class="addrow"><select id="kind" aria-label="추가할 알람"><option value="refill">리필</option><option value="extra">일반 수심</option></select><button type="button" class="secondary" id="add">추가</button></div>'
+ '<label class="check"><input name="desc" type="checkbox"> 하강 수심 안내 음성</label>'
+ '<label class="check"><input name="asc" type="checkbox"> 상승 수심 안내 음성</label>'
+ '<div id="countnote" hidden></div><audio id="countdemo" hidden></audio>'
+ '<p class="warnbox">육상 이미지 트레이닝용입니다. 혼자 연습할 때는 평소처럼 호흡하세요.<br>실제 숨참기는 훈련받은 버디가 곁에서 직접 지켜보는 환경에서 진행하세요.</p>'
+ '<button class="primary full">준비 완료</button></form>') + js[_m.end():]
+
+rep("""  row.innerHTML = '<header><strong></strong><button type="button" class="secondary">제거</button></header><div class="fields"><label><span></span><input type="number" min="1"></label><label>알람 소리<select><option value="voice">실제 음성</option><option value="beep">기계음 (삐빅)</option></select></label></div>';
+  row.querySelector('strong').textContent = names[kind];
+  row.querySelector('span').textContent = kind==='preturn' ? '목표 수심 몇 m 전' : '알림 수심 (m)';
+  const field = row.querySelector('input');
+  field.required = false;
+  field.placeholder = kind==='preturn' ? '기본 2' : '수심 입력';
+  const select = row.querySelector('select');
+  if(kind==='extra'||kind==='preturn') { select.value='beep'; select.disabled=true; }
+  if(kind==='preturn') row.querySelector('button').remove(); else row.querySelector('button').onclick=()=>row.remove();""",
+"""  row.innerHTML = '<strong></strong><span class="unit"><input type="number" inputmode="decimal" min="0.5" step="0.5"><i></i></span><select aria-label="알람 소리"><option value="voice">음성</option><option value="beep">기계음</option></select><input type="checkbox" class="on" checked aria-label="알람 켜기">';
+  row.querySelector('strong').textContent = names[kind];
+  row.querySelector('i').textContent = kind==='preturn' ? 'm 전' : 'm';
+  const field = row.querySelector('input[type=number]');
+  field.required = false;
+  field.placeholder = kind==='preturn' ? '2' : '수심';
+  const select = row.querySelector('select');
+  if(kind==='extra'||kind==='preturn') { select.value='beep'; select.disabled=true; }
+  if(kind==='preturn') { const on=row.querySelector('.on'); on.disabled=true; on.title='턴 준비는 항상 울려요'; }""")
+rep("  for(const row of editor.children) row.querySelector('input').max=depth;",
+    "  for(const row of editor.children) row.querySelector('input[type=number]').max=depth;")
+rep("half:data.has('half'),", "half:false,")
+rep("""    alarms:Array.from(editor.children,row=>({kind:row.dataset.kind,label:names[row.dataset.kind],
+      meters:Number(row.querySelector('input').value||(row.dataset.kind==='preturn'?2:0)),sound:row.querySelector('select').value}))
+      .filter(a=>a.kind==='preturn'||a.meters>0)};""",
+"""    alarms:Array.from(editor.children,row=>({kind:row.dataset.kind,label:names[row.dataset.kind],on:row.querySelector('.on').checked,
+      meters:Number(row.querySelector('input[type=number]').value||(row.dataset.kind==='preturn'?2:0)),sound:row.querySelector('select').value}))
+      .filter(a=>a.kind==='preturn'||(a.on&&a.meters>0))};""")
+js = js.replace(".viewport{border:0;border-radius:14px;", """.modeseg button{padding:7px 6px}.modeseg button b{font-size:15px}.modeseg button small{font-size:10px}
+.cap{font-size:12px;color:var(--muted);text-align:center;margin:8px 0 0}
+.fields.one{grid-template-columns:1fr}
+.unit{position:relative;display:block}.unit input{width:100%;padding-right:52px}.unit i{position:absolute;right:10px;top:50%;transform:translateY(-35%);font-style:normal;font-size:13px;font-weight:700;color:var(--muted);pointer-events:none}
+.sec{font-size:15px;font-weight:900;margin:18px 0 4px}
+#alarms .alarm-entry{display:grid;grid-template-columns:58px 1fr 1fr 26px;gap:6px;align-items:center;padding:8px 0}
+#alarms .alarm-entry strong{font-size:13px}
+#alarms .alarm-entry select,#alarms .alarm-entry input[type=number]{margin-top:0;min-height:38px;padding:6px 8px}
+#alarms .alarm-entry .unit input{padding-right:40px}#alarms .alarm-entry .unit i{transform:translateY(-50%);font-size:12px}
+#alarms .on{width:22px;height:22px;justify-self:center}
+.addrow{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px}.addrow select{margin-top:0;min-height:38px}.mobile .addrow button{margin-top:0;padding:0 18px}
+.warnbox{text-align:center;font-size:12px;font-weight:700;line-height:1.45;color:#B0503F;background:#FFF1EE;border:1px solid #F2B33D;border-radius:10px;padding:6px 10px;margin:16px 0 0}
+.viewport{border:0;border-radius:14px;""", 1)
+
+# 2-8) 리허설 진행 화면 (2026-11-27 사용자 요청)
+#  세로 배치·모든 안내 가운데 / '다이빙 스톱워치' → DIVE TIME / 버튼 '시작'·'입수'·'SP 완료'
+#  입수 버튼은 누르기 전까지 빨간색으로 깜빡임 / SP 완료는 눈에 띄는 주황 / 일시정지·돌아가기 한 줄 작게
+#  다이브 시작하면 알림 시간표가 펼쳐지고, 지난 항목은 줄을 긋고 ✓ 표시
+_m = _re.search(r'<section class="panel player" id="player" hidden>.*?</details></section>', js, _re.S)
+assert _m
+js = js[:_m.start()] + (
+ '<section class="panel player" id="player" hidden>\n'
+ '<h2 id="phase" tabindex="-1">리허설 준비</h2><p id="now" role="status"></p>\n'
+ '<div class="readouts"><div class="dt"><span>DIVE TIME</span><strong id="watch">0:00</strong></div><div id="meter">수면 · 0 m</div></div>\n'
+ '<button id="action" class="primary full">시작</button>\n'
+ '<div class="ctl"><button id="pause" class="secondary" hidden>일시정지</button><button id="stop" class="secondary">돌아가기</button></div>\n'
+ '<details id="evbox"><summary>알림 시간표</summary><ol id="events"></ol></details></section>') + js[_m.end():]
+rep("action.textContent=ready?'카운트 시작':prep?'시작(입수)':'SP 완료';",
+    "action.textContent=ready?'시작':prep?'입수':'SP 완료';action.classList.toggle('blink',prep&&!late);action.classList.toggle('sp',!ready&&!prep);")
+rep("status=ready?'카운트를 시작한 뒤, 입수할 때 버튼을 누르세요.'", "status=ready?'시작 버튼을 누른 뒤 숨참기를 시작하면 입수 버튼을 누르세요.'")
+rep("  cancelAnimationFrame(frame);\n  if(!ready && !done) frame=requestAnimationFrame(paint);",
+    "  for(const li of get('events').children) li.classList.toggle('past',!ready&&Number(li.dataset.at)<=t);\n  cancelAnimationFrame(frame);\n  if(!ready && !done) frame=requestAnimationFrame(paint);")
+rep("""  get('events').replaceChildren(...events.filter(e=>e.channel!=='tick').map(e=>{
+    const li=document.createElement('li');
+    li.textContent=stamp(e.at)+' · '+e.label;
+    return li;
+  }));""", """  get('events').replaceChildren(...events.filter(e=>e.channel!=='tick').map(evLi));""")
+rep("function settings() {", """function evLi(e){
+  const li=document.createElement('li'),tm=document.createElement('span'),lb=document.createElement('span');
+  li.dataset.at=e.at;tm.className='tm';tm.textContent=stamp(e.at)+' · ';lb.className='lb';lb.textContent=e.label;li.append(tm,lb);return li;
+}
+function settings() {""")
+rep("""        const li=document.createElement('li');
+        li.textContent=stamp(white.at)+' · '+white.label;
+        get('events').append(li);""", """        get('events').append(evLi(white));""")
+rep("      setScene('dive',diveSchedule(plan));", "      setScene('dive',diveSchedule(plan));get('evbox').open=true;")
+rep("  get('player').hidden=true; form.hidden=false;", "  get('player').hidden=true; form.hidden=false; get('evbox').open=false;")
+js = js.replace(".viewport{border:0;border-radius:14px;", """.player{text-align:center}.player h2,#now,#feedback{text-align:center}
+.mobile #now{font-size:15px;line-height:1.5}
+.readouts{flex-direction:column;justify-content:center;gap:4px;margin:14px 0}
+.dt span{display:block;font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--muted)}.readouts .dt strong{font-size:3rem;line-height:1.1}
+#meter{font-size:15px}
+#action.blink{background:#E5484D;color:#fff;animation:dvBlink 1s ease-in-out infinite}
+@keyframes dvBlink{0%,100%{background:#E5484D}50%{background:#F6A5A7}}
+#action.sp{background:#FF8A00;color:#fff}
+.ctl{display:flex;gap:8px;justify-content:center;margin-top:10px}.mobile .ctl button{flex:1;margin-top:0;padding:7px 8px;font-size:13px}
+#evbox summary{text-align:center}
+#events{display:inline-block;text-align:left;margin:8px auto 0;padding-left:1.6em}
+#events li{padding:2px 0}#events .tm{color:var(--muted);font-variant-numeric:tabular-nums}#events .lb{color:var(--mint);font-weight:800}
+#events li.past{text-decoration:line-through;opacity:.5}#events li.past::after{content:" ✓";color:var(--mint)}
+@media (prefers-reduced-motion:reduce){#action.blink{animation:none}}
+.viewport{border:0;border-radius:14px;""", 1)
+
 # 3) 미리듣기 WAV → AAC
 pre = 'src="data:audio/wav;base64,'
-a = js.index(pre) + len(pre)
-b = js.index('"', a)
-wav = os.path.join(work, 'countdemo.wav'); m4a = os.path.join(work, 'countdemo.m4a')
-open(wav, 'wb').write(base64.b64decode(js[a:b]))
-subprocess.run(['afconvert', '-f', 'm4af', '-d', 'aac', '-b', '32000', wav, m4a], check=True)
-js = js[:a - len(pre)] + 'src="data:audio/mp4;base64,' + base64.b64encode(open(m4a, 'rb').read()).decode() + js[b:]
-print('preview wav %d → m4a %d bytes' % (os.path.getsize(wav), os.path.getsize(m4a)))
+if pre in js:   # 2-7에서 미리듣기를 지웠으면 건너뜀
+    a = js.index(pre) + len(pre)
+    b = js.index('"', a)
+    wav = os.path.join(work, 'countdemo.wav'); m4a = os.path.join(work, 'countdemo.m4a')
+    open(wav, 'wb').write(base64.b64decode(js[a:b]))
+    subprocess.run(['afconvert', '-f', 'm4af', '-d', 'aac', '-b', '32000', wav, m4a], check=True)
+    js = js[:a - len(pre)] + 'src="data:audio/mp4;base64,' + base64.b64encode(open(m4a, 'rb').read()).decode() + js[b:]
+    print('preview wav %d → m4a %d bytes' % (os.path.getsize(wav), os.path.getsize(m4a)))
 
 open(dst, 'w', encoding='utf-8').write(js)
 print('total %d → %d bytes' % (os.path.getsize(src), os.path.getsize(dst)))
