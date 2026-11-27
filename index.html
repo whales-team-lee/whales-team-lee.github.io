@@ -320,11 +320,11 @@ function waveSet(on){on=on&&!WAVE.muted;if(on===WAVE.on)return;WAVE.on=on;if(on)
 function hkLoad(u){if(!HK.src[u])HK.src[u]=IMG(u);return HK.src[u]}
 // 옷: 기본 반팔·반바지(색 변경) · 렌탈 슈트
 const CC={white:[245,245,240],grey:[160,160,160],black:[60,60,66],navy:[45,62,105],sky:[120,182,228],green:[112,172,122],yellow:[246,206,92],orange:[240,146,70],pink:[240,162,182],purple:[160,120,210],red:[205,72,72]};
-const SCC={black:[52,54,60],navy:[38,52,96],grey:[140,144,152],sky:[96,170,222],teal:[34,138,146],green:[64,140,96],yellow:[240,196,70],orange:[232,122,40],pink:[236,140,170],purple:[132,88,196],red:[196,58,62]};const SCN={black:'검정',navy:'네이비',grey:'회색',sky:'하늘',teal:'청록',green:'초록',yellow:'노랑',orange:'주황',pink:'분홍',purple:'보라',red:'빨강'};const isSuit=o=>o==='suit'||o==='suitg';const wk=w=>w.ot==='suitg'?'s:'+w.sc:w.cc;
+const SCC={black:[52,54,60],navy:[38,52,96],grey:[140,144,152],sky:[96,170,222],teal:[34,138,146],green:[64,140,96],yellow:[240,196,70],orange:[232,122,40],pink:[236,140,170],purple:[132,88,196],red:[196,58,62]};const SCN={black:'검정',navy:'네이비',grey:'회색',sky:'하늘',teal:'청록',green:'초록',yellow:'노랑',orange:'주황',pink:'분홍',purple:'보라',red:'빨강'};const isSuit=o=>o==='suit'||o==='suitg'||o==='camo';/* camo: 카모 슈트 (2026-11-28, hair3/body_camo.png) */const wk=w=>w.ot==='suitg'?'s:'+w.sc:w.cc;
 const CCN={white:'흰색',grey:'회색',black:'검정',navy:'네이비',sky:'하늘',green:'초록',yellow:'노랑',orange:'주황',pink:'분홍',purple:'보라',red:'빨강'};
 const SUIT_FEE=10,SUIT_MS=24*3600*1000;
 const suitOk=()=>!!(G.suit&&G.suit.exp>Date.now());
-function hkBody(w){const k='b|'+w.ot+'|'+w.sk+'|'+wk(w);if(!HK.out[k])HK.out[k]=hkLoad('hair3/body_'+w.ot+'.webp?v=1125M').then(b=>{const W=b.width/5,H=b.height,mk=()=>{const c=document.createElement('canvas');c.width=W;c.height=H;return c};
+function hkBody(w){const k='b|'+w.ot+'|'+w.sk+'|'+wk(w);if(!HK.out[k])HK.out[k]=hkLoad(w.ot==='camo'?'hair3/body_camo.png?v=1128':'hair3/body_'+w.ot+'.webp?v=1125M').then(b=>{const W=b.width/5,H=b.height,mk=()=>{const c=document.createElement('canvas');c.width=W;c.height=H;return c};
   const c=mk(),x=c.getContext('2d');x.drawImage(b,0,0,W,H,0,0,W,H);x.drawImage(hkTint(b,W,0,W,H,SKT[w.sk]),0,0);
   if(w.ot==='basic'||w.ot==='suitg'){x.drawImage(hkTint(b,2*W,0,W,H,w.ot==='suitg'?SCC[w.sc]:CC[w.cc]),0,0);x.drawImage(b,3*W,0,W,H,0,0,W,H)}
   const hd=mk(),hx=hd.getContext('2d');hx.drawImage(b,4*W,0,W,H,0,0,W,H);hx.globalCompositeOperation='source-in';hx.drawImage(c,0,0);return{body:c,hands:hd}});return HK.out[k]}
@@ -576,7 +576,7 @@ function tagOf(it){const st=status(it);return st==='soon'?'준비중':st==='free
 function rsItems(){const box=document.getElementById('rsItems');let html='';const w=RS.try;
   if(RB&&RS.mode==='closet'&&RS.tab==='cloth'){hkFix(w);const left=G.suit.exp-Date.now(),hh=Math.floor(left/3600000),mi=Math.floor(left%3600000/60000);
     html+=`<p class="rs-h">옷</p><button class="rs-it" type="button" data-ot="basic" aria-pressed="${w.ot==='basic'}"><b>기본 옷</b><em>반팔·반바지</em></button>`;
-    html+=[['suitg','기본 렌탈 슈트'],['suit','무늬 렌탈 슈트']].map(([o,n])=>`<button class="rs-it" type="button" data-ot="${o}" ${suitOk()?'':'disabled'} aria-pressed="${w.ot===o}"><b>${n}</b><em>${suitOk()?`반납까지 ${hh}시간 ${mi}분`:'렌탈샵에서 빌려요'}</em></button>`).join('');
+    html+=[['suitg','기본 렌탈 슈트'],['suit','무늬 렌탈 슈트'],['camo','카모 렌탈 슈트']].map(([o,n])=>`<button class="rs-it" type="button" data-ot="${o}" ${suitOk()?'':'disabled'} aria-pressed="${w.ot===o}"><b>${n}</b><em>${suitOk()?`반납까지 ${hh}시간 ${mi}분`:'렌탈샵에서 빌려요'}</em></button>`).join('');
     if(w.ot==='suitg')html+=`<p class="rs-h">슈트 색</p>`+Object.keys(SCC).map(c=>`<button class="rs-it" type="button" data-sc="${c}" aria-pressed="${w.sc===c}"><span class="sw" style="background:rgb(${SCC[c]})"></span><b>${SCN[c]}</b><em>무료</em></button>`).join('');
     if(w.ot==='basic')html+=`<p class="rs-h">옷 색</p>`+Object.keys(CC).map(c=>`<button class="rs-it" type="button" data-cc="${c}" aria-pressed="${w.cc===c}"><span class="sw" style="background:rgb(${CC[c]})"></span><b>${CCN[c]}</b><em>무료</em></button>`).join('')}
   else if(RB&&RS.mode!=='closet'){if(RS.tab==='suit'){const ok=suitOk(),first=!G.suit.n;
@@ -597,7 +597,7 @@ function rsItems(){const box=document.getElementById('rsItems');let html='';cons
 function rsActs(){const a=document.getElementById('rsAct');document.getElementById('rsWall').hidden=true;
   if(RB){if(RS.mode!=='closet'){const ok=suitOk(),first=!G.suit.n,left=G.suit.exp-Date.now();
       const gear=`<div class="rgear">`+[['suit','슈트'],['mask','마스크'],['fin','핀']].map(([k,n])=>`<button type="button" data-gear="${k}" aria-pressed="${k==='suit'}">${n}</button>`).join('')+`</div>`;
-      const tw=RS.try,pick=`<div class="rstyle">`+[['suitg','기본 슈트'],['suit','무늬 슈트']].map(([o,n])=>`<button type="button" data-rso="${o}" aria-pressed="${tw.ot===o}">${n}</button>`).join('')+`</div>`+(tw.ot==='suitg'?`<div class="rsc">`+Object.keys(SCC).map(c=>`<button type="button" data-rsc="${c}" aria-pressed="${tw.sc===c}" aria-label="${SCN[c]}" style="background:rgb(${SCC[c]})"></button>`).join('')+`</div>`:'');
+      const tw=RS.try,pick=`<div class="rstyle">`+[['suitg','기본 슈트'],['suit','무늬 슈트'],['camo','카모 슈트']].map(([o,n])=>`<button type="button" data-rso="${o}" aria-pressed="${tw.ot===o}">${n}</button>`).join('')+`</div>`+(tw.ot==='suitg'?`<div class="rsc">`+Object.keys(SCC).map(c=>`<button type="button" data-rsc="${c}" aria-pressed="${tw.sc===c}" aria-label="${SCN[c]}" style="background:rgb(${SCC[c]})"></button>`).join('')+`</div>`:'');
       const wl=document.getElementById('rsWall');wl.hidden=!ok;if(ok)wl.textContent=`렌탈 중 · 반납까지 ${Math.floor(left/3600000)}시간 ${Math.floor(left%3600000/60000)}분`;
       a.innerHTML=gear+pick+`<div class="rrow"><button type="button" class="rexit" data-rexit="1">나가기</button>`+(ok?`<button type="button" class="rmid rico" data-rreset="1" aria-label="원래대로 되돌리기" title="원래대로">↺</button>`:'')+`<button type="button" class="rshop" data-rshop="1">상점</button>`+(ok?`<button type="button" class="rgo" data-rsave="1">저장</button>`:`<button type="button" class="rgo" data-rentsuit="1">${first?'무료로 빌리기':'진주 '+SUIT_FEE+'개로 빌리기'} (24시간)</button>`)+`</div>`}else a.innerHTML='';return}const it=RS.sel&&itemById(RS.sel);
   if(!it||canWear(it)){a.innerHTML=it&&!canWear(it)?'':'';return}
@@ -674,7 +674,7 @@ function avDraw(){const w=hkFix(AV.try),body=document.getElementById('avBody'),s
   else if(AV.tab==='skin'){h=`<p class="tip">아래에서 피부색을 골라요.</p>`;sh=SKT.map((t,i)=>sw2('sk',i,t,w.sk===i,SKN[i])).join('')}
   else if(AV.tab==='cloth'){const ok=suitOk(),left=G.suit.exp-Date.now();
     h=`<div class="grid"><button class="tile" type="button" data-ot="basic" aria-label="기본 옷" aria-pressed="${w.ot==='basic'}"><i style="${thumbStyle(AV.ot,0)}"></i></button>`+
-      `<button class="tile" type="button" data-ot="suitg" aria-label="기본 렌탈 슈트" ${ok?'':'disabled'} aria-pressed="${w.ot==='suitg'}"><i style="${thumbStyle(AV.ot,2)}"></i></button>`+`<button class="tile" type="button" data-ot="suit" aria-label="무늬 렌탈 슈트" ${ok?'':'disabled'} aria-pressed="${w.ot==='suit'}"><i style="${thumbStyle(AV.ot,1)}"></i></button></div>`+
+      `<button class="tile" type="button" data-ot="suitg" aria-label="기본 렌탈 슈트" ${ok?'':'disabled'} aria-pressed="${w.ot==='suitg'}"><i style="${thumbStyle(AV.ot,2)}"></i></button>`+`<button class="tile" type="button" data-ot="suit" aria-label="무늬 렌탈 슈트" ${ok?'':'disabled'} aria-pressed="${w.ot==='suit'}"><i style="${thumbStyle(AV.ot,1)}"></i></button>`+`<button class="tile" type="button" data-ot="camo" aria-label="카모 렌탈 슈트" ${ok?'':'disabled'} aria-pressed="${w.ot==='camo'}"><i style="background:url(hair3/camo_thumb.png?v=1128) center/contain no-repeat"></i></button></div>`+
       `<p class="tip">${ok?`렌탈 슈트 · 반납까지 ${Math.floor(left/3600000)}시간 ${Math.floor(left%3600000/60000)}분`:'렌탈 슈트는 렌탈샵에서 빌릴 수 있어요.'}${w.ot==='basic'?'<br>기본 옷은 아래에서 색을 바꿀 수 있어요.':w.ot==='suitg'?'<br>기본 슈트는 아래에서 색을 바꿀 수 있어요.':''}</p>`;
     if(w.ot==='suitg')sh=Object.keys(SCC).map(c=>sw2('sc',c,SCC[c],w.sc===c,SCN[c])).join('');
     if(w.ot==='basic')sh=Object.keys(CC).map(c=>sw2('cc',c,CC[c],w.cc===c,CCN[c])).join('')}
@@ -1035,7 +1035,7 @@ function drawNC(sheet,row,f,sx,sy,shadow){const [cw,ch]=NC.cell,s=NCS();
   cx.drawImage(im,ix,iy,cw,ch,sx-cw*s/2,sy-NC.feet*s,cw*s,ch*s);return sy-(((hk&&HKMETA.tops[hk.id][nm][row])||NC.tops[nm][row])[f]||245)*s}
 const NCROW={down:0,left:1,right:2,up:3};
 function drawMeWalk(sx,sy,moving){return drawNC('nc_walk',NCROW[P.dir]||0,moving?Math.floor(P.ph*.6)%4:0,sx,sy,!poolNow)}
-// 앉기: 0 서기 → 1 내려가기 → 2 앉음 → 3 멈춤 (요가장 = 다리 뻗고 앉기)
+// 앉기: 0 서기 → 1 내려가기 → 2 앉음 → 3 멈춤 (요가장도 같은 양반다리, 다리 뻗고 앉기는 쓰지 않음)
 function drawMeSit(sx,sy){const z=P.sit.z||0,seat=sy-z*16*cam.s,now=performance.now();if(!P.sit.t0)P.sit.t0=now;const e=(now-P.sit.t0)/1000;
   const f=P.sit.stool?(e<.12?0:1):(e<.12?0:e<.3?1:e<.5?2:3);/* 앉은 뒤 4번째 프레임에서 멈춤 */const sheet='nc_sit',row=P.dir==='up'?1:0;/* 요가 매트도 일반 앉기 동작으로 통일 */
   cx.fillStyle='rgba(0,0,0,.22)';cx.beginPath();cx.ellipse(sx,seat,11*cam.s,3.2*cam.s,0,0,6.28);cx.fill();return drawNC(sheet,row,f,sx,seat,false)}
@@ -1050,7 +1050,7 @@ function drawEmo(sx,sy){const e=EMO[P.emo.k],i=Math.floor((performance.now()-P.e
 function syncSitBtn(){const b=document.getElementById('sitBtn');if(b){b.setAttribute('aria-pressed',!!P.sit);b.textContent=P.sit?'서기':'앉기'}}
 function toggleSit(){if(P.sit){P.sit=null;syncSitBtn();return}if(poolNow){toast('수영장 안에서는 앉을 수 없어요');return}P.path=[];P.onArrive=null;P.emo=null;P.run=false;
   const deck=P.x>44.2&&P.x<65.8&&P.y>50.4&&P.y<63.0;if(P.dir!=='up')P.dir='down';
-  P.sit=deck?{z:DECKZ,kind:'mat'}:{z:0,kind:'floor'};syncSitBtn();toast(deck?'요가 매트처럼 다리를 뻗고 앉았어요':(P.dir==='up'?'뒤돌아 앉았어요 · 움직이면 일어나요':'앉았어요 · 움직이면 일어나요'))}
+  P.sit=deck?{z:DECKZ,kind:'mat'}:{z:0,kind:'floor'};syncSitBtn();toast(deck?'요가 매트에 앉았어요':(P.dir==='up'?'뒤돌아 앉았어요 · 움직이면 일어나요':'앉았어요 · 움직이면 일어나요'))}
 if(RB){const cb=document.getElementById('chBtn');const chLabel=()=>cb.textContent=G.ch==='m'?'남자 캐릭터 · 바꾸기':'여자 캐릭터 · 바꾸기';window.__chLabel=chLabel;cb.hidden=true;chLabel();cb.onclick=()=>{G.ch=G.ch==='m'?'f':'m';store('wr_char',G.ch);chLabel();G.wear.g=G.ch;G.wear.nh='';sanitize(G.wear);hkApply();save();toast(G.ch==='m'?'남자 캐릭터로 바꿨어요':'여자 캐릭터로 바꿨어요')};
   document.getElementById('emotes').hidden=false;initHud();document.querySelectorAll('[data-emo]').forEach(b=>b.onclick=()=>startEmo(b.dataset.emo));document.getElementById('sitBtn').onclick=toggleSit}
 // ---------- 지도 보기: 전체 맵 + 내 위치, 누르면 그곳으로 걸어감
