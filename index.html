@@ -29,10 +29,10 @@ body{background:var(--sea);color:var(--ink);font-family:var(--font);overflow:hid
 .emo{min-width:44px;height:32px;padding:0 6px;border-radius:10px;border:1.5px solid rgba(255,255,255,.8);background:rgba(126,207,245,.95);color:#0B3550;font:800 12px var(--font);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.18);white-space:nowrap}
 .emo:active{transform:scale(.94)}
 .emo[aria-pressed="true"]{background:#0E5E8C;color:#fff}.emo:focus-visible{outline:2px solid var(--accent)}
-.joy{position:fixed;left:max(18px,env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 58px);width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.22);border:2px solid rgba(255,255,255,.55);box-shadow:0 2px 12px rgba(0,0,0,.18);touch-action:none;z-index:3}
+.joy{position:fixed;left:max(18px,env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 58px);width:84px;height:84px;border-radius:50%;background:rgba(255,255,255,.22);border:2px solid rgba(255,255,255,.55);box-shadow:0 2px 12px rgba(0,0,0,.18);touch-action:none;z-index:3}
 .joy.float{background:rgba(255,255,255,.28);border-color:rgba(255,255,255,.75)}
-.joy i{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none}
-.joy b{position:absolute;color:rgba(255,255,255,.9);font-size:11px;pointer-events:none}
+.joy i{position:absolute;left:50%;top:50%;width:36px;height:36px;margin:-18px 0 0 -18px;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none}
+.joy b{position:absolute;color:rgba(255,255,255,.9);font-size:9px;pointer-events:none}
 .room{position:fixed;right:max(12px,env(safe-area-inset-right,0px));top:calc(env(safe-area-inset-top,0px) + 12px);width:min(330px,calc(100% - 24px));max-height:calc(100% - 180px);overflow:auto;background:#fff;color:var(--ink);border-radius:16px;padding:14px 16px;box-shadow:0 8px 28px rgba(0,0,0,.35);z-index:6;box-sizing:border-box;touch-action:pan-y;user-select:text}
 .room .rsub{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.06em}.room .nfc{display:flex;align-items:center;justify-content:center;gap:10px;margin:4px 0 8px}.room .nfc b{display:block;font:900 16px/1.2 var(--font);color:var(--ink)}.room .nfc small{display:block;font:700 11px/1.5 var(--font);color:#6A7B86}.room .nfc+p{text-align:center;font-size:13px;line-height:1.6;color:#6A7B86}.room .npf{width:88px;height:88px;border-radius:50%;border:3px solid #fff;background-color:#18B6C8;background-repeat:no-repeat;box-shadow:0 2px 8px rgba(10,30,40,.25);flex:none}
 .room .rt{font-size:18px;font-weight:900;margin-top:1px}
@@ -248,7 +248,7 @@ body{background:var(--sea);color:var(--ink);font-family:var(--font);overflow:hid
 <div class="zooms"><button class="zoom" id="muteBtn" type="button" aria-label="소리 끄기" hidden></button><button class="zoom" id="zin" type="button" aria-label="확대">+</button><button class="zoom" id="zout" type="button" aria-label="축소">−</button></div>
 <div class="btbar" id="btBar" hidden><span>줍는 동안 훈련해요</span><button type="button" id="btCo2">CO2 테이블</button><button type="button" id="btO2">O2 테이블</button></div>
 <div class="emotes" id="emotes" hidden><button class="emo" type="button" id="sitBtn" aria-pressed="false">앉기</button><button class="emo" type="button" data-emo="wave">인사</button><button class="emo" type="button" data-emo="ok">OK</button><button class="emo" type="button" data-emo="jump">점프</button><button class="emo" type="button" data-emo="v">브이</button><button class="emo" type="button" data-emo="heart">하트</button></div>
-<div class="joy" id="joy" aria-label="이동 조이스틱"><b style="left:54px;top:6px">▲</b><b style="left:54px;bottom:6px">▼</b><b style="left:8px;top:52px">◀</b><b style="right:8px;top:52px">▶</b><i id="knob"></i></div>
+<div class="joy" id="joy" aria-label="이동 조이스틱"><b style="left:37px;top:3px">▲</b><b style="left:37px;bottom:3px">▼</b><b style="left:5px;top:35px">◀</b><b style="right:5px;top:35px">▶</b><i id="knob"></i></div>
 <div class="room" id="room" hidden role="dialog" aria-label="건물 화면"></div>
 <div class="ask" id="ask" hidden role="dialog" aria-label="입장 확인"><div id="askT"></div><div class="ab"><button type="button" id="askNo">취소</button><button type="button" id="askYes">입장</button></div></div>
 <div class="rs" id="rs" hidden role="dialog" aria-label="장비 렌탈샵">
@@ -316,7 +316,7 @@ const WAVE={ctx:null,g:null,on:false,muted:store('wr_wave2')!=='0'};
 function waveInit(){if(WAVE.ctx)return;const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),g=c.createGain();g.gain.value=0;g.connect(c.destination);WAVE.ctx=c;WAVE.g=g;
   fetch('wave.m4a?v=1127').then(r=>r.arrayBuffer()).then(a=>new Promise((ok,no)=>c.decodeAudioData(a,ok,no))).then(buf=>{const src=c.createBufferSource();src.buffer=buf;src.loop=true;/* 직접 만든 파도 소리(끝·처음 2초 겹침). 압축 때 붙은 앞뒤 빈 소리는 반복 구간에서 뺀다 */{const d=buf.getChannelData(0);let i=0,j=d.length-1;while(i<j&&Math.abs(d[i])<1e-4)i++;while(j>i&&Math.abs(d[j])<1e-4)j--;src.loopStart=i/buf.sampleRate;src.loopEnd=(j+1)/buf.sampleRate}src.connect(g);src.start()}).catch(()=>{})}
 document.addEventListener('pointerdown',()=>{waveInit();if(WAVE.ctx&&WAVE.ctx.state!=='running')WAVE.ctx.resume()},{passive:true});
-function waveSet(on){on=on&&!WAVE.muted;if(on===WAVE.on)return;WAVE.on=on;if(on){waveInit();if(!WAVE.ctx)return;WAVE.ctx.resume()}if(WAVE.ctx)WAVE.g.gain.setTargetAtTime(on?.35:0,WAVE.ctx.currentTime,.8)}
+function waveSet(on){on=on&&!WAVE.muted;if(on===WAVE.on)return;WAVE.on=on;if(on){waveInit();if(!WAVE.ctx)return;WAVE.ctx.resume()}if(WAVE.ctx)WAVE.g.gain.setTargetAtTime(on?.175:0,WAVE.ctx.currentTime,.8)}
 function hkLoad(u){if(!HK.src[u])HK.src[u]=IMG(u);return HK.src[u]}
 // 옷: 기본 반팔·반바지(색 변경) · 렌탈 슈트
 const CC={white:[245,245,240],grey:[160,160,160],black:[60,60,66],navy:[45,62,105],sky:[120,182,228],green:[112,172,122],yellow:[246,206,92],orange:[240,146,70],pink:[240,162,182],purple:[160,120,210],red:[205,72,72]};
@@ -495,11 +495,11 @@ roomEl.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b||
   if(a==='checkin'){if(store('wr_checkin')!==today()){store('wr_checkin',today());reward(5,10,'오늘 출석 완료')}openRoom('lobby')}
   else if(a==='guide')sub('<ul><li><b>안내</b> 이용 설명, 조작법, 출석 체크, 광고 문의</li><li><b>강의실</b> O·X 퀴즈와 이론 강좌</li><li><b>장비 렌탈</b> 장비 빌리기</li><li><b>레스토랑</b> 단체 채팅방 (준비중)</li><li><b>상점</b> 장비 사기, 보유 아이템, 캐릭터 꾸미기</li><li><b>파트너 샵</b> 입점 파트너 모집</li><li><b>요가장</b> 스테이지 1~4</li><li><b>STA 풀</b> 스톱워치, CO2·O2 테이블</li><li><b>레인풀장 · 바다</b> 미니게임 (준비중)</li><li><b>단체사진 스팟</b> 화면 캡처</li><li><b>개인 홈피</b> 아쿠아리움 (준비중)</li></ul><p>건물 앞 노란 세모를 밟으면 들어갈지 물어봐요.</p>');
   else if(a==='rename'&&RB&&profLock('nick')){sub(profLockMsg('nick'))}
-  else if(a==='rename'&&RB&&PROF().nick){sub(`<p>머리 위에 보이는 닉네임이에요. 바꾸면 진주 ${NICK_FEE}개를 써요. 한글·영문·숫자 2~12자.</p><div class="row"><input id="newId" maxlength="12" value="${G.id}"><button type="button" class="opt go" data-act="saveId">진주 ${NICK_FEE}개로 바꾸기</button></div>`)}
-  else if(a==='rename')sub(`<p>머리 위에 보이는 닉네임이에요. 한글·영문·숫자 2~12자.</p><div class="row"><input id="newId" maxlength="12" value="${G.id}"><button type="button" class="opt" data-act="saveId">저장</button></div>`);
-  else if(a==='saveId'){const v=(document.getElementById('newId').value||'').trim();if(!/^[\uAC00-\uD7A3A-Za-z0-9_]{2,12}$/.test(v)){toast('닉네임은 한글·영문·숫자 2~12자로 정해 주세요');return}if(RB&&PROF().nick&&v!==G.id){if(G.gem<NICK_FEE){toast(`진주 ${NICK_FEE}개가 필요해요`);return}G.gem-=NICK_FEE;const pr=PROF();pr.nick=v;pr.nickAt=Date.now();PROFSET(pr);drawStats()}G.id=v;save();toast('닉네임을 바꿨어요');openRoom('lobby')}
+  else if(a==='rename'&&RB&&PROF().nick){sub(`<p>머리 위에 보이는 닉네임이에요. 바꾸면 진주 ${NICK_FEE}개를 써요. 한글 6자 · 영문 12자까지.</p><div class="row"><input id="newId" maxlength="12" value="${G.id}"><button type="button" class="opt go" data-act="saveId">진주 ${NICK_FEE}개로 바꾸기</button></div>`)}
+  else if(a==='rename')sub(`<p>머리 위에 보이는 닉네임이에요. 한글 6자 · 영문 12자까지.</p><div class="row"><input id="newId" maxlength="12" value="${G.id}"><button type="button" class="opt" data-act="saveId">저장</button></div>`);
+  else if(a==='saveId'){const v=(document.getElementById('newId').value||'').trim();if(!nickOK(v)){toast('닉네임은 한글 6자·영문 12자 이내로 정해 주세요');return}if(RB&&PROF().nick&&v!==G.id){if(G.gem<NICK_FEE){toast(`진주 ${NICK_FEE}개가 필요해요`);return}G.gem-=NICK_FEE;const pr=PROF();pr.nick=v;pr.nickAt=Date.now();PROFSET(pr);drawStats()}G.id=v;save();toast('닉네임을 바꿨어요');openRoom('lobby')}
   else if(a==='quiz')showQuiz();
-  else if(a==='deep'){waveSet(false);sub(`<iframe class="plw" src="deep.html?v=1127" title="바다 트레이닝 · 딥 리허설" allow="autoplay"></iframe>`)}
+  else if(a==='deep'){waveSet(false);sub(`<iframe class="plw" src="deep.html?v=1127b" title="바다 트레이닝 · 딥 리허설" allow="autoplay"></iframe>`)}
   else if(a==='controls')sub('<ul><li>화면을 누르면 그곳으로 걸어가요. 두 번 누르면 빠르게 걸어요.</li><li>화면을 누른 채 끌면 조이스틱이 나와요.</li><li>두 손가락으로 벌리면 확대, 오므리면 축소. 오른쪽 아래 +/− 버튼도 돼요.</li><li>왼쪽 위 메뉴(☰)에서 리조트 지도를 열고, 가고 싶은 곳을 누르면 이동해요.</li><li>오른쪽 위 내 얼굴 버튼을 누르면 아바타를 꾸밀 수 있어요.</li><li>건물 앞 노란 세모를 밟거나 누르면 들어갈지 물어봐요.</li><li>아래 버튼: 앉기 · 인사 · OK · 점프 · 브이 · 하트</li><li>해변 쓰레기를 주우면 진주를 받아요 (하루 10개).</li></ul>');
   else if(a==='ad')sub('<div class="q">광고 문의</div><p>리조트 안 광고판과 전광판에 광고를 실을 수 있어요.</p><ul><li>이메일: <a href="mailto:attack6035@naver.com">attack6035@naver.com</a></li><li>카카오톡 채널: 웨일스다이빙 채널로 문의해 주세요.</li></ul>');
   else if(a==='partner')sub('<div class="q">함께할 파트너를 구합니다</div><p>다이빙 숍, 장비 브랜드, 여행사 등 리조트에 입점할 파트너를 찾고 있어요.</p><p>이메일: <b>attack6035@naver.com</b></p>');
@@ -637,6 +637,11 @@ document.getElementById('drawer').addEventListener('click',e=>{const b=e.target.
     else if(navigator.clipboard)navigator.clipboard.writeText(u).then(()=>toast('초대 링크를 복사했어요')).catch(()=>toast('링크를 복사하지 못했어요'));return}
   openRoom('lobby');const t=document.createElement('button');t.type='button';t.dataset.act=a;t.hidden=true;roomEl.appendChild(t);t.click();t.remove()});
 
+// ---- 닉네임 길이: 화면 폭 기준 최대 12칸 (한글 2칸·영문/숫자 1칸 → 한글 6자, 영문 12자). 넘는 글자는 입력 즉시 지움
+const NICK_MAX=12,nickW=v=>[...v].reduce((n,c)=>n+(c.charCodeAt(0)>255?2:1),0);
+const nickOK=v=>/^[가-힣A-Za-z0-9_]+$/.test(v)&&v.length>=2&&nickW(v)<=NICK_MAX;
+function nickClip(el){let v=el.value;if(nickW(v)<=NICK_MAX)return;const a=[...v];while(a.length&&nickW(a.join(''))>NICK_MAX)a.pop();el.value=a.join('')}
+['input','compositionend'].forEach(t=>document.addEventListener(t,e=>{const el=e.target;if(el&&['jNick','newId','fsQ'].includes(el.id))nickClip(el)},true));
 // ---- 프로필: 닉네임·성별 1주일 고정, 이후 진주로 변경
 const NICK_FEE=30,GEN_FEE=50,WEEK=7*24*3600*1000;
 const PROF=()=>jget('wr_prof',null)||{};const PROFSET=p=>store('wr_prof',JSON.stringify(p));
@@ -646,9 +651,9 @@ function profLockMsg(k){return `<p>${k==='nick'?'닉네임':'성별'}은 정한 
 // ---- 첫 화면: 카카오 가입 / 비회원 둘러보기 → 닉네임·성별 만들기
 function showJoin(){if(!RB)return;const p=PROF();if(p.nick&&store('wr_join'))return;const el=document.getElementById('join');el.hidden=false;
   const step2=()=>{if(p.nick){el.hidden=true;return}let g=G.ch==='m'?'m':'f';
-    const draw=()=>{el.querySelector('.jc').innerHTML=`<b class="jt">프리다이버 만들기</b><label class="jl">닉네임<input id="jNick" maxlength="12" value="${G.id||''}" placeholder="한글·영문·숫자 2~12자"></label><div class="jl">성별</div><div class="jsg">${['f','m'].map(x=>`<button type="button" data-jg="${x}" aria-pressed="${g===x}">${x==='f'?'여자':'남자'}</button>`).join('')}</div><p class="jn">닉네임과 성별은 1주일 동안 유지돼요. 이후에는 진주로 바꿀 수 있어요.</p><button type="button" class="jk" id="jGo" style="background:#5B5BEF;color:#fff">입장하기</button>`;
+    const draw=()=>{el.querySelector('.jc').innerHTML=`<b class="jt">프리다이버 만들기</b><label class="jl">닉네임<input id="jNick" maxlength="12" value="${G.id||''}" placeholder="한글 6자 · 영문 12자까지"></label><div class="jl">성별</div><div class="jsg">${['f','m'].map(x=>`<button type="button" data-jg="${x}" aria-pressed="${g===x}">${x==='f'?'여자':'남자'}</button>`).join('')}</div><p class="jn">닉네임과 성별은 1주일 동안 유지돼요. 이후에는 진주로 바꿀 수 있어요.</p><button type="button" class="jk" id="jGo" style="background:#5B5BEF;color:#fff">입장하기</button>`;
       el.querySelectorAll('[data-jg]').forEach(b=>b.onclick=()=>{const v=document.getElementById('jNick').value;g=b.dataset.jg;draw();document.getElementById('jNick').value=v});
-      document.getElementById('jGo').onclick=()=>{const v=(document.getElementById('jNick').value||'').trim();if(!/^[가-힣A-Za-z0-9_]{2,12}$/.test(v)){toast('닉네임은 한글·영문·숫자 2~12자로 정해 주세요');return}
+      document.getElementById('jGo').onclick=()=>{const v=(document.getElementById('jNick').value||'').trim();if(!nickOK(v)){toast('닉네임은 한글 6자·영문 12자 이내로 정해 주세요');return}
         G.id=v;G.ch=g;store('wr_char',g);G.wear.g=g;G.wear.nh='';hkFix(G.wear);const now=Date.now();PROFSET({nick:v,g,nickAt:now,gAt:now});save();applyWear();el.hidden=true;toast(`${v}님, 환영해요!`)}};draw()};
   el.querySelector('.jc').innerHTML=`<b class="jt">웨일스 프리다이빙 리조트</b><p class="jd">프리다이빙 리조트 메타버스에 온 걸 환영합니다.</p><button type="button" class="jk" id="jKakao">카카오로 시작하기</button><button type="button" class="jg" id="jGuest">비회원으로 둘러보기</button><p class="jn">비회원은 이 기기에만 기록이 저장돼요.</p>`;
   document.getElementById('jKakao').onclick=()=>{store('wr_join','kakao');toast('카카오 로그인은 준비중이에요. 지금은 이 기기에 저장돼요');step2()};
@@ -933,19 +938,19 @@ cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptrs.set
 cv.addEventListener('pointermove',e=>{if(!ptrs.has(e.pointerId))return;ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(pinch&&ptrs.size>=2){const [a,b]=[...ptrs.values()];setZoom(pinch.k*Math.hypot(a.x-b.x,a.y-b.y)/Math.max(10,pinch.d));return}
   if(!drag||drag.id!==e.pointerId)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
-  if(!drag.on&&Math.hypot(dx,dy)>10){drag.on=true;P.path=[];joyAt(drag.x,drag.y)}
-  if(drag.on){const Rj=joyEl.offsetWidth/2-14,d=Math.hypot(dx,dy),k=d>Rj?Rj/d:1;knob.style.transform=`translate(${dx*k}px,${dy*k}px)`;joy=d<12?{x:0,y:0}:{x:dx*k/Rj,y:dy*k/Rj}}});
+  if(!drag.on&&Math.hypot(dx,dy)>(e.pointerType==='touch'?16:10)){/* 손가락 탭은 조금 흔들려도 탭으로 인정 */drag.on=true;P.path=[];joyAt(drag.x,drag.y)}
+  if(drag.on){const Rj=joyEl.offsetWidth/2-10,d=Math.hypot(dx,dy),k=d>Rj?Rj/d:1;knob.style.transform=`translate(${dx*k}px,${dy*k}px)`;joy=d<12?{x:0,y:0}:{x:dx*k/Rj,y:dy*k/Rj}}});
 function ptrEnd(e){if(!ptrs.has(e.pointerId))return;ptrs.delete(e.pointerId);
   if(pinch){if(ptrs.size<2)pinch=null;drag=null;return}
   if(drag&&drag.id===e.pointerId){if(!drag.on&&e.type==='pointerup'&&performance.now()-drag.t<450){
       const hitN=npcAt(e.clientX,e.clientY);if(hitN){if(Math.hypot(hitN.x-P.x,hitN.y-P.y)<1.9){onNpc=hitN;askNpc(hitN)}else{const p=astar(P.x,P.y,hitN.x,hitN.y+1.1);if(p&&p.length){P.path=p;P.sit=null;P.emo=null;onNpc=null}}drag=null;return}
-      let [wx,wy]=S2W(cam.x+e.clientX/cam.s,cam.y+e.clientY/cam.s);{let bn=W.beanbags.find(q=>!q.stool&&Math.hypot(q.x-wx,q.y-wy)<1.1);if(!bn){/* 의자·원형 테이블: 의자 그림 중심(살짝 아래) 기준으로 넉넉히, 테이블을 눌러도 가까운 의자에 앉기 */let bd=1.0;for(const q of W.beanbags)if(q.stool){const d=Math.hypot(q.x+.25-wx,q.y+.25-wy);if(d<bd){bd=d;bn=q}}if(!bn){const tb=RTABLES.find(t=>Math.hypot(t[0]-wx,t[1]-wy)<1.3);if(tb){let bd2=99;for(const q of W.beanbags)if(q.stool&&Math.hypot(q.x-tb[0],q.y-tb[1])<1.5){const d=Math.hypot(q.x-P.x,q.y-P.y);if(d<bd2){bd2=d;bn=q}}}}}if(bn){const p=astar(P.x,P.y,bn.x,bn.y+(bn.stool?0:.9));if(p&&p.length){P.path=p;P.sit=null;P.emo=null;P.onArrive=()=>sitBean(bn);tapMark={x:bn.x,y:bn.y,t:.8}}else sitBean(bn);drag=null;return}}{const t=triAt(wx,wy);if(t){const p=astar(P.x,P.y,t.x,t.y);if(p&&p.length){P.path=p;P.sit=null;P.emo=null;P.onArrive=()=>showAsk(t);tapMark={x:t.x,y:t.y,t:.8}}else showAsk(t);drag=null;return}}if(cell(W.grid,wx,wy)===1){const d=nearestPortal(wx,wy,q=>q.type==='scene'&&ROOMS[q.id]);if(d&&Math.hypot(d.x-wx,d.y-wy)<13){wx=d.x;wy=d.y}}let mat=null;if(wx>43.75&&wx<66.25&&wy>50&&wy<63){let bd=1.6;freeMats().forEach(m=>{const d=Math.hypot(m[0]-wx,m[1]-wy);if(d<bd){bd=d;mat=m}})}
+      let [wx,wy]=S2W(cam.x+e.clientX/cam.s,cam.y+e.clientY/cam.s);{/* 빈백: 화면에 그려진 빈백 위치 기준으로 판정 (손가락 탭은 마우스보다 덜 정확해서 넉넉히) */const tx=cam.x+e.clientX/cam.s,ty=cam.y+e.clientY/cam.s,hitR=Math.max(26,22*cam.s)/cam.s;let bn=null;{let bd0=hitR;for(const q of W.beanbags){if(q.stool)continue;const [qx,qy]=W2S(q.x,q.y,.25),d=Math.hypot(qx-tx,qy-ty);if(d<bd0){bd0=d;bn=q}}}if(!bn){/* 의자·원형 테이블: 의자 그림 중심(살짝 아래) 기준으로 넉넉히, 테이블을 눌러도 가까운 의자에 앉기 */let bd=1.0;for(const q of W.beanbags)if(q.stool){const d=Math.hypot(q.x+.25-wx,q.y+.25-wy);if(d<bd){bd=d;bn=q}}if(!bn){const tb=RTABLES.find(t=>Math.hypot(t[0]-wx,t[1]-wy)<1.3);if(tb){let bd2=99;for(const q of W.beanbags)if(q.stool&&Math.hypot(q.x-tb[0],q.y-tb[1])<1.5){const d=Math.hypot(q.x-P.x,q.y-P.y);if(d<bd2){bd2=d;bn=q}}}}}if(bn){const p=astar(P.x,P.y,bn.x,bn.y+(bn.stool?0:.9));if(p&&p.length){P.path=p;P.sit=null;P.emo=null;P.onArrive=()=>sitBean(bn);tapMark={x:bn.x,y:bn.y,t:.8}}else sitBean(bn);drag=null;return}}{const t=triAt(wx,wy);if(t){const p=astar(P.x,P.y,t.x,t.y);if(p&&p.length){P.path=p;P.sit=null;P.emo=null;P.onArrive=()=>showAsk(t);tapMark={x:t.x,y:t.y,t:.8}}else showAsk(t);drag=null;return}}if(cell(W.grid,wx,wy)===1){const d=nearestPortal(wx,wy,q=>q.type==='scene'&&ROOMS[q.id]);if(d&&Math.hypot(d.x-wx,d.y-wy)<13){wx=d.x;wy=d.y}}let mat=null;if(wx>42.5&&wx<66.25&&wy>48.5&&wy<63){/* 요가 매트: 데크 높이만큼 올라가 그려진 매트 위치 기준으로 판정 */const tx=cam.x+e.clientX/cam.s,ty=cam.y+e.clientY/cam.s;let bd=Math.max(30,26*cam.s)/cam.s;freeMats().forEach(m=>{const [mx,my]=W2S(m[0],m[1],DECKZ),d=Math.hypot(mx-tx,my-ty);if(d<bd){bd=d;mat=m}})}
       if(mat){wx=mat[0];wy=mat[1]}
       const nowT=performance.now(),dbl=lastTap&&nowT-lastTap.t<380&&Math.hypot(e.clientX-lastTap.x,e.clientY-lastTap.y)<48;lastTap={t:nowT,x:e.clientX,y:e.clientY};
       const p=astar(P.x,P.y,wx,wy);if(p&&p.length){P.path=p;P.sit=null;P.emo=null;P.run=dbl||(P.run&&P.path.length>0&&dbl);if(dbl)toast('빠르게 걸어가요');P.onArrive=mat?()=>{P.x=mat[0];P.y=mat[1];P.dir='down';P.sit={z:DECKZ,kind:'mat'};toast(`요가 매트에 앉았어요 · ${G.yoga} 수업을 기다려요`)}:null;tapMark={x:wx,y:wy,t:.8}}}
     if(drag.on){joy=null;joyHome()}drag=null}}
 cv.addEventListener('pointerup',ptrEnd);cv.addEventListener('pointercancel',ptrEnd);
-function joyMove(e){const r=joyEl.getBoundingClientRect(),c0=r.left+r.width/2,c1=r.top+r.height/2,Rj=r.width/2-14;let dx=e.clientX-c0,dy=e.clientY-c1;const d=Math.hypot(dx,dy);if(d>Rj){dx=dx/d*Rj;dy=dy/d*Rj}
+function joyMove(e){const r=joyEl.getBoundingClientRect(),c0=r.left+r.width/2,c1=r.top+r.height/2,Rj=r.width/2-10;let dx=e.clientX-c0,dy=e.clientY-c1;const d=Math.hypot(dx,dy);if(d>Rj){dx=dx/d*Rj;dy=dy/d*Rj}
   knob.style.transform=`translate(${dx}px,${dy}px)`;joy=d<12?{x:0,y:0}:{x:dx/Rj,y:dy/Rj}}
 joyEl.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();joyEl.setPointerCapture(e.pointerId);P.path=[];joyMove(e)});
 joyEl.addEventListener('pointermove',e=>{if(joy)joyMove(e)});
@@ -1037,7 +1042,7 @@ const EMO={wave:{sheet:'nc_emote',row:0,fps:7,seq:[0,1,2,3,2,3,2,3,1,0],say:'안
 function startEmo(k){if(!RB)return;const e=EMO[k];if(!e)return;P.path=[];P.onArrive=null;P.sit=null;P.run=false;P.dir='down';P.emo={k,t0:performance.now()};syncSitBtn();if(e.say){P.say=e.say;P.sayT=2.2}}
 function drawEmo(sx,sy){const e=EMO[P.emo.k],i=Math.floor((performance.now()-P.emo.t0)/1000*e.fps);if(i>=e.seq.length){P.emo=null;return null}
   return drawNC(e.sheet,e.row,e.seq[i],sx,sy,true)}
-function syncSitBtn(){const b=document.getElementById('sitBtn');if(b){b.setAttribute('aria-pressed',!!P.sit);b.textContent=P.sit?'일어서기':'앉기'}}
+function syncSitBtn(){const b=document.getElementById('sitBtn');if(b){b.setAttribute('aria-pressed',!!P.sit);b.textContent=P.sit?'서기':'앉기'}}
 function toggleSit(){if(P.sit){P.sit=null;syncSitBtn();return}if(poolNow){toast('수영장 안에서는 앉을 수 없어요');return}P.path=[];P.onArrive=null;P.emo=null;P.run=false;
   const deck=P.x>44.2&&P.x<65.8&&P.y>50.4&&P.y<63.0;if(P.dir!=='up')P.dir='down';
   P.sit=deck?{z:DECKZ,kind:'mat'}:{z:0,kind:'floor'};syncSitBtn();toast(deck?'요가 매트처럼 다리를 뻗고 앉았어요':(P.dir==='up'?'뒤돌아 앉았어요 · 움직이면 일어나요':'앉았어요 · 움직이면 일어나요'))}
