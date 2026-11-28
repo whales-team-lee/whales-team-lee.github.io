@@ -145,7 +145,7 @@ body{background:var(--sea);color:var(--ink);font-family:var(--font);overflow:hid
 .room .rx.back~.rx[data-act=exit]{left:calc(50% + 4px)!important;transform:none!important;width:calc(min(270px,50% - 18px) - 4px)!important}
 .room .ra.big button{padding:22px 12px;font-size:18px;justify-content:center;text-align:center;border-radius:14px}
 .room .adtag{display:inline-block;margin-left:6px;padding:1px 6px;border:1px solid #9AA6B2;border-radius:6px;font:700 10px var(--font);color:#7A8794;vertical-align:middle}
-.room.fit{overflow:hidden!important;padding-bottom:0!important}/* 바다 트레이닝 화면에서는 뒤로·나가기를 오른쪽 위에 작게 */.room.fit .rx.back,.room.fit .rx[data-act=exit],.room.fit .rx.back~.rx[data-act=exit]{position:fixed!important;top:calc(env(safe-area-inset-top,0px) + 14px)!important;bottom:auto!important;height:28px!important;min-height:28px!important;width:auto!important;padding:0 12px!important;font-size:12px!important;border-radius:14px!important;border-width:1.5px!important;box-shadow:none!important;transform:none!important;margin:0!important}.room.fit .rx[data-act=exit],.room.fit .rx.back~.rx[data-act=exit]{left:auto!important;right:14px!important}.room.fit .rx.back{left:auto!important;right:82px!important}.room .rx[data-act=exit]{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 8px);width:min(540px,calc(100% - 36px));padding:14px;font-size:15px;border-radius:14px;z-index:10;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.room.fit{overflow:hidden!important;padding-bottom:0!important}.room.fit::after{display:none}/* 바다 트레이닝 화면에서는 뒤로·나가기를 오른쪽 위에 작게 */.room.fit .rx.back,.room.fit .rx[data-act=exit],.room.fit .rx.back~.rx[data-act=exit]{position:fixed!important;top:calc(env(safe-area-inset-top,0px) + 14px)!important;bottom:auto!important;height:28px!important;min-height:28px!important;width:auto!important;padding:0 12px!important;font-size:12px!important;border-radius:14px!important;border-width:1.5px!important;box-shadow:none!important;transform:none!important;margin:0!important}.room.fit .rx[data-act=exit],.room.fit .rx.back~.rx[data-act=exit]{left:auto!important;right:14px!important}.room.fit .rx.back{left:auto!important;right:82px!important}.room .rx[data-act=exit]{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 8px);width:min(540px,calc(100% - 36px));padding:14px;font-size:15px;border-radius:14px;z-index:10;box-shadow:0 6px 18px rgba(0,0,0,.18)}
 .room .rt{font-size:24px;letter-spacing:.02em}.room .ox{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px auto}.room .ox button{font:900 44px var(--font);padding:18px 0;border-radius:18px;border:0;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.12);cursor:pointer}.room .ox button[data-v="1"]{color:#1C9BC9}.room .ox button[data-v="0"]{color:#E2574C}.room .ox button.ok{background:#D9F5E1}.room .ox button.no{background:#FDE1DE}
 .room .runner{background:#fff;border-radius:18px;padding:18px;text-align:center;box-shadow:0 3px 12px rgba(0,0,0,.08);margin:10px auto}.room .rph{font:800 16px var(--font);color:#2B7FA8}.room .rph.hold{color:#E2574C}.room .rph.mf{color:#9B6CE0}.room .rtm{font:900 56px var(--font);font-variant-numeric:tabular-nums;margin:6px 0}.room .rtm.big{font-size:52px}.room .rnx{font-size:12px;color:#5E7480;margin-bottom:10px}
 .room .form{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px auto}.room .form label{display:grid;gap:4px;font-size:12px;font-weight:700;color:#3E6373}.room .form input{font:800 18px var(--font);padding:8px 10px;border:1.5px solid #D5E3EA;border-radius:10px;width:100%;box-sizing:border-box}
@@ -214,7 +214,7 @@ body{background:var(--sea);color:var(--ink);font-family:var(--font);overflow:hid
 .ap .tip{font-size:11px!important}
 .ap .sws{gap:8px!important;padding:8px 12px!important}.ap .sw2{width:28px!important;height:28px!important}
 .ap .afoot{padding:8px 12px calc(env(safe-area-inset-bottom,0px) + 8px)!important}.ap .save{padding:10px!important;font-size:14px!important;border-radius:11px!important}.av{height:100dvh}.ap{height:min(68dvh,560px)!important;max-height:calc(100dvh - env(safe-area-inset-top,0px) - 40px)}.ap .stage{flex:1 1 auto!important;min-height:64px!important}.ap .stage canvas{height:100%;max-height:150px;width:auto}.ap .body{flex:0 1 170px!important;height:auto!important;min-height:92px}.ap .sws,.afoot,.ap .tabs,.ah,.arow{flex-shrink:0}
-@media (prefers-reduced-motion:reduce){#toast{transition:none}}
+@media (prefers-reduced-motion:reduce){#toast{transition:none;white-space:pre-line}}
 </style>
 <canvas id="cv" tabindex="0" aria-label="리조트 맵. 화면을 누르면 걸어가고, 끌면 지도가 움직여요. 아래쪽에서 끌면 조이스틱이에요"></canvas>
 <div id="load"><div class="ld"><b>리조트에 입장 중…</b></div></div>
@@ -244,7 +244,7 @@ body{background:var(--sea);color:var(--ink);font-family:var(--font);overflow:hid
 <div id="mapv" hidden role="dialog" aria-label="리조트 지도"><div class="mh">가고 싶은 곳을 누르면 걸어가요 · 빨간 점이 내 위치</div><div class="mapwrap" id="mapWrap"><canvas id="mapCv"></canvas></div><button type="button" id="mapClose">닫기</button></div>
 <div id="toast" hidden></div>
 <button type="button" class="shout" id="shoutBar" hidden><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M3.5 9.5h3l10-5.5v16l-10-5.5h-3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z" fill="#FFD84D"/><ellipse cx="16.5" cy="12" rx="1.6" ry="8" fill="#FFD84D"/><path d="M7.5 15l1.6 5.2a1 1 0 0 0 1 .7h1.3a.8.8 0 0 0 .8-1L10.6 16" fill="#FFD84D"/><path d="M19.8 9.2l2-1.2M20.3 12h2.3M19.8 14.8l2 1.2" stroke="#FFD84D" stroke-width="1.6" stroke-linecap="round"/></svg><span class="shwin"><span id="shoutTx"></span></span></button>
-<div class="ask shoutask" id="shoutAsk" hidden><b>외치기</b><p>리조트에 있는 모두에게 한마디를 전해요. 진주 <span id="shoutFee"></span>개가 들어요.</p><p class="shwarn">욕설·비방·차별·광고·개인정보가 담긴 글은 쓸 수 없어요. 어기면 외치기가 제한되고 글은 삭제될 수 있어요.</p><input id="shoutIn" maxlength="40" placeholder="한마디 (40자)"><div class="ab"><button type="button" id="shoutNo">취소</button><button type="button" id="shoutGo">외치기</button></div></div>
+<div class="ask shoutask" id="shoutAsk" hidden><b>외치기</b><p>리조트에 있는 모두에게 한마디를 전해요.<br>진주 <span id="shoutFee"></span>개가 들어요.</p><p class="shwarn">욕설·비방·차별·광고·개인정보가 담긴 글은 쓸 수 없어요. 어기면 외치기가 제한되고 글은 삭제될 수 있어요.</p><input id="shoutIn" maxlength="40" placeholder="한마디 (40자)"><div class="ab"><button type="button" id="shoutNo">취소</button><button type="button" id="shoutGo">외치기</button></div></div>
 <div class="zooms"><button class="zoom" id="muteBtn" type="button" aria-label="소리 끄기" hidden></button><button class="zoom" id="zin" type="button" aria-label="확대">+</button><button class="zoom" id="zout" type="button" aria-label="축소">−</button></div>
 <div class="btbar" id="btBar" hidden><span>줍는 동안 훈련해요</span><button type="button" id="btCo2">CO2 테이블</button><button type="button" id="btO2">O2 테이블</button></div>
 <div class="emotes" id="emotes" hidden><button class="emo" type="button" id="sitBtn" aria-pressed="false">앉기</button><button class="emo" type="button" data-emo="wave">인사</button><button class="emo" type="button" data-emo="ok">OK</button><button class="emo" type="button" data-emo="jump">점프</button><button class="emo" type="button" data-emo="v">브이</button><button class="emo" type="button" data-emo="heart">하트</button></div>
@@ -410,7 +410,9 @@ const P={x:SPAWN.x,y:SPAWN.y,dir:'down',path:[],ph:0,v:6.8,anim:14,sit:null,last
 {const sp=jget('wr_pos',null);if(sp&&isFinite(sp.x)&&isFinite(sp.y)&&canWalk(sp.x,sp.y)){P.x=sp.x;P.y=sp.y;P.dir=sp.dir||'down'}}
 let posT=0;const savePos=()=>store('wr_pos',JSON.stringify({x:+P.x.toFixed(2),y:+P.y.toFixed(2),dir:P.dir}));
 addEventListener('pagehide',savePos);document.addEventListener('visibilitychange',()=>{if(document.hidden)savePos()});
-const NPCS=CH.npcs.filter(n=>['sea'].includes(n.id)).map(n=>({...n,hx:n.x,hy:n.y,dir:'down',path:[],ph:0,v:.8,t:rnd(1,4)}));NPCS.push({id:'classroom',x:20.42,y:59.98,hx:20.42,hy:59.98,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0,sheet:'npc_coach',fw:60,seq:[1,2,3]});NPCS.push({id:'pool_50',x:44.2,y:86.9,hx:44.2,hy:86.9,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0,sheet:'npc_judge',fw:60,seq:[1,2,3]});NPCS.push({id:'mfg',x:85,y:38.9,hx:85,hy:38.9,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0});NPCS.push({id:'pools',x:40.6,y:101.2,hx:40.6,hy:101.2,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0,hkw:1,w:{g:'f',nh:'f01',nhc:'red',sk:1,ot:'suitg',sc:'red',cc:'white',pv:1}});
+/* 로컬다이버: 바다 입장(55,19)·사진 스팟(55,27)과 겹치지 않게 해변 오른쪽 물가(x 62~92, y 19.6~23.5)에서만 거닒. 이 구역엔 쓰레기도 안 생김 (2026-11-28) */
+const LOCAL_HOME=[67,19.8];
+const NPCS=CH.npcs.filter(n=>['sea'].includes(n.id)).map(n=>n.id==='sea'?{...n,x:LOCAL_HOME[0],y:LOCAL_HOME[1]}:n).map(n=>({...n,hx:n.x,hy:n.y,dir:'down',path:[],ph:0,v:.8,t:rnd(1,4)}));NPCS.push({id:'classroom',x:20.42,y:59.98,hx:20.42,hy:59.98,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0,sheet:'npc_coach',fw:60,seq:[1,2,3]});NPCS.push({id:'pool_50',x:44.2,y:86.9,hx:44.2,hy:86.9,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0,sheet:'npc_judge',fw:60,seq:[1,2,3]});NPCS.push({id:'mfg',x:85,y:38.9,hx:85,hy:38.9,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0});NPCS.push({id:'pools',x:40.6,y:101.2,hx:40.6,hy:101.2,dir:'down',path:[],ph:0,v:0,t:0,fixed:true,at:0,hkw:1,w:{g:'f',nh:'f01',nhc:'red',sk:1,ot:'suitg',sc:'red',cc:'white',pv:1}});
 const LINES={lobby:'어서 오세요! 출석 체크는 로비에서 해요.',classroom:'오늘의 퀴즈 풀고 경험치 받아 가세요!',rental:'기본 장비는 무료! 장비를 갖고 싶으면 옆 상점으로 가세요.',
   restaurant:'식당 앞 테이블에서 이야기 나눠요.',shop:'진주로 장비를 사면 영구로 가질 수 있어요.',shop2:'파트너 샵은 곧 문을 열어요.',
   pool_50:'레인풀장은 레인 방향대로 수영해 주세요.',pool_sta:'STA는 꼭 버디와 함께해요.',sea:'다음 보트는 09:00 출발이에요.'};
@@ -501,7 +503,7 @@ roomEl.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b||
   else if(a==='rename')sub(`<p>머리 위에 보이는 닉네임이에요. 한글 6자 · 영문 12자까지.</p><div class="row"><input id="newId" maxlength="12" value="${G.id}"><button type="button" class="opt" data-act="saveId">저장</button></div>`);
   else if(a==='saveId'){const v=(document.getElementById('newId').value||'').trim();if(!nickOK(v)){toast('닉네임은 한글 6자·영문 12자 이내로 정해 주세요');return}if(RB&&PROF().nick&&v!==G.id){if(G.gem<NICK_FEE){toast(`진주 ${NICK_FEE}개가 필요해요`);return}G.gem-=NICK_FEE;const pr=PROF();pr.nick=v;pr.nickAt=Date.now();PROFSET(pr);drawStats()}G.id=v;save();toast('닉네임을 바꿨어요');openRoom('lobby')}
   else if(a==='quiz')showQuiz();
-  else if(a==='deep'){waveSet(false);sub(`<iframe class="plw" src="deep.html?v=1128c" title="바다 트레이닝 · 수심 이미지 트레이닝" allow="autoplay"></iframe>`);fitPlw()}
+  else if(a==='deep'){waveSet(false);sub(`<iframe class="plw" src="deep.html?v=1128d" title="바다 트레이닝 · 수심 이미지 트레이닝" allow="autoplay"></iframe>`);fitPlw()}
   else if(a==='controls')sub('<ul><li>화면을 누르면 그곳으로 걸어가요. 두 번 누르면 빠르게 걸어요.</li><li>화면을 누른 채 끌면 지도가 움직여요. 화면 아래쪽에서 끌면 조이스틱이 나와요.</li><li>두 손가락으로 벌리면 확대, 오므리면 축소. 오른쪽 아래 +/− 버튼도 돼요.</li><li>왼쪽 위 메뉴(☰)에서 리조트 지도를 열고, 가고 싶은 곳을 누르면 이동해요.</li><li>오른쪽 위 내 얼굴 버튼을 누르면 아바타를 꾸밀 수 있어요.</li><li>건물 앞 노란 세모를 밟거나 누르면 들어갈지 물어봐요.</li><li>아래 버튼: 앉기 · 인사 · OK · 점프 · 브이 · 하트</li><li>해변 쓰레기를 주우면 진주를 받아요 (하루 10개).</li></ul>');
   else if(a==='ad')sub('<div class="q">광고 문의</div><p>리조트 안 광고판과 전광판에 광고를 실을 수 있어요.</p><ul><li>이메일: <a href="mailto:attack6035@naver.com">attack6035@naver.com</a></li><li>카카오톡 채널: 웨일스다이빙 채널로 문의해 주세요.</li></ul>');
   else if(a==='partner')sub('<div class="q">함께할 파트너를 구합니다</div><p>다이빙 숍, 장비 브랜드, 여행사 등 리조트에 입점할 파트너를 찾고 있어요.</p><p>이메일: <b>attack6035@naver.com</b></p>');
@@ -737,8 +739,8 @@ function drawProp(k,sx,sy,sc){const m=PROPS[k],r=m.r,s=cam.s/2*(sc||1);cx.drawIm
 // 해변 쓰레기: 하루 10개, 날짜로 위치 고정, 1개 = 진주 1
 const TRASH_KINDS=['t_net','t_snack','t_beer','t_pet','t_can','t_bag','t_foam'];
 const TRASH=(()=>{let h=0;for(const ch of today())h=(h*31+ch.charCodeAt(0))>>>0;const r=()=>{h=(h*1664525+1013904223)>>>0;return h/4294967296};
-  const got=jget('wr_trash_'+today(),[]),out=[];let n=0;while(out.length<10&&n++<400){const x=3+r()*104,y=20.5+r()*11;if(!canWalk(x,y))continue;out.push({i:out.length,k:TRASH_KINDS[Math.floor(r()*TRASH_KINDS.length)],x,y,got:got.includes(out.length)})}return out})();
-function checkTrash(){for(const t of TRASH){if(t.got)continue;if(Math.hypot(t.x-P.x,t.y-P.y)<1.1){t.got=true;const got=TRASH.filter(q=>q.got).map(q=>q.i);store('wr_trash_'+today(),JSON.stringify(got));G.gem+=1;save();drawStats();toast(`해변 쓰레기를 주웠어요 · 진주 +1 (오늘 ${got.length}/10)`)}}}
+  const got=jget('wr_trash_'+today(),[]),out=[];let n=0;while(out.length<10&&n++<400){const x=3+r()*104,y=20.5+r()*11;if(!canWalk(x,y))continue;/* 바다 입장·사진 스팟·로컬다이버 자리에는 쓰레기 없음 */if(Math.hypot(x-55,y-19)<3.5||Math.hypot(x-55.04,y-27.2)<3.5||(x>60&&x<94&&y<24.5))continue;out.push({i:out.length,k:TRASH_KINDS[Math.floor(r()*TRASH_KINDS.length)],x,y,got:got.includes(out.length)})}return out})();
+function checkTrash(){for(const t of TRASH){if(t.got)continue;if(Math.hypot(t.x-P.x,t.y-P.y)<1.1){t.got=true;const got=TRASH.filter(q=>q.got).map(q=>q.i);store('wr_trash_'+today(),JSON.stringify(got));G.gem+=1;save();drawStats();toast(`해변 쓰레기를 주웠어요\n진주 +1 (오늘 ${got.length}/10)`)}}}
 // ---- 입장 세모: 밟거나 누르면 세모 위에 서서 입장할지 묻기
 const TRI=[['lobby',56,139.7,'안내'],['classroom',20.35,54.89,'강의실'],['rental',20.6,68.3,'장비 렌탈'],['restaurant',20.9,86.5,'레스토랑'],['shop',21.04,101.76,'상점'],['shop2',22.74,122.77,'파트너 샵'],
  ['yoga',55.8,65.25,'요가장'],['pool50',82.9,79.5,'레인풀장'],['sea',55,19,'바다'],['home',132.42,93.13,'숙소(개인 홈피)']].map(([id,x,y,name])=>({id,x,y,name,blue:['sta','pool50','sea'].includes(id),grey:['home'].includes(id)}));
@@ -923,7 +925,7 @@ let inYoga=false;
 // 원형 테이블 의자: 빈백처럼 눌러서 앉기
 const SOFF=.3;const RTABLES=[[67.5,116.2],[73.5,117],[79.5,116.2]];for(const [tx,ty] of RTABLES)for(const [dx,dy] of [[-.8,.8],[.8,-.8]])W.beanbags.push({id:'stool',x:tx+dx,y:ty+dy,sx:tx+dx+SOFF,sy:ty+dy+SOFF,stool:true,face:faceOf(-dx,-dy)});/* 원형 테이블: 양쪽 의자 2개 */
 function sitBean(t){let b=t||null,bd=9;if(!b)for(const q of W.beanbags){const d=Math.hypot(q.x-P.x,q.y-P.y);if(d<bd){bd=d;b=q}}if(!b)return;
-  P.path=[];P.onArrive=null;P.x=b.x;P.y=b.y;P.dir=b.face||'down';P.sit={z:b.stool?-.45:.32,kind:'bean',stool:!!b.stool,ox:(b.sx??b.x)-b.x+.12,oy:(b.sy??b.y)-b.y+.12};toast(b.stool?'의자에 앉았어요. 움직이면 일어나요':'빈백에 앉았어요. 움직이면 일어나요')}
+  P.path=[];P.onArrive=null;P.x=b.x;P.y=b.y;P.dir=b.face||'down';P.sit={z:b.stool?-.45:.32,kind:'bean',stool:!!b.stool,ox:(b.sx??b.x)-b.x+.12,oy:(b.sy??b.y)-b.y+.12};toast(b.stool?'의자에 앉았어요. 움직이면 일어나요':'빈백에 앉았어요\n오른쪽 스피커 버튼으로 파도 소리를 켜고 꺼요')}
 function walkAlong(o,dt){if(!o.path.length){o.run=false;return false}const rk=o.run?2:1,[tx,ty]=o.path[0],dx=tx-o.x,dy=ty-o.y,d=Math.hypot(dx,dy),st=o.v*rk*dt;
   if(d>0.001)o.dir=faceOf(dx,dy);if(d<=st){o.x=tx;o.y=ty;o.path.shift();if(!o.path.length&&o.onArrive){const f=o.onArrive;o.onArrive=null;f()}}else{o.x+=dx/d*st;o.y+=dy/d*st}o.ph+=dt*(o.anim||8)*(o.run?1.5:1);return true}
 // ---------- input: tap walks, press-and-drag = floating joystick, fixed joystick bottom-left, two fingers zoom
@@ -1089,8 +1091,8 @@ function bubble(text,sx,sy){cx.font=`700 ${Math.round(12*Math.min(1.3,Math.max(.
   cx.fillStyle='#1B2A33';cx.textBaseline='middle';cx.textAlign='start';cx.fillText(text,x+p,y+h/2,220)}
 /* 지도 화면에서는 안내(토스트)를 내 닉네임 바로 위 말풍선으로. 방·렌탈샵·꾸미기·메뉴가 열려 있으면 화면 위 안내 그대로 */
 function onMap(){const o=id=>{const e=document.getElementById(id);return e&&!e.hidden};return roomEl.hidden&&!(RS.el&&!RS.el.hidden)&&!o('av')&&!o('drawer')&&!o('mapv')}
-function sayBubble(text,sx,sy){const fs=Math.round(12*Math.min(1.2,Math.max(.9,cam.s)));cx.font=`700 ${fs}px 'Noto Sans KR',sans-serif`;const maxW=Math.min(220,vw-40),lines=[];let cur='';
-  for(const ch of text){const nx=cur+ch;if(cx.measureText(nx).width>maxW&&cur){lines.push(cur);cur=ch.trim()?ch:''}else cur=nx}if(cur)lines.push(cur);
+function sayBubble(text,sx,sy){const fs=Math.round(12*Math.min(1.2,Math.max(.9,cam.s)));cx.font=`700 ${fs}px 'Noto Sans KR',sans-serif`;const maxW=Math.min(220,vw-40),lines=[];
+  for(const part of String(text).split('\n')){let cur='';for(const ch of part){const nx=cur+ch;if(cx.measureText(nx).width>maxW&&cur){lines.push(cur);cur=ch.trim()?ch:''}else cur=nx}if(cur)lines.push(cur)}
   const tw=Math.max(...lines.map(l=>cx.measureText(l).width)),p=8,lh=fs+4,h=lines.length*lh+8,x=Math.max(6,Math.min(vw-tw-2*p-6,sx-tw/2-p)),y=sy-h-7;
   cx.globalAlpha=toastT<.3?Math.max(0,toastT/.3):1;cx.fillStyle='rgba(30,40,50,.6)';cx.beginPath();cx.roundRect(x,y,tw+2*p,h,10);cx.fill();/* 예전 안내와 같은 검정 반투명 */
   cx.beginPath();cx.moveTo(sx-5,y+h);cx.lineTo(sx,y+h+6);cx.lineTo(sx+5,y+h);cx.fill();cx.fillStyle='#FFFFFF';cx.textBaseline='middle';cx.textAlign='center';
@@ -1209,7 +1211,7 @@ function initShout(){if(!RB)return;document.getElementById('btCo2').onclick=()=>
   btn.onclick=()=>{ask.hidden=false;const i=document.getElementById('shoutIn');i.value='';setTimeout(()=>i.focus(),50)};
   document.getElementById('shoutBar').onclick=()=>btn.onclick();
   document.getElementById('shoutNo').onclick=()=>{ask.hidden=true};
-  document.getElementById('shoutGo').onclick=()=>{const t=(document.getElementById('shoutIn').value||'').trim();if(!t){toast('한마디를 적어 주세요');return}if(/시발|씨발|ㅅㅂ|병신|ㅂㅅ|개새|좆|존나|꺼져|미친놈|미친년/.test(t.replace(/\s/g,''))){toast('욕설·비방은 외칠 수 없어요');return}if(G.gem<SHOUT_FEE){toast(`진주가 ${SHOUT_FEE-G.gem}개 모자라요`);return}G.gem-=SHOUT_FEE;save();drawStats();ask.hidden=true;shoutShow(PROF().nick||G.id,t.slice(0,40));toast(`진주 ${SHOUT_FEE}개로 외쳤어요`)};
+  document.getElementById('shoutGo').onclick=()=>{const t=(document.getElementById('shoutIn').value||'').trim();if(!t){toast('한마디를 적어 주세요');return}if(/시발|씨발|ㅅㅂ|병신|ㅂㅅ|개새|좆|존나|꺼져|미친놈|미친년/.test(t.replace(/\s/g,''))){toast('욕설·비방은 외칠 수 없어요');return}if(G.gem<SHOUT_FEE){ask.hidden=true;toast(`진주가 ${SHOUT_FEE-G.gem}개 모자라서 외칠 수 없어요\n출석·퀴즈로 모아 보세요`);return}G.gem-=SHOUT_FEE;save();drawStats();ask.hidden=true;shoutShow(PROF().nick||G.id,t.slice(0,40));toast(`진주 ${SHOUT_FEE}개로 외쳤어요`)};
   shoutRender();setInterval(shoutTick,1000)}
 
 /* ---- 훈련기록: STATIC 스톱워치 + CO2·O2 테이블 기록을 MY HOME에서 모아 보기 ---- */
@@ -1266,7 +1268,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(!P.sit&&!
   for(const n of NPCS){if(n.fixed){n.at+=dt;n.near=Math.hypot(P.x-n.x,P.y-n.y)<2.6;continue}n.t-=dt;const mv=walkAlong(n,dt);n.moving=mv;
     if(!mv&&n.t<=0&&n.id==='classroom'){let k=0;while(k++<20){const tx=rnd(19.5,26.5),ty=rnd(50.5,60.5);if(cell(W.grid,tx,ty)===0){const p=astar(n.x,n.y,tx,ty);if(p&&p.length){n.path=p;break}}}n.t=rnd(2,5)}
     if(n.id==='classroom'){n.near=Math.hypot(P.x-n.x,P.y-n.y)<2.2;continue}
-    if(!mv&&n.t<=0&&n.id==='sea'){let k=0;while(k++<20){const tx=rnd(5,105),ty=rnd(21,31);if(cell(W.grid,tx,ty)===0){const p=astar(n.x,n.y,tx,ty);if(p&&p.length){n.path=p;break}}}n.t=rnd(1,3)}
+    if(!mv&&n.t<=0&&n.id==='sea'){let k=0;while(k++<20){const tx=rnd(62,92),ty=rnd(19.6,23.5);/* 해변 오른쪽 물가만: 바다 입장·사진 스팟·쓰레기 구역과 안 겹침 */if(cell(W.grid,tx,ty)===0){const p=astar(n.x,n.y,tx,ty);if(p&&p.length){n.path=p;break}}}n.t=rnd(1,3)}
     if(n.id==='sea'){n.sheet='npc_local';n.fw=64;n.walk=true;n.at=(n.at||0)+dt;n.near=Math.hypot(P.x-n.x,P.y-n.y)<2.2;if(n.near){n.path=[];n.moving=false}continue}
     if(!mv&&n.t<=0){if(Math.random()<.55){const a=rnd(0,6.28),r=rnd(.4,1.5),tx=n.hx+Math.cos(a)*r,ty=n.hy+Math.sin(a)*r;if(cell(W.grid,tx,ty)===0)n.path=[[tx,ty]]}else n.dir='down';n.t=rnd(2,5)}
     n.near=Math.hypot(P.x-n.x,P.y-n.y)<2.2}
@@ -1316,7 +1318,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(!P.sit&&!
   for(const [k,t,sx,sy] of over){if(k==='id'||k==='npc')nameTag(t,sx,sy-4*cam.s,k==='npc'?'#FFD84D':0);else bubble(t,sx,sy);if(k==='id'&&toastT>0&&onMap())sayBubble(toastEl.textContent,sx,sy-4*cam.s-14*Math.max(.9,Math.min(1.25,cam.s)))}
   if(toastT>0){toastT-=dt;if(toastT<=0)toastEl.hidden=true;else if(toastT<.3)toastEl.style.opacity=toastT/.3;toastEl.style.visibility=onMap()?'hidden':''}
   if(RB&&HK.cur&&HK.cur!==faceSrc)drawFace();
-  if(RB){const sitWave=!!(P.clean||(P.sit&&(P.sit.kind==='mat'||(P.sit.kind==='bean'&&!P.sit.stool))));const mb=document.getElementById('muteBtn');if(mb.hidden===sitWave){mb.hidden=!sitWave;if(sitWave&&WAVE.muted)toast('오른쪽 스피커 버튼을 누르면 파도 소리가 나요')}waveSet(sitWave)}
+  if(RB){const sitWave=!!(P.clean||(P.sit&&(P.sit.kind==='mat'||(P.sit.kind==='bean'&&!P.sit.stool))));const mb=document.getElementById('muteBtn');if(mb.hidden===sitWave){mb.hidden=!sitWave;if(sitWave&&WAVE.muted&&!(P.sit&&P.sit.kind==='bean'))toast('오른쪽 스피커 버튼을 누르면 파도 소리가 나요')}waveSet(sitWave)}
   requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 setTimeout(()=>toast('화면을 누르면 걸어가요 · 두 번 누르면 빠르게 · 끌면 지도 이동, 아래쪽에서 끌면 조이스틱'),400);

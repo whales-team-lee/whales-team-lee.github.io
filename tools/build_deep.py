@@ -253,7 +253,7 @@ js = js[:_m.start()] + (
  '<label class="check"><input name="desc" type="checkbox"> 하강 수심 안내 음성</label>'
  '<label class="check"><input name="asc" type="checkbox"> 상승 수심 안내 음성</label>'
  '<div id="countnote" hidden></div><audio id="countdemo" hidden></audio>'
- '<p class="warnbox">🚨 반드시 버디와 함께 하세요.<br>육상 이미지 트레이닝용입니다. 실제 숨참기는 훈련받은 버디가 곁에서 직접 지켜보는 환경에서 진행하세요.</p>'
+ '<p class="warnbox">🚨 반드시 버디와 함께 하세요.<br>육상 이미지 트레이닝용입니다.</p>'
  '<button class="primary full">준비 완료</button></form>') + js[_m.end():]
 
 rep("""  row.innerHTML = '<header><strong></strong><button type="button" class="secondary">제거</button></header><div class="fields"><label><span></span><input type="number" min="1"></label><label>알람 소리<select><option value="voice">실제 음성</option><option value="beep">기계음 (삐빅)</option></select></label></div>';
