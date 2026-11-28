@@ -555,11 +555,11 @@ const TABS=[['mask','마스크','#C9ECFF'],['fin','롱핀','#FFE8A3'],['suit','�
 const SWC={bluegold:'linear-gradient(90deg,#1E5BD8 70%,#E5B638 0)',rainbow:'linear-gradient(90deg,#2E4FC7 55%,#F33 0,#FB0 70%,#3C3 80%,#39F 90%)',goldblack:'linear-gradient(90deg,#222 60%,#E5B638 0)',bikini:'#F6F2EA',black:'#2A2A30'};
 function rsSize(){const w=RS.scene.clientWidth,k=w/830;return{w,h:RS.scene.clientHeight,k}}
 function drawCell(canvas,sheet,col,row,cw,ch,scale){const g=canvas.getContext('2d');canvas.width=cw*scale;canvas.height=ch*scale;g.imageSmoothingQuality='high';g.clearRect(0,0,canvas.width,canvas.height);g.drawImage(sheet,col*cw,row*ch,cw,ch,0,0,cw*scale,ch*scale)}
-function rsPaint2(){const sc=document.getElementById('rsScene'),k=sc.clientWidth/941,w=hkFix(RS.try),key=w.nh+'|'+w.nhc+'|'+w.sk+'|'+w.ot+'|'+wk(w),[nw,nh]=NC.cell,s2=k*1.65,row=[0,1,3,2][RS.dir],fx=470*k,fy=1170*k;/* rental3: 받침대 윗면 가운데 (941 기준) */RS.pk=key;
+function rsPaint2(){const sc=document.getElementById('rsScene'),k=sc.clientWidth/941,w=hkFix(RS.try),key=w.nh+'|'+w.nhc+'|'+w.sk+'|'+w.ot+'|'+wk(w),[nw,nh]=NC.cell,s2=k*1.65,row=[0,1,3,2][RS.dir],fx=470*k,/* 휴대폰 세로가 짧으면(아래 버튼이 받침대를 가리면) 배경·캐릭터를 함께 위로 올림 */pn=RS.el.querySelector('.rs-panel'),avail=pn?pn.getBoundingClientRect().top-sc.getBoundingClientRect().top-8:1e9,sh=Math.max(0,1245*k-avail),fy=1170*k-sh;/* rental3: 받침대 윗면 가운데 (941 기준) */sc.style.backgroundPosition=`center ${-sh}px`;RS.pk=key;
   hkBuild(w).then(o=>{if(RS.pk!==key)return;drawCell(RS.me,hkCell(o,'walk',row,0),0,0,nw,nh,s2);RS.me.style.width=nw*s2+'px';RS.me.style.height=nh*s2+'px';RS.me.style.left=(fx-nw*s2/2)+'px';RS.me.style.top=(fy-NC.feet*s2)+'px'}).catch(()=>{});
   document.getElementById('rsL').style.cssText=`left:${fx-345*k-16}px;top:${fy-253*k-16}px`;document.getElementById('rsR').style.cssText=`left:${fx+345*k-16}px;top:${fy-253*k-16}px`;
-  const say=document.getElementById('rsSay');say.style.left=(250*k)+'px';say.style.top=(440*k)+'px';say.style.right='auto';
-  const wl=document.getElementById('rsWall');wl.style.left=(462*k)+'px';wl.style.top=(618*k)+'px'}
+  const say=document.getElementById('rsSay');say.style.left=(250*k)+'px';say.style.top=Math.max(4,440*k-sh)+'px';say.style.right='auto';
+  const wl=document.getElementById('rsWall');wl.style.left=(462*k)+'px';wl.style.top=(618*k-sh)+'px'}
 function rsPaint(){if(RB&&RS.el.classList.contains('rs2')){rsPaint2();return}const {k}=rsSize(),cw=CH.cell[0],ch=CH.cell[1];
   // character on the round platform (platform top centre ≈ 445,850 in the background)
   const sc=Math.max(1.4,k*3.1);
@@ -740,7 +740,7 @@ function drawProp(k,sx,sy,sc){const m=PROPS[k],r=m.r,s=cam.s/2*(sc||1);cx.drawIm
 const TRASH_KINDS=['t_net','t_snack','t_beer','t_pet','t_can','t_bag','t_foam'];
 const TRASH=(()=>{let h=0;for(const ch of today())h=(h*31+ch.charCodeAt(0))>>>0;const r=()=>{h=(h*1664525+1013904223)>>>0;return h/4294967296};
   const got=jget('wr_trash_'+today(),[]),out=[];let n=0;while(out.length<10&&n++<400){const x=3+r()*104,y=20.5+r()*11;if(!canWalk(x,y))continue;/* 바다 입장·사진 스팟·로컬다이버 자리에는 쓰레기 없음 */if(Math.hypot(x-55,y-19)<3.5||Math.hypot(x-55.04,y-27.2)<3.5||(x>60&&x<94&&y<24.5))continue;out.push({i:out.length,k:TRASH_KINDS[Math.floor(r()*TRASH_KINDS.length)],x,y,got:got.includes(out.length)})}return out})();
-function checkTrash(){for(const t of TRASH){if(t.got)continue;if(Math.hypot(t.x-P.x,t.y-P.y)<1.1){t.got=true;const got=TRASH.filter(q=>q.got).map(q=>q.i);store('wr_trash_'+today(),JSON.stringify(got));G.gem+=1;save();drawStats();toast(`해변 쓰레기를 주웠어요\n진주 +1 (오늘 ${got.length}/10)`)}}}
+function checkTrash(){for(const t of TRASH){if(t.got)continue;if(Math.hypot(t.x-P.x,t.y-P.y)<1.1){t.got=true;const got=TRASH.filter(q=>q.got).map(q=>q.i);store('wr_trash_'+today(),JSON.stringify(got));G.gem+=1;save();drawStats();P.pickT=.9;toast(`해변 쓰레기를 주웠어요\n진주 +1 (오늘 ${got.length}/10)`)}}}
 // ---- 입장 세모: 밟거나 누르면 세모 위에 서서 입장할지 묻기
 const TRI=[['lobby',56,139.7,'안내'],['classroom',20.35,54.89,'강의실'],['rental',20.6,68.3,'장비 렌탈'],['restaurant',20.9,86.5,'레스토랑'],['shop',21.04,101.76,'상점'],['shop2',22.74,122.77,'파트너 샵'],
  ['yoga',55.8,65.25,'요가장'],['pool50',82.9,79.5,'레인풀장'],['sea',55,19,'바다'],['home',132.42,93.13,'숙소(개인 홈피)']].map(([id,x,y,name])=>({id,x,y,name,blue:['sta','pool50','sea'].includes(id),grey:['home'].includes(id)}));
@@ -1257,7 +1257,8 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(!P.sit&&!
   let mvx=0,mvy=0;if(keys.has('right'))mvx++;if(keys.has('left'))mvx--;if(keys.has('down'))mvy++;if(keys.has('up'))mvy--;
   if(joy&&(joy.x||joy.y)){mvx=joy.x;mvy=joy.y}
   let moving=false;const mag=Math.min(1,Math.hypot(mvx,mvy));
-  if(mag>.05&&RS.el.hidden&&!MAPV.open&&!(roomOpen&&roomOpen!=='restaurant-chat')){P.path=[];P.onArrive=null;const [wx,wy]=scr2world(mvx,mvy),st=P.v*mag*dt;const nx=P.x+wx*st,ny=P.y+wy*st;
+  if(P.pickT>0){P.pickT-=dt}/* 작은 쓰레기 줍는 동안(약 0.9초) 잠깐 멈춤 */
+  else if(mag>.05&&RS.el.hidden&&!MAPV.open&&!(roomOpen&&roomOpen!=='restaurant-chat')){P.path=[];P.onArrive=null;const [wx,wy]=scr2world(mvx,mvy),st=P.v*mag*dt;const nx=P.x+wx*st,ny=P.y+wy*st;
     if(canWalk(nx,ny)){P.x=nx;P.y=ny}else if(canWalk(nx,P.y))P.x=nx;else if(canWalk(P.x,ny))P.y=ny;P.dir=faceOf(wx,wy);P.ph+=dt*P.anim*mag;moving=true;P.sit=null;P.emo=null;P.run=false}
   else if(!(roomOpen&&roomOpen!=='restaurant-chat'))moving=walkAlong(P,dt);
   const code=cell(W.grid,P.x,P.y);P.cool-=dt;if(code!==P.last){if([5,8,9,10,11,12].includes(code)&&P.cool<=0){trigger(code);P.cool=1.2}P.last=code}
@@ -1294,7 +1295,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(!P.sit&&!
   for(const it of items){
     if(it.t===undefined){const o=it.o,[a,b]=TS(o.x,o.y),r=O.atlas[o.i];if(o.k==='roof'&&inYoga)cx.globalAlpha=.35;if(o.src){cx.drawImage(img[o.src],a,b,o.w*cam.s,o.h*cam.s);const wo=img['win_'+o.src.slice(4)];if(wo)cx.drawImage(wo,a,b,o.w*cam.s,o.h*cam.s)}else cx.drawImage(atlas,r[0],r[1],r[2],r[3],a,b,o.w*cam.s,o.h*cam.s);cx.globalAlpha=1;drawAdFace(o.i,a,b,now);continue}
     const onDeck=it.x>44.2&&it.x<65.8&&it.y>50.4&&it.y<63.0&&!(it.o&&it.o.sit);const [mx,my]=W2S(it.x,it.y,onDeck?DECKZ:0),[sx,sy]=TS(mx,my);if(sx<-80||sy<-80||sx>vw+80||sy>vh+140)continue;
-    if(it.t==='p'){if(RB){let top=null;if(P.sit)top=drawMeSit(sx,sy);else if(P.clean){P.cph=(P.cph||0)+.016;const f=[0,1][Math.floor(P.cph)%2];cx.fillStyle='rgba(0,0,0,.18)';cx.beginPath();cx.ellipse(sx,sy,9*cam.s,3.2*cam.s,0,0,6.28);cx.fill();top=drawNC('nc_sit',1,f,sx,sy,false)}else{if(P.emo&&!moving)top=drawEmo(sx,sy);if(top===null)top=drawMeWalk(sx,sy,moving)}
+    if(it.t==='p'){if(RB){let top=null;if(P.sit)top=drawMeSit(sx,sy);else if(P.pickT>0){/* 쓰레기 줍기: 뒤돌아 앉기 2번 프레임(쪼그려 앉기) */cx.fillStyle='rgba(0,0,0,.18)';cx.beginPath();cx.ellipse(sx,sy,9*cam.s,3.2*cam.s,0,0,6.28);cx.fill();top=drawNC('nc_sit',1,1,sx,sy,false)}else if(P.clean){P.cph=(P.cph||0)+.016;const f=[0,1][Math.floor(P.cph)%2];cx.fillStyle='rgba(0,0,0,.18)';cx.beginPath();cx.ellipse(sx,sy,9*cam.s,3.2*cam.s,0,0,6.28);cx.fill();top=drawNC('nc_sit',1,f,sx,sy,false)}else{if(P.emo&&!moving)top=drawEmo(sx,sy);if(top===null)top=drawMeWalk(sx,sy,moving)}
         const ty=Math.min(top,sy-36*cam.s)+2*cam.s;over.push(['id',G.id,sx,ty]);if(P.sayT>0)over.push(['say',P.say,sx,ty-14*cam.s])}
       else{const z=P.sit?P.sit.z:0,lift=P.sit?CH.feet*.14*CH.draw_scale*cam.s-z*16*cam.s:0;
       if(P.sit)drawSit('look_me',P,sx,sy,P.sit.z);else drawChar('look_me',P,sx,sy,moving);over.push(['id',G.id,sx,headY(sy)+lift-z*0]);if(P.sayT>0)over.push(['say',P.say,sx,headY(sy)+lift-14*cam.s])}}
